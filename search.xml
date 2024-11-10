@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>部署Hexo博客</title>
+    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="hexo-usage"><a href="#hexo-usage" class="headerlink" title="hexo usage"></a>hexo usage</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+</search>
