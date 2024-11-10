@@ -1,18 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>代理</title>
+    <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
+<li>使用clash等搭建代理后，终端不经设置并不会通过代理，而无论是Windows还是Linux，方法都是加入http_proxy,https_proxy或all_proxy环境变量。</li>
+</ul>
+<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><h4 id="临时设置"><a href="#临时设置" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">set</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">set</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="永久设置"><a href="#永久设置" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
+<li>终端启用代理的方法是那三个环境变量，因此永久设置就是手动去设置添加环境变量。</li>
+</ul>
+<h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><h4 id="临时设置-1"><a href="#临时设置-1" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">export</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="永久设置-1"><a href="#永久设置-1" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
+<li>同样的，永久设置也是是将其写入环境变量，在Linux中是将上述内容添加到<del>&#x2F;.bashrc或</del>&#x2F;.profile的末尾。</li>
+</ul>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><ul>
+<li>如果只是git需要使用代理，可以在git设置代理，原理相同:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config --global https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>如果不想git全局使用代理，那只需要在需要代理的仓库输入去掉–global的命令即可:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>若要取消git的代理设置:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+或<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>部署Hexo博客</title>
     <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
 
-<hr>
 <h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
 
-<hr>
 <h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="hexo-usage"><a href="#hexo-usage" class="headerlink" title="hexo usage"></a>hexo usage</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
+<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br><span class="line">```bash</span><br><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
 </search>
