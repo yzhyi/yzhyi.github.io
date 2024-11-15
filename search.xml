@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CMU15-445/645学习笔记</title>
+    <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
+<h2 id="common"><a href="#common" class="headerlink" title="common"></a>common</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
+<li>实际上是一个线程安全队列.</li>
+</ul>
+<h3 id="rid-h"><a href="#rid-h" class="headerlink" title="rid.h"></a>rid.h</h3><ul>
+<li>Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_</li>
+</ul>
+<h3 id="rwlatch-h"><a href="#rwlatch-h" class="headerlink" title="rwlatch.h"></a>rwlatch.h</h3><ul>
+<li>读写锁(std::shared_mutex)</li>
+</ul>
+<hr>
+<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type"></a>src&#x2F;type</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
+<li>抽象内存池接口</li>
+</ul>
+<h3 id="type-id-h"><a href="#type-id-h" class="headerlink" title="type_id.h"></a>type_id.h</h3><ul>
+<li>type枚举   <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TypeId</span> &#123; INVALID = <span class="number">0</span>, BOOLEAN, TINYINT, SMALLINT, INTEGER, BIGINT, DECIMAL, VARCHAR, TIMESTAMP &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="type-h"><a href="#type-h" class="headerlink" title="type.h"></a>type.h</h3><ul>
+<li>类型基类.</li>
+<li>定义了类型比较,运算,序列化,转换类型等虚接口.</li>
+</ul>
+<h4 id="boolean-type-h"><a href="#boolean-type-h" class="headerlink" title="boolean_type.h"></a>boolean_type.h</h4><ul>
+<li>实例化boolean类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="numeraic-type-h"><a href="#numeraic-type-h" class="headerlink" title="numeraic_type.h"></a>numeraic_type.h</h4><ul>
+<li>number value的基类,可以是整数和小数.必须提供运算操作.</li>
+</ul>
+<h4 id="integer-parent-type-h"><a href="#integer-parent-type-h" class="headerlink" title="integer_parent_type.h"></a>integer_parent_type.h</h4><ul>
+<li>为整数提供具有鲁棒性的四则运算.</li>
+</ul>
+<h4 id="tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><a href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h" class="headerlink" title="tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h"></a>tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</h4><ul>
+<li>integer_parent_type的子类,为整数提供了比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="timestamp-type-h"><a href="#timestamp-type-h" class="headerlink" title="timestamp_type.h"></a>timestamp_type.h</h4><ul>
+<li>为timestamp类型提供比较等接口.</li>
+</ul>
+<h4 id="decimal-type-h"><a href="#decimal-type-h" class="headerlink" title="decimal_type.h"></a>decimal_type.h</h4><ul>
+<li>为小数提供类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h3 id="value-h"><a href="#value-h" class="headerlink" title="value.h"></a>value.h</h3><ul>
+<li>实际管理数据内容的地方.</li>
+<li>存储着type和数据内容.</li>
+<li>value比较,运算,序列化,转换类型等操作都是调用type提供的虚接口.  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Type::<span class="built_in">GetInstance</span>(type_id_)-&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="value-factory-h"><a href="#value-factory-h" class="headerlink" title="value_factory.h"></a>value_factory.h</h3><ul>
+<li>value工厂类,方便构造value.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>代理</title>
     <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
@@ -25,6 +80,190 @@
 <hr>
 <h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Markdown基本语法</title>
+    <url>/2024/11/15/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="一、标题"><a href="#一、标题" class="headerlink" title="一、标题"></a>一、标题</h1><p>在想要设置为标题的文字前面加#来表示<br> 一个#是一级标题，二个#是二级标题，以此类推。支持六级标题。</p>
+<p>注：标准语法一般在#后跟个空格再写文字，貌似简书不加空格也行。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是一级标题</span></span><br><span class="line"><span class="comment">## 这是二级标题</span></span><br><span class="line"><span class="comment">### 这是三级标题</span></span><br><span class="line"><span class="comment">#### 这是四级标题</span></span><br><span class="line"><span class="comment">##### 这是五级标题</span></span><br><span class="line"><span class="comment">###### 这是六级标题</span></span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<h1 id="这是一级标题"><a href="#这是一级标题" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题"><a href="#这是二级标题" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><h3 id="这是三级标题"><a href="#这是三级标题" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><h4 id="这是四级标题"><a href="#这是四级标题" class="headerlink" title="这是四级标题"></a>这是四级标题</h4><h5 id="这是五级标题"><a href="#这是五级标题" class="headerlink" title="这是五级标题"></a>这是五级标题</h5><h6 id="这是六级标题"><a href="#这是六级标题" class="headerlink" title="这是六级标题"></a>这是六级标题</h6><hr>
+<h1 id="二、字体"><a href="#二、字体" class="headerlink" title="二、字体"></a>二、字体</h1><ul>
+<li><h5 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h5></li>
+</ul>
+<p>要加粗的文字左右分别用两个*号包起来</p>
+<ul>
+<li><h5 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h5></li>
+</ul>
+<p>要倾斜的文字左右分别用一个*号包起来</p>
+<ul>
+<li><h5 id="斜体加粗"><a href="#斜体加粗" class="headerlink" title="斜体加粗"></a>斜体加粗</h5></li>
+</ul>
+<p>要倾斜和加粗的文字左右分别用三个*号包起来</p>
+<ul>
+<li><h5 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h5></li>
+</ul>
+<p>要加删除线的文字左右分别用两个~~号包起来</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">**这是加粗的文字**</span><br><span class="line">*这是倾斜的文字*`</span><br><span class="line">***这是斜体加粗的文字***</span><br><span class="line">~~这是加删除线的文字~~</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><strong>这是加粗的文字</strong><br> <em>这是倾斜的文字</em><br> *<strong>这是斜体加粗的文字*</strong><br> <del>这是加删除线的文字</del></p>
+<hr>
+<h1 id="三、引用"><a href="#三、引用" class="headerlink" title="三、引用"></a>三、引用</h1><p>在引用的文字前加&gt;即可。引用也可以嵌套，如加两个&gt;&gt;三个&gt;&gt;&gt;<br> n个…<br> 貌似可以一直加下去，但没神马卵用</p>
+<p>示例：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">&gt;这是引用的内容</span><br><span class="line">&gt;&gt;这是引用的内容</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;这是引用的内容</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>这是引用的内容</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="四、分割线"><a href="#四、分割线" class="headerlink" title="四、分割线"></a>四、分割线</h1><p>三个或者三个以上的 - 或者 * 都可以。</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">----</span><br><span class="line">***</span><br><span class="line">*****</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br> 可以看到，显示效果是一样的。</p>
+<hr>
+<hr>
+<h1 id="五、图片"><a href="#五、图片" class="headerlink" title="五、图片"></a>五、图片</h1><p>语法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">![图片alt](图片地址 <span class="string">&#x27;&#x27;</span>图片title<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">图片alt就是显示在图片下面的文字，相当于对图片内容的解释。</span><br><span class="line">图片title是图片的标题，当鼠标移到图片上时显示的内容。title可加可不加</span><br></pre></td></tr></table></figure>
+
+<h1 id="六、超链接"><a href="#六、超链接" class="headerlink" title="六、超链接"></a>六、超链接</h1><p>语法：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[超链接名](超链接地址 <span class="string">&quot;超链接title&quot;</span>)</span><br><span class="line">title可加可不加</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[简书](http:<span class="comment">//jianshu.com)</span></span><br><span class="line">[百度](http:<span class="comment">//baidu.com)</span></span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS8xZjVhYzBjZjZhOGI=">简书<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9saW5rcy5qaWFuc2h1LmNvbS9nbz90bz1odHRwOi8vYmFpZHUuY29t">百度<i class="fa fa-external-link-alt"></i></span></p>
+<hr>
+<h1 id="七、列表"><a href="#七、列表" class="headerlink" title="七、列表"></a>七、列表</h1><h5 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h5><p>语法：<br> 无序列表用 - + * 任何一种都可以</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 列表内容</span><br><span class="line">+ 列表内容</span><br><span class="line">* 列表内容</span><br><span class="line"></span><br><span class="line">注意：- + * 跟内容之间都要有一个空格</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<ul>
+<li>列表内容</li>
+<li>列表内容</li>
+<li>列表内容</li>
+</ul>
+<h5 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h5><p>语法：<br> 数字加点</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 列表内容</span><br><span class="line">2. 列表内容</span><br><span class="line">3. 列表内容</span><br><span class="line"></span><br><span class="line">注意：序号跟内容之间要有空格</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<ol>
+<li>列表内容</li>
+<li>列表内容</li>
+<li>列表内容</li>
+</ol>
+<h5 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h5><p><strong>上一级和下一级之间敲三个空格即可</strong></p>
+<ul>
+<li>一级无序列表内容<ul>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+</ul>
+</li>
+<li>一级无序列表内容<ol>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>一级有序列表内容<ul>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+</ul>
+</li>
+<li>一级有序列表内容<ol>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="八、表格"><a href="#八、表格" class="headerlink" title="八、表格"></a>八、表格</h1><p>语法：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">表头|<span class="params">表头</span>|表头</span><br><span class="line">---|<span class="params">:--:</span>|---:</span><br><span class="line">内容|<span class="params">内容</span>|内容</span><br><span class="line">内容|<span class="params">内容</span>|内容</span><br><span class="line"></span><br><span class="line">第二行分割表头和内容。</span><br><span class="line">- 有一个就行，为了对齐，多加了几个</span><br><span class="line">文字默认居左</span><br><span class="line">-两边加：表示文字居中</span><br><span class="line">-右边加：表示文字居右</span><br><span class="line">注：原生的语法两边都要用 |<span class="params"> 包起来。此处省略</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">姓名|<span class="params">技能</span>|排行</span><br><span class="line">--|<span class="params">:--:</span>|--:</span><br><span class="line">刘备|<span class="params">哭</span>|大哥</span><br><span class="line">关羽|<span class="params">打</span>|二哥</span><br><span class="line">张飞|<span class="params">骂</span>|三弟</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th align="center">技能</th>
+<th align="right">排行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>刘备</td>
+<td align="center">哭</td>
+<td align="right">大哥</td>
+</tr>
+<tr>
+<td>关羽</td>
+<td align="center">打</td>
+<td align="right">二哥</td>
+</tr>
+<tr>
+<td>张飞</td>
+<td align="center">骂</td>
+<td align="right">三弟</td>
+</tr>
+</tbody></table>
+<h1 id="九、代码"><a href="#九、代码" class="headerlink" title="九、代码"></a>九、代码</h1><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">esc键下三个点就行</span><br></pre></td></tr></table></figure>
+
+<p> 单行代码：代码之间分别用一个反引号包起来</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="string">`代码内容`</span></span><br></pre></td></tr></table></figure>
+
+<p>代码块：代码之间分别用三个反引号包起来，且两边的反引号单独占一行</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">(<span class="string">``</span><span class="string">`)</span></span><br><span class="line"><span class="string">  代码...</span></span><br><span class="line"><span class="string">  代码...</span></span><br><span class="line"><span class="string">  代码...</span></span><br><span class="line"><span class="string">(`</span><span class="string">``</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：为了防止转译，前后三个反引号处加了小括号，实际是没有的。这里只是用来演示，实际中去掉两边小括号即可。</p>
+</blockquote>
+<p>示例：</p>
+<p>单行代码</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="string">`create database hero;`</span></span><br></pre></td></tr></table></figure>
+
+<p>代码块</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">(```)</span><br><span class="line">    function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">         echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br><span class="line">(```)</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p>单行代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create database hero;</span><br></pre></td></tr></table></figure>
+
+<p>代码块</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">  echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
