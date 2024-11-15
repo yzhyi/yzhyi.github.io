@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Git基本操作</title>
+    <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>CMU15-445/645学习笔记</title>
     <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
@@ -54,12 +60,6 @@
       <categories>
         <category>学习笔记</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Git基本操作</title>
-    <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
-]]></content>
   </entry>
   <entry>
     <title>Markdown基本语法</title>
@@ -234,6 +234,22 @@
 
 <p>代码块</p>
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">  echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Tmux基本操作</title>
+    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
 ]]></content>
   </entry>
   <entry>

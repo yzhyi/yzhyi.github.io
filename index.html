@@ -85,7 +85,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">7</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -150,7 +150,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,6 +178,86 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yzhyi.github.io/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Yu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Tmux基本操作</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-11-15 19:45:03 / 修改时间：19:51:04" itemprop="dateCreated datePublished" datetime="2024-11-15T19:45:03+08:00">2024-11-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
