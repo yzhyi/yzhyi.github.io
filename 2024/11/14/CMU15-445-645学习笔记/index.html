@@ -21,15 +21,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yzhyi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="CMU15-445&#x2F;645 commonchannel.h 实际上是一个线程安全队列.  rid.h Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_  rwlatch.h 读写锁(std::shared_mutex)   src&#x2F;typeabstract_pool.h 抽象内存池接口  type_id.h ty">
+    <meta name="description" content="CMU15-445&#x2F;645 src&#x2F;common.channel.h 实际上是一个线程安全队列.  rid.h Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_  rwlatch.h 读写锁(std::shared_mutex)   src&#x2F;type.abstract_pool.h 抽象内存池接口  t">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="CMU15-445&#x2F;645学习笔记">
 <meta property="og:url" content="http://yzhyi.github.io/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Yu&#39;s Blog">
-<meta property="og:description" content="CMU15-445&#x2F;645 commonchannel.h 实际上是一个线程安全队列.  rid.h Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_  rwlatch.h 读写锁(std::shared_mutex)   src&#x2F;typeabstract_pool.h 抽象内存池接口  type_id.h ty">
+<meta property="og:description" content="CMU15-445&#x2F;645 src&#x2F;common.channel.h 实际上是一个线程安全队列.  rid.h Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_  rwlatch.h 读写锁(std::shared_mutex)   src&#x2F;type.abstract_pool.h 抽象内存池接口  t">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-14T11:09:20.000Z">
-<meta property="article:modified_time" content="2024-11-14T15:19:41.841Z">
+<meta property="article:modified_time" content="2024-11-17T11:40:00.009Z">
 <meta property="article:author" content="Yu">
 <meta name="twitter:card" content="summary">
 
@@ -140,7 +140,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CMU15-445-645"><span class="nav-number">1.</span> <span class="nav-text">CMU15-445&#x2F;645</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#common"><span class="nav-number">1.1.</span> <span class="nav-text">common</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#channel-h"><span class="nav-number">1.1.1.</span> <span class="nav-text">channel.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rid-h"><span class="nav-number">1.1.2.</span> <span class="nav-text">rid.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rwlatch-h"><span class="nav-number">1.1.3.</span> <span class="nav-text">rwlatch.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-type"><span class="nav-number">1.2.</span> <span class="nav-text">src&#x2F;type</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstract-pool-h"><span class="nav-number">1.2.1.</span> <span class="nav-text">abstract_pool.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-id-h"><span class="nav-number">1.2.2.</span> <span class="nav-text">type_id.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-h"><span class="nav-number">1.2.3.</span> <span class="nav-text">type.h</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#boolean-type-h"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">boolean_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#numeraic-type-h"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">numeraic_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#integer-parent-type-h"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">integer_parent_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#timestamp-type-h"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">timestamp_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decimal-type-h"><span class="nav-number">1.2.3.6.</span> <span class="nav-text">decimal_type.h</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value-h"><span class="nav-number">1.2.4.</span> <span class="nav-text">value.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value-factory-h"><span class="nav-number">1.2.5.</span> <span class="nav-text">value_factory.h</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CMU15-445-645"><span class="nav-number">1.</span> <span class="nav-text">CMU15-445&#x2F;645</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-common"><span class="nav-number">1.1.</span> <span class="nav-text">src&#x2F;common.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#channel-h"><span class="nav-number">1.1.1.</span> <span class="nav-text">channel.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rid-h"><span class="nav-number">1.1.2.</span> <span class="nav-text">rid.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rwlatch-h"><span class="nav-number">1.1.3.</span> <span class="nav-text">rwlatch.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-type"><span class="nav-number">1.2.</span> <span class="nav-text">src&#x2F;type.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstract-pool-h"><span class="nav-number">1.2.1.</span> <span class="nav-text">abstract_pool.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-id-h"><span class="nav-number">1.2.2.</span> <span class="nav-text">type_id.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-h"><span class="nav-number">1.2.3.</span> <span class="nav-text">type.h</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#boolean-type-h"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">boolean_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#numeraic-type-h"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">numeraic_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#integer-parent-type-h"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">integer_parent_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#timestamp-type-h"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">timestamp_type.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decimal-type-h"><span class="nav-number">1.2.3.6.</span> <span class="nav-text">decimal_type.h</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value-h"><span class="nav-number">1.2.4.</span> <span class="nav-text">value.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value-factory-h"><span class="nav-number">1.2.5.</span> <span class="nav-text">value_factory.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-catalog"><span class="nav-number">1.3.</span> <span class="nav-text">src&#x2F;catalog.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#column-h"><span class="nav-number">1.3.1.</span> <span class="nav-text">column.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#schema-h"><span class="nav-number">1.3.2.</span> <span class="nav-text">schema.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#catalog-h"><span class="nav-number">1.3.3.</span> <span class="nav-text">catalog.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-storage"><span class="nav-number">1.4.</span> <span class="nav-text">src&#x2F;storage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#table-tuple-h"><span class="nav-number">1.4.1.</span> <span class="nav-text">table&#x2F;tuple.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#table-table-heap-h"><span class="nav-number">1.4.2.</span> <span class="nav-text">table&#x2F;table_heap.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#table-table-iterator-h"><span class="nav-number">1.4.3.</span> <span class="nav-text">table&#x2F;table_iterator.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#disk-disk-manager-h"><span class="nav-number">1.4.4.</span> <span class="nav-text">disk&#x2F;disk_manager.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#disk-disk-scheduler-h"><span class="nav-number">1.4.5.</span> <span class="nav-text">disk&#x2F;disk_scheduler.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-page-h"><span class="nav-number">1.4.6.</span> <span class="nav-text">page&#x2F;page.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-page-guard-h"><span class="nav-number">1.4.7.</span> <span class="nav-text">page&#x2F;page_guard.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-table-page-h"><span class="nav-number">1.4.8.</span> <span class="nav-text">page&#x2F;table_page.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-extendible-htable-header-page-h"><span class="nav-number">1.4.9.</span> <span class="nav-text">page&#x2F;extendible_htable_header_page.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-extendible-htable-directory-page-h"><span class="nav-number">1.4.10.</span> <span class="nav-text">page&#x2F;extendible_htable_directory_page.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#page-extendible-htable-bucket-page-h"><span class="nav-number">1.4.11.</span> <span class="nav-text">page&#x2F;extendible_htable_bucket_page.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-buffer"><span class="nav-number">1.5.</span> <span class="nav-text">src&#x2F;buffer.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lru-k-replacer-h"><span class="nav-number">1.5.1.</span> <span class="nav-text">lru_k_replacer.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buffer-pool-manager-h"><span class="nav-number">1.5.2.</span> <span class="nav-text">buffer_pool_manager.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-container"><span class="nav-number">1.6.</span> <span class="nav-text">src&#x2F;container.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#disk-hash-disk-extendible-hash-table-h"><span class="nav-number">1.6.1.</span> <span class="nav-text">disk&#x2F;hash&#x2F;disk_extendible_hash_table.h</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,9 +221,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-11-14 19:09:20 / 修改时间：23:19:41" itemprop="dateCreated datePublished" datetime="2024-11-14T19:09:20+08:00">2024-11-14</time>
+      <time title="创建时间：2024-11-14 19:09:20" itemprop="dateCreated datePublished" datetime="2024-11-14T19:09:20+08:00">2024-11-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-11-17 19:40:00" itemprop="dateModified" datetime="2024-11-17T19:40:00+08:00">2024-11-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -245,7 +251,7 @@
     
     
     <div class="post-body" itemprop="articleBody"><h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
-<h2 id="common"><a href="#common" class="headerlink" title="common"></a>common</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
+<h2 id="src-common"><a href="#src-common" class="headerlink" title="src&#x2F;common."></a>src&#x2F;common.</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
 <li>实际上是一个线程安全队列.</li>
 </ul>
 <h3 id="rid-h"><a href="#rid-h" class="headerlink" title="rid.h"></a>rid.h</h3><ul>
@@ -255,7 +261,7 @@
 <li>读写锁(std::shared_mutex)</li>
 </ul>
 <hr>
-<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type"></a>src&#x2F;type</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
+<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type."></a>src&#x2F;type.</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
 <li>抽象内存池接口</li>
 </ul>
 <h3 id="type-id-h"><a href="#type-id-h" class="headerlink" title="type_id.h"></a>type_id.h</h3><ul>
@@ -290,6 +296,72 @@
 </ul>
 <h3 id="value-factory-h"><a href="#value-factory-h" class="headerlink" title="value_factory.h"></a>value_factory.h</h3><ul>
 <li>value工厂类,方便构造value.</li>
+</ul>
+<hr>
+<h2 id="src-catalog"><a href="#src-catalog" class="headerlink" title="src&#x2F;catalog."></a>src&#x2F;catalog.</h2><h3 id="column-h"><a href="#column-h" class="headerlink" title="column.h"></a>column.h</h3><ul>
+<li>记录column的name,type,fixed_length,variable_length,offset.</li>
+</ul>
+<h3 id="schema-h"><a href="#schema-h" class="headerlink" title="schema.h"></a>schema.h</h3><ul>
+<li>存储着std::vector<Column> columns. 记录数据库tuple的元信息.</li>
+</ul>
+<h3 id="catalog-h"><a href="#catalog-h" class="headerlink" title="catalog.h"></a>catalog.h</h3><ul>
+<li>TODO:</li>
+</ul>
+<hr>
+<h2 id="src-storage"><a href="#src-storage" class="headerlink" title="src&#x2F;storage"></a>src&#x2F;storage</h2><h3 id="table-tuple-h"><a href="#table-tuple-h" class="headerlink" title="table&#x2F;tuple.h"></a>table&#x2F;tuple.h</h3><ul>
+<li>存储RID rid_{},std::vector<char> data_.</li>
+<li>定义了tuple的存储格式,前面部分存储inline数据,然后存储uninline数据.</li>
+<li>可以通过schema和column_idx得到数据.</li>
+</ul>
+<h3 id="table-table-heap-h"><a href="#table-table-heap-h" class="headerlink" title="table&#x2F;table_heap.h"></a>table&#x2F;table_heap.h</h3><ul>
+<li>BufferPoolManager *bpm_,page_id_t first_page_id_,page_id_t last_page_id_.</li>
+<li>通过BufferPoolManager操作table,提供了一系列操作table中tuple的接口.</li>
+</ul>
+<h3 id="table-table-iterator-h"><a href="#table-table-iterator-h" class="headerlink" title="table&#x2F;table_iterator.h"></a>table&#x2F;table_iterator.h</h3><ul>
+<li>table中page的迭代器.</li>
+</ul>
+<h3 id="disk-disk-manager-h"><a href="#disk-disk-manager-h" class="headerlink" title="disk&#x2F;disk_manager.h"></a>disk&#x2F;disk_manager.h</h3><ul>
+<li>封装了写文件操作.</li>
+<li>file_name_,log_name_.</li>
+<li>通过page_id计算offset,然后往文件读写内容.</li>
+</ul>
+<h3 id="disk-disk-scheduler-h"><a href="#disk-disk-scheduler-h" class="headerlink" title="disk&#x2F;disk_scheduler.h"></a>disk&#x2F;disk_scheduler.h</h3><ul>
+<li>内部保存DiskManager.</li>
+<li>Channel&lt;std::optional<DiskRequest>&gt; request_queue_,使用channel依次处理请求.</li>
+</ul>
+<h3 id="page-page-h"><a href="#page-page-h" class="headerlink" title="page&#x2F;page.h"></a>page&#x2F;page.h</h3><ul>
+<li>数据库存储的基本单元.提供了对真实数据页的一层包装.</li>
+<li>data_,page_id_,pin_count_,is_dirty_,rwlatch_.</li>
+</ul>
+<h3 id="page-page-guard-h"><a href="#page-page-guard-h" class="headerlink" title="page&#x2F;page_guard.h"></a>page&#x2F;page_guard.h</h3><ul>
+<li>为page提供RAII.</li>
+</ul>
+<h3 id="page-table-page-h"><a href="#page-table-page-h" class="headerlink" title="page&#x2F;table_page.h"></a>page&#x2F;table_page.h</h3><ul>
+<li>一个page是怎么存储tuple的.</li>
+</ul>
+<h3 id="page-extendible-htable-header-page-h"><a href="#page-extendible-htable-header-page-h" class="headerlink" title="page&#x2F;extendible_htable_header_page.h"></a>page&#x2F;extendible_htable_header_page.h</h3><ul>
+<li>page_id_t directory_page_ids_[512],uint32_t max_depth_;</li>
+<li>固定大小,可以认为是第一层hash,有一个常量max_depth_.</li>
+</ul>
+<h3 id="page-extendible-htable-directory-page-h"><a href="#page-extendible-htable-directory-page-h" class="headerlink" title="page&#x2F;extendible_htable_directory_page.h"></a>page&#x2F;extendible_htable_directory_page.h</h3><ul>
+<li>uint32_t max_depth_,uint32_t global_depth_,uint8_t local_depths_[512],page_id_t bucket_page_ids_[512];</li>
+<li>不固定大小,可以认为是第二层hash,有一个变量depth.</li>
+</ul>
+<h3 id="page-extendible-htable-bucket-page-h"><a href="#page-extendible-htable-bucket-page-h" class="headerlink" title="page&#x2F;extendible_htable_bucket_page.h"></a>page&#x2F;extendible_htable_bucket_page.h</h3><ul>
+<li>uint32_t size_,uint32_t max_size_,MappingType array_[HTableBucketArraySize(sizeof(MappingType))];</li>
+<li>保存实际value的地方.</li>
+</ul>
+<hr>
+<h2 id="src-buffer"><a href="#src-buffer" class="headerlink" title="src&#x2F;buffer."></a>src&#x2F;buffer.</h2><h3 id="lru-k-replacer-h"><a href="#lru-k-replacer-h" class="headerlink" title="lru_k_replacer.h"></a>lru_k_replacer.h</h3><ul>
+<li>实现了lru_k替换算法.</li>
+</ul>
+<h3 id="buffer-pool-manager-h"><a href="#buffer-pool-manager-h" class="headerlink" title="buffer_pool_manager.h"></a>buffer_pool_manager.h</h3><ul>
+<li>缓存池.通过pool_size,disk_manager(file_name_),replacer_k初始化.</li>
+</ul>
+<hr>
+<h2 id="src-container"><a href="#src-container" class="headerlink" title="src&#x2F;container."></a>src&#x2F;container.</h2><h3 id="disk-hash-disk-extendible-hash-table-h"><a href="#disk-hash-disk-extendible-hash-table-h" class="headerlink" title="disk&#x2F;hash&#x2F;disk_extendible_hash_table.h"></a>disk&#x2F;hash&#x2F;disk_extendible_hash_table.h</h3><ul>
+<li>std::string index_name_;BufferPoolManager *bpm_;KC cmp_;HashFunction<K> hash_fn_;uint32_t header_max_depth_;uint32_t directory_max_depth_;uint32_t bucket_max_size_;page_id_t header_page_id_;</li>
+<li>结合BufferPoolManager,extendible_htable_header_page,extendible_htable_directory_page,extendible_htable_bucket_page,建立一个可动态扩展&#x2F;收缩的HashTable，对外提供增、删、查的的服务接口.</li>
 </ul>
 
     </div>
