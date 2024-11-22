@@ -162,14 +162,12 @@
 <li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
 </ul>
 <h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
-<li>理解调度器锁模式</li>
-</ul>
-<ol>
+<li>理解调度器锁模式<ul>
 <li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
 <li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
 <li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
-</ol>
-<ul>
+</ul>
+</li>
 <li>查看调度器锁模式:show scheduler-locking</li>
 </ul>
 <hr>
@@ -180,13 +178,13 @@
 <li>ulimit -a 查看core file size</li>
 </ul>
 <h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
-<li>gdb [binfile] [coredump file]</li>
-</ul>
-<ol>
+<li>gdb [binfile] [coredump file]<ul>
 <li>查看调用堆栈,寻找崩溃原因.</li>
 <li>根据崩溃点,查找代码,分析原因.</li>
 <li>修复bug.</li>
-</ol>
+</ul>
+</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
