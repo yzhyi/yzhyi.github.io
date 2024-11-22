@@ -21,26 +21,26 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yzhyi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="终端使用代理 使用clash等搭建代理后，终端不经设置并不会通过代理，而无论是Windows还是Linux，方法都是加入http_proxy,https_proxy或all_proxy环境变量。  windows临时设置123set http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890  # &#x3D;后的值可以加双引号，也可以不加set https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.">
+    <meta name="description" content="GDB基础操作 l: 看当前行上下文&#x2F; l func 看func上下文 p: 打印变量&#x2F;调用函数 bt: 打印栈回溯 f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令) b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="代理">
-<meta property="og:url" content="http://yzhyi.github.io/2024/11/10/%E4%BB%A3%E7%90%86/index.html">
+<meta property="og:title" content="GDB基础操作">
+<meta property="og:url" content="http://yzhyi.github.io/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Yu&#39;s Blog">
-<meta property="og:description" content="终端使用代理 使用clash等搭建代理后，终端不经设置并不会通过代理，而无论是Windows还是Linux，方法都是加入http_proxy,https_proxy或all_proxy环境变量。  windows临时设置123set http_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.1:7890  # &#x3D;后的值可以加双引号，也可以不加set https_proxy&#x3D;http:&#x2F;&#x2F;127.0.0.">
+<meta property="og:description" content="GDB基础操作 l: 看当前行上下文&#x2F; l func 看func上下文 p: 打印变量&#x2F;调用函数 bt: 打印栈回溯 f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令) b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-11-10T11:31:39.000Z">
-<meta property="article:modified_time" content="2024-11-10T11:43:42.180Z">
+<meta property="article:published_time" content="2024-11-22T04:18:34.000Z">
+<meta property="article:modified_time" content="2024-11-22T04:19:42.124Z">
 <meta property="article:author" content="Yu">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://yzhyi.github.io/2024/11/10/%E4%BB%A3%E7%90%86/">
+<link rel="canonical" href="http://yzhyi.github.io/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yzhyi.github.io/2024/11/10/%E4%BB%A3%E7%90%86/","path":"2024/11/10/代理/","title":"代理"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yzhyi.github.io/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/","path":"2024/11/22/GDB基础操作/","title":"GDB基础操作"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>代理 | Yu's Blog</title>
+<title>GDB基础操作 | Yu's Blog</title>
   
 
 
@@ -140,7 +140,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">终端使用代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">1.1.</span> <span class="nav-text">windows</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.1.1.</span> <span class="nav-text">临时设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B8%E4%B9%85%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.1.2.</span> <span class="nav-text">永久设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux"><span class="nav-number">1.2.</span> <span class="nav-text">linux</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E8%AE%BE%E7%BD%AE-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">临时设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B8%E4%B9%85%E8%AE%BE%E7%BD%AE-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">永久设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git"><span class="nav-number">1.3.</span> <span class="nav-text">git</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl%E4%BD%BF%E7%94%A8windows%E4%BB%A3%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">wsl使用windows代理</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GDB"><span class="nav-number">1.</span> <span class="nav-text">GDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">基础操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%B0%83%E8%AF%95"><span class="nav-number">1.2.</span> <span class="nav-text">多线程调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E9%94%81%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">调度器锁模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95coredump%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">调试coredump文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFcoredump%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是coredump文件?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F"><span class="nav-number">1.3.2.</span> <span class="nav-text">怎么产生?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95coredump%E6%96%87%E4%BB%B6-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">调试coredump文件</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -193,7 +193,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yzhyi.github.io/2024/11/10/%E4%BB%A3%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yzhyi.github.io/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -206,12 +206,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="代理 | Yu's Blog">
+      <meta itemprop="name" content="GDB基础操作 | Yu's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          代理
+          GDB基础操作
         </h1>
 
         <div class="post-meta-container">
@@ -223,7 +223,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-11-10 19:31:39 / 修改时间：19:43:42" itemprop="dateCreated datePublished" datetime="2024-11-10T19:31:39+08:00">2024-11-10</time>
+      <time title="创建时间：2024-11-22 12:18:34 / 修改时间：12:19:42" itemprop="dateCreated datePublished" datetime="2024-11-22T12:18:34+08:00">2024-11-22</time>
     </span>
 
   
@@ -235,28 +235,56 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
-<li>使用clash等搭建代理后，终端不经设置并不会通过代理，而无论是Windows还是Linux，方法都是加入http_proxy,https_proxy或all_proxy环境变量。</li>
-</ul>
-<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><h4 id="临时设置"><a href="#临时设置" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">set</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">set</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="永久设置"><a href="#永久设置" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
-<li>终端启用代理的方法是那三个环境变量，因此永久设置就是手动去设置添加环境变量。</li>
-</ul>
-<h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><h4 id="临时设置-1"><a href="#临时设置-1" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">export</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="永久设置-1"><a href="#永久设置-1" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
-<li>同样的，永久设置也是是将其写入环境变量，在Linux中是将上述内容添加到<del>&#x2F;.bashrc或</del>&#x2F;.profile的末尾。</li>
-</ul>
-<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><ul>
-<li>如果只是git需要使用代理，可以在git设置代理，原理相同:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config --global https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li>如果不想git全局使用代理，那只需要在需要代理的仓库输入去掉–global的命令即可:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li>若要取消git的代理设置:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
-或<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></li>
+    <div class="post-body" itemprop="articleBody"><h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
+<li>p: 打印变量&#x2F;调用函数</li>
+<li>bt: 打印栈回溯</li>
+<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
+<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
+<li>i b: 查看断点(info break); d num: 删除断点</li>
+<li>tb:创建临时断点</li>
+<li>n: 下一步</li>
+<li>s: 进入函数</li>
+<li>c: 继续运行</li>
+<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
+<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
+<li>awatch (写入和读取都会打断点)</li>
+<li>tui enable&#x2F;layout src</li>
+<li>layout asm</li>
+<li>r 参数(表示传入main的参数argc, argv)</li>
 </ul>
 <hr>
-<h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
+<li>info threads: 查看线程信息</li>
+<li>t thread_id: 切换线程</li>
+<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
+</ul>
+<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
+<li>理解调度器锁模式</li>
+</ul>
+<ol>
+<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
+<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
+<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
+</ol>
+<ul>
+<li>查看调度器锁模式:show scheduler-locking</li>
+</ul>
+<hr>
+<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
+<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
+</ul>
+<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
+<li>ulimit -a 查看core file size</li>
+</ul>
+<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
+<li>gdb [binfile] [coredump file]</li>
+</ul>
+<ol>
+<li>查看调用堆栈,寻找崩溃原因.</li>
+<li>根据崩溃点,查找代码,分析原因.</li>
+<li>修复bug.</li>
+</ol>
 
     </div>
 
@@ -274,7 +302,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://yzhyi.github.io/2024/11/10/%E4%BB%A3%E7%90%86/" title="代理">http://yzhyi.github.io/2024/11/10/代理/</a>
+      <a href="http://yzhyi.github.io/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" title="GDB基础操作">http://yzhyi.github.io/2024/11/22/GDB基础操作/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
@@ -287,14 +315,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/" rel="prev" title="部署Hexo博客">
-                  <i class="fa fa-angle-left"></i> 部署Hexo博客
+                <a href="/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="prev" title="Tmux基本操作">
+                  <i class="fa fa-angle-left"></i> Tmux基本操作
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="CMU15-445/645学习笔记">
-                  CMU15-445/645学习笔记 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
