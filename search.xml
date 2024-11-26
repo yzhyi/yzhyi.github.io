@@ -483,29 +483,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>pacman用法</title>
-    <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<ul>
-<li>-S：synchronize 同步</li>
-<li>-R：remove 删除</li>
-<li>-Q：query 查询本地</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名 <span class="comment"># 安装软件包的同时会安装该包需要的依赖</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy <span class="comment"># 更新软件源，如果前一段时间已更新过，则pacman不会再去查找更新</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy <span class="comment"># 强行更新软件源</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Su <span class="comment"># 更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syu <span class="comment"># 更新软件源并更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syyu <span class="comment"># 强行更新软件源并更新软件包</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ss 包名 <span class="comment"># 搜索支持正则表达式</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R 包名</span><br><span class="line"><span class="built_in">sudo</span> pacman -Rs 包名 <span class="comment"># 删除该软件与该软件的依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Rnsc 包名 <span class="comment"># 删除该软件与该软件的依赖包并删除全局配置文件，个人配置文件不会删除 (推荐使用这种方法!)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Sc <span class="comment"># 删除缓存(-R删除包之后不会清除文件，只是放到了/var/*目录下)</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
     <title>代理</title>
     <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
@@ -530,6 +507,29 @@
 <hr>
 <h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>pacman用法</title>
+    <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<ul>
+<li>-S：synchronize 同步</li>
+<li>-R：remove 删除</li>
+<li>-Q：query 查询本地</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名 <span class="comment"># 安装软件包的同时会安装该包需要的依赖</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy <span class="comment"># 更新软件源，如果前一段时间已更新过，则pacman不会再去查找更新</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy <span class="comment"># 强行更新软件源</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Su <span class="comment"># 更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syu <span class="comment"># 更新软件源并更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syyu <span class="comment"># 强行更新软件源并更新软件包</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ss 包名 <span class="comment"># 搜索支持正则表达式</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R 包名</span><br><span class="line"><span class="built_in">sudo</span> pacman -Rs 包名 <span class="comment"># 删除该软件与该软件的依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Rnsc 包名 <span class="comment"># 删除该软件与该软件的依赖包并删除全局配置文件，个人配置文件不会删除 (推荐使用这种方法!)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Sc <span class="comment"># 删除缓存(-R删除包之后不会清除文件，只是放到了/var/*目录下)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
