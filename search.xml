@@ -139,21 +139,24 @@
     <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
 <li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
-<li>p: 打印变量&#x2F;调用函数</li>
+<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
 <li>bt: 打印栈回溯</li>
 <li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
 <li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
 <li>i b: 查看断点(info break); d num: 删除断点</li>
 <li>tb:创建临时断点</li>
-<li>n: 下一步</li>
 <li>s: 进入函数</li>
+<li>n: 下一步</li>
+<li>si：执行下一条机器指令。</li>
+<li>ni：执行下一条机器指令，但不进入函数内部</li>
 <li>c: 继续运行</li>
 <li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
 <li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
 <li>awatch (写入和读取都会打断点)</li>
 <li>tui enable&#x2F;layout src</li>
-<li>layout asm</li>
+<li>layout asm&#x2F;src</li>
 <li>r 参数(表示传入main的参数argc, argv)</li>
+<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
 </ul>
 <hr>
 <h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
@@ -191,6 +194,22 @@
     <title>Git基本操作</title>
     <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Tmux基本操作</title>
+    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -369,22 +388,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Tmux基本操作</title>
-    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<ul>
-<li>前缀键: ctrl + b</li>
-<li>tmux ls: 查看所有tmux会话</li>
-<li>新建会话: tmux new -s <session-name></li>
-<li>分离会话: ctrl + b + d</li>
-<li>接入会话: tmux attach -t <session-name></li>
-<li>杀死会话: tmux kill-session -t <session-name></li>
-<li>切换会话: tmux switch -t <session-name></li>
-<li>重命名会话: tmux rename-session -t oldname <new-name></li>
-<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>Vim基本操作</title>
     <url>/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
@@ -483,6 +486,46 @@
 ]]></content>
   </entry>
   <entry>
+    <title>pacman用法</title>
+    <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<ul>
+<li>-S：synchronize 同步</li>
+<li>-R：remove 删除</li>
+<li>-Q：query 查询本地</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名 <span class="comment"># 安装软件包的同时会安装该包需要的依赖</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy <span class="comment"># 更新软件源，如果前一段时间已更新过，则pacman不会再去查找更新</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy <span class="comment"># 强行更新软件源</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Su <span class="comment"># 更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syu <span class="comment"># 更新软件源并更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syyu <span class="comment"># 强行更新软件源并更新软件包</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ss 包名 <span class="comment"># 搜索支持正则表达式</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R 包名</span><br><span class="line"><span class="built_in">sudo</span> pacman -Rs 包名 <span class="comment"># 删除该软件与该软件的依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Rnsc 包名 <span class="comment"># 删除该软件与该软件的依赖包并删除全局配置文件，个人配置文件不会删除 (推荐使用这种方法!)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Sc <span class="comment"># 删除缓存(-R删除包之后不会清除文件，只是放到了/var/*目录下)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>xv6-riscv学习笔记</title>
+    <url>/2024/11/26/xv6-riscv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="加载系统"><a href="#加载系统" class="headerlink" title="加载系统"></a>加载系统</h1><ul>
+<li>kernel.ld 描述可执行程序或库在目标内存中的布局方式。它定义了不同的程序段（如代码段、只读数据段、可读写数据段、未初始化数据段等）应该如何在内存中排列，以及指定了一些特殊符号的值，这些符号可以在程序的其他部分被引用，以了解内存布局的相关信息。</li>
+<li>内核text段加载到物理内存0x80000000处;随后是trampoline.S(用户和内核的跳转代码).这两段都是按页对齐的;随后是rodata,data,bss段.</li>
+<li>entry.S 为每个核心配置内核栈,然后跳到start处.</li>
+<li>start.c 执行一些只允许在机器模式下进行的配置，然后切换到主管模式。</li>
+<li>main.c 初始化几个设备和子系统之后，它通过调用userinit 创建第一个进程(initcode)。</li>
+</ul>
+<h2 id="main-c"><a href="#main-c" class="headerlink" title="main.c"></a>main.c</h2><ul>
+<li>kinit(): 将所有空闲内存添加到freelist.</li>
+<li>kvminit(): 设置内核空间pagetable.(除了trampoline 和 kernal stacks外,其他内存是直接映射)</li>
+<li>kvminithart(): 内核页表指针存到satp中,开启页表.</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>代理</title>
     <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
@@ -507,29 +550,6 @@
 <hr>
 <h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>pacman用法</title>
-    <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
-    <content><![CDATA[<ul>
-<li>-S：synchronize 同步</li>
-<li>-R：remove 删除</li>
-<li>-Q：query 查询本地</li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名 <span class="comment"># 安装软件包的同时会安装该包需要的依赖</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy <span class="comment"># 更新软件源，如果前一段时间已更新过，则pacman不会再去查找更新</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy <span class="comment"># 强行更新软件源</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Su <span class="comment"># 更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syu <span class="comment"># 更新软件源并更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syyu <span class="comment"># 强行更新软件源并更新软件包</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ss 包名 <span class="comment"># 搜索支持正则表达式</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R 包名</span><br><span class="line"><span class="built_in">sudo</span> pacman -Rs 包名 <span class="comment"># 删除该软件与该软件的依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Rnsc 包名 <span class="comment"># 删除该软件与该软件的依赖包并删除全局配置文件，个人配置文件不会删除 (推荐使用这种方法!)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Sc <span class="comment"># 删除缓存(-R删除包之后不会清除文件，只是放到了/var/*目录下)</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
