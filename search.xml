@@ -197,6 +197,22 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Tmux基本操作</title>
+    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Markdown基本语法</title>
     <url>/2024/11/15/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="一、标题"><a href="#一、标题" class="headerlink" title="一、标题"></a>一、标题</h1><p>在想要设置为标题的文字前面加#来表示<br> 一个#是一级标题，二个#是二级标题，以此类推。支持六级标题。</p>
@@ -369,22 +385,6 @@
 
 <p>代码块</p>
 <figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">  echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>Tmux基本操作</title>
-    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<ul>
-<li>前缀键: ctrl + b</li>
-<li>tmux ls: 查看所有tmux会话</li>
-<li>新建会话: tmux new -s <session-name></li>
-<li>分离会话: ctrl + b + d</li>
-<li>接入会话: tmux attach -t <session-name></li>
-<li>杀死会话: tmux kill-session -t <session-name></li>
-<li>切换会话: tmux switch -t <session-name></li>
-<li>重命名会话: tmux rename-session -t oldname <new-name></li>
-<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
-</ul>
 ]]></content>
   </entry>
   <entry>
@@ -642,7 +642,7 @@
 
 <h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br></pre></td></tr></table></figure>
+<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br><span class="line">npm install hexo-hide-posts <span class="comment"># 安装隐藏文章的插件</span></span><br></pre></td></tr></table></figure>
 
 <hr>
 <h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
@@ -656,10 +656,5 @@
 
 <h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
-  </entry>
-  <entry>
-    <title>2025-2-6</title>
-    <url>/2025/02/06/diary/2025-2-6/</url>
-    <content><![CDATA[<h2 id="你好"><a href="#你好" class="headerlink" title="你好"></a>你好</h2>]]></content>
   </entry>
 </search>
