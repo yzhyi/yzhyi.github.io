@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2025-2-6</title>
-    <url>/2025/02/06/2025-2-6/</url>
-    <content><![CDATA[<h2 id="你好"><a href="#你好" class="headerlink" title="你好"></a>你好</h2>]]></content>
-  </entry>
-  <entry>
-    <title>GDB基础操作</title>
-    <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
-<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
-<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
-<li>bt: 打印栈回溯</li>
-<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
-<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
-<li>i b: 查看断点(info break); d num: 删除断点</li>
-<li>tb:创建临时断点</li>
-<li>s: 进入函数</li>
-<li>n: 下一步</li>
-<li>si：执行下一条机器指令。</li>
-<li>ni：执行下一条机器指令，但不进入函数内部</li>
-<li>c: 继续运行</li>
-<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
-<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
-<li>awatch (写入和读取都会打断点)</li>
-<li>tui enable&#x2F;layout src</li>
-<li>layout asm&#x2F;src</li>
-<li>r 参数(表示传入main的参数argc, argv)</li>
-<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
-</ul>
-<hr>
-<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
-<li>info threads: 查看线程信息</li>
-<li>t thread_id: 切换线程</li>
-<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
-</ul>
-<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
-<li>理解调度器锁模式<ol>
-<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
-<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
-<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
-</ol>
-</li>
-<li>查看调度器锁模式:show scheduler-locking</li>
-</ul>
-<hr>
-<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
-<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
-</ul>
-<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
-<li>ulimit -a 查看core file size</li>
-</ul>
-<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
-<li>gdb [binfile] [coredump file]<ol>
-<li>查看调用堆栈,寻找崩溃原因.</li>
-<li>根据崩溃点,查找代码,分析原因.</li>
-<li>修复bug.</li>
-</ol>
-</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>CMU15-445/645学习笔记</title>
     <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
@@ -199,6 +138,62 @@
     <title>Git基本操作</title>
     <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>GDB基础操作</title>
+    <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
+<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
+<li>bt: 打印栈回溯</li>
+<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
+<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
+<li>i b: 查看断点(info break); d num: 删除断点</li>
+<li>tb:创建临时断点</li>
+<li>s: 进入函数</li>
+<li>n: 下一步</li>
+<li>si：执行下一条机器指令。</li>
+<li>ni：执行下一条机器指令，但不进入函数内部</li>
+<li>c: 继续运行</li>
+<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
+<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
+<li>awatch (写入和读取都会打断点)</li>
+<li>tui enable&#x2F;layout src</li>
+<li>layout asm&#x2F;src</li>
+<li>r 参数(表示传入main的参数argc, argv)</li>
+<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
+</ul>
+<hr>
+<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
+<li>info threads: 查看线程信息</li>
+<li>t thread_id: 切换线程</li>
+<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
+</ul>
+<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
+<li>理解调度器锁模式<ol>
+<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
+<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
+<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
+</ol>
+</li>
+<li>查看调度器锁模式:show scheduler-locking</li>
+</ul>
+<hr>
+<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
+<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
+</ul>
+<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
+<li>ulimit -a 查看core file size</li>
+</ul>
+<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
+<li>gdb [binfile] [coredump file]<ol>
+<li>查看调用堆栈,寻找崩溃原因.</li>
+<li>根据崩溃点,查找代码,分析原因.</li>
+<li>修复bug.</li>
+</ol>
+</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -499,6 +494,23 @@
 ]]></content>
   </entry>
   <entry>
+    <title>xv6-riscv学习笔记</title>
+    <url>/2024/11/26/xv6-riscv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="加载系统"><a href="#加载系统" class="headerlink" title="加载系统"></a>加载系统</h1><ul>
+<li>kernel.ld 描述可执行程序或库在目标内存中的布局方式。它定义了不同的程序段（如代码段、只读数据段、可读写数据段、未初始化数据段等）应该如何在内存中排列，以及指定了一些特殊符号的值，这些符号可以在程序的其他部分被引用，以了解内存布局的相关信息。</li>
+<li>内核text段加载到物理内存0x80000000处;随后是trampoline.S(用户和内核的跳转代码).这两段都是按页对齐的;随后是rodata,data,bss段.</li>
+<li>entry.S 为每个核心配置内核栈,然后跳到start处.</li>
+<li>start.c 执行一些只允许在机器模式下进行的配置，然后切换到主管模式。</li>
+<li>main.c 初始化几个设备和子系统之后，它通过调用userinit 创建第一个进程(initcode)。</li>
+</ul>
+<h2 id="main-c"><a href="#main-c" class="headerlink" title="main.c"></a>main.c</h2><ul>
+<li>kinit(): 将所有空闲内存添加到freelist.</li>
+<li>kvminit(): 设置内核空间pagetable.(除了trampoline 和 kernal stacks外,其他内存是直接映射)</li>
+<li>kvminithart(): 内核页表指针存到satp中,开启页表.</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>pacman用法</title>
     <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
     <content><![CDATA[<ul>
@@ -519,23 +531,6 @@
 
 <hr>
 <h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>xv6-riscv学习笔记</title>
-    <url>/2024/11/26/xv6-riscv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="加载系统"><a href="#加载系统" class="headerlink" title="加载系统"></a>加载系统</h1><ul>
-<li>kernel.ld 描述可执行程序或库在目标内存中的布局方式。它定义了不同的程序段（如代码段、只读数据段、可读写数据段、未初始化数据段等）应该如何在内存中排列，以及指定了一些特殊符号的值，这些符号可以在程序的其他部分被引用，以了解内存布局的相关信息。</li>
-<li>内核text段加载到物理内存0x80000000处;随后是trampoline.S(用户和内核的跳转代码).这两段都是按页对齐的;随后是rodata,data,bss段.</li>
-<li>entry.S 为每个核心配置内核栈,然后跳到start处.</li>
-<li>start.c 执行一些只允许在机器模式下进行的配置，然后切换到主管模式。</li>
-<li>main.c 初始化几个设备和子系统之后，它通过调用userinit 创建第一个进程(initcode)。</li>
-</ul>
-<h2 id="main-c"><a href="#main-c" class="headerlink" title="main.c"></a>main.c</h2><ul>
-<li>kinit(): 将所有空闲内存添加到freelist.</li>
-<li>kvminit(): 设置内核空间pagetable.(除了trampoline 和 kernal stacks外,其他内存是直接映射)</li>
-<li>kvminithart(): 内核页表指针存到satp中,开启页表.</li>
-</ul>
 ]]></content>
   </entry>
   <entry>
@@ -563,6 +558,28 @@
 <hr>
 <h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>部署Hexo博客</title>
+    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
+<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br><span class="line">```bash</span><br><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
@@ -638,28 +655,6 @@
 <h2 id="wps"><a href="#wps" class="headerlink" title="wps"></a>wps</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">paru wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts</span><br><span class="line">$ 解决粗体黑块</span><br><span class="line">paru freetype2-wps</span><br></pre></td></tr></table></figure>
 
 <h2 id="software"><a href="#software" class="headerlink" title="software"></a>software</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip git neovim tmux joshuto python xclip</span><br><span class="line">paru iwgtk  <span class="comment"># iwctl的图形界面</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S capnet-assist <span class="comment"># 有些网络需要网页登陆</span></span><br><span class="line">paru google-chrome</span><br><span class="line"><span class="built_in">sudo</span> pacman -S clash-verge-rev</span><br><span class="line"><span class="built_in">sudo</span> pacman -S scrot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S flameshot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S sioyek	<span class="comment"># pdf</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S rofi	<span class="comment"># dmenu </span></span><br><span class="line"><span class="comment"># rofi -dump-config &gt; ~/.config/rofi/config.rasi</span></span><br><span class="line"><span class="comment"># rofi options  -theme ~/.config/rofi/powermenu/style.rasi -show drun</span></span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>部署Hexo博客</title>
-    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
-<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br><span class="line">```bash</span><br><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
 </search>
