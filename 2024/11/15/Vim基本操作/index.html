@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Microsoft+YaHei:300,300italic,400,400italic,700,700italic%7CJetBrains+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yzhyi.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.21.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":"default"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="操作基础操作 f{char}  使用;键可以跳到下一个   使用,键可以跳到上一个   %s&#x2F;word1&#x2F;word2&#x2F;g: 全局替换  gv: 重选上一次可视模式  模式下,r可以修改所有列选中的位置  !{cmd}: 运行shell命令  ea: 在当前单词结尾后添加  m{a-zA-Z} &#96;{mark}: 添加标签,回到标签(大写字母是全局标记)  &amp;#9">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Vim基本操作">
+<meta property="og:url" content="http://yzhyi.github.io/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Yu&#39;s Blog">
+<meta property="og:description" content="操作基础操作 f{char}  使用;键可以跳到下一个   使用,键可以跳到上一个   %s&#x2F;word1&#x2F;word2&#x2F;g: 全局替换  gv: 重选上一次可视模式  模式下,r可以修改所有列选中的位置  !{cmd}: 运行shell命令  ea: 在当前单词结尾后添加  m{a-zA-Z} &#96;{mark}: 添加标签,回到标签(大写字母是全局标记)  &amp;#9">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-15T07:50:14.000Z">
+<meta property="article:modified_time" content="2025-02-06T13:28:03.783Z">
+<meta property="article:author" content="Yu">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yzhyi.github.io/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yzhyi.github.io/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/","path":"2024/11/15/Vim基本操作/","title":"Vim基本操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Vim基本操作 | Yu's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Yu's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">do something!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">0</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">基础操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">.命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8F"><span class="nav-number">1.4.</span> <span class="nav-text">宏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.5.</span> <span class="nav-text">替换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#install-vim"><span class="nav-number">2.</span> <span class="nav-text">install vim</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu"><span class="nav-number">2.1.</span> <span class="nav-text">ubuntu</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#config-nvim"><span class="nav-number">3.</span> <span class="nav-text">config nvim</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3l6aHlp" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yzhyi"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yzhyi.github.io/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Vim基本操作 | Yu's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vim基本操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-15 15:50:14" itemprop="dateCreated datePublished" datetime="2024-11-15T15:50:14+08:00">2024-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-06 21:28:03" itemprop="dateModified" datetime="2025-02-06T21:28:03+08:00">2025-02-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+<li><p>f{char}</p>
+<ul>
+<li>使用;键可以跳到下一个  </li>
+<li>使用,键可以跳到上一个</li>
+</ul>
+</li>
+<li><p>%s&#x2F;word1&#x2F;word2&#x2F;g: 全局替换</p>
+</li>
+<li><p>gv: 重选上一次可视模式</p>
+</li>
+<li><p><C-v>模式下,r可以修改所有列选中的位置</p>
+</li>
+<li><p>!{cmd}: 运行shell命令</p>
+</li>
+<li><p>ea: 在当前单词结尾后添加</p>
+</li>
+<li><p>m{a-zA-Z} &#96;{mark}: 添加标签,回到标签(大写字母是全局标记)</p>
+</li>
+<li><p>&#96;&#96;: 当前文件中上次跳转动作之前的位置</p>
+<ul>
+<li>%r]&#96;&#96;r[: 修改包围的符号,change surround</li>
+</ul>
+</li>
+<li><p>&#96;.: 上次修改的地方</p>
+</li>
+<li><p>^: 移动光标到行首第一个非空字符处</p>
+</li>
+<li><p>$: 移动光标到行末最后一个非空字符处</p>
+</li>
+<li><p>&#x3D;: 自动缩进(格式化)</p>
+</li>
+<li><p>dtn: 删除字符 n 前面的内容</p>
+</li>
+<li><p>zz: 将光标所在行移动到窗口中央</p>
+</li>
+<li><p>撤销在普通模式下使用 u，反撤销使用 Ctrl+r</p>
+</li>
+<li><p>Ctrl + a 来在数字文本上进行递增操作；递减操作使用 Ctrl x 。（如果光标不在数字所在位置，该命令会在本行往后查找第一个出现数字的地方，并将光标跳转到该处，然后执行加1的操作。）</p>
+</li>
+<li><p>&lt;Ctrl + h&gt;: 删除光标前一个词(与退格键相同)（插入模式下）</p>
+</li>
+<li><p>&lt;Ctrl + w&gt;: 删除光标前一个单词（插入模式下）</p>
+</li>
+<li><p>&lt;Ctrl + u&gt;: 删除至行首（插入模式下）</p>
+</li>
+<li><p>gv: 选中上次选中的区域</p>
+</li>
+<li><p>ctrl+o：回到上一次跳转的地方</p>
+</li>
+<li><p>对比两个文件:</p>
+<ul>
+<li>在终端下: nvim -d 文件名1 文件名2</li>
+<li>在nvim中: :diffsplit 要对比的文件名</li>
+</ul>
+</li>
+<li><p>gi: 跳转到上次插入的地方</p>
+</li>
+<li><p>ctrl+z暂停vim返回shell,shell里做完想做的事,然后fg返回vim</p>
+</li>
+</ul>
+<h2 id="命令"><a href="#命令" class="headerlink" title=".命令"></a>.命令</h2><ul>
+<li>.命令会重复上次修改<ul>
+<li>重复normal模式下的修改操作(dd,x,&gt;&gt;)</li>
+<li>从进入insert模式的那一刻时(包括进入的命令),直到返回normal模式时为止</li>
+</ul>
+</li>
+</ul>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><ul>
+<li>“{register}指定要用的寄存器</li>
+<li>“+ X11剪切板</li>
+<li>“* X11剪切板</li>
+</ul>
+<h2 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h2><ul>
+<li>q{register}….q: 录制宏</li>
+<li>@{register}: 回放宏</li>
+<li>当动作命令失败时,宏将终止执行</li>
+<li>q{大写字母}: 追加宏操作</li>
+</ul>
+<h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><ul>
+<li>[range]s[ubstitute]&#x2F;{pattern}&#x2F;{string}&#x2F;[flags]</li>
+<li>range:<ul>
+<li>使用可视模式选取范围.</li>
+<li>%: 表示整个文件.</li>
+<li>1,20: 第1行~第20行.</li>
+<li>.,+2 当前行~往后2行.</li>
+<li>.,$ 当前行~文件尾.</li>
+</ul>
+</li>
+<li>flags:<ul>
+<li>g: 全局范围内执行</li>
+<li>c: 可以确认或拒绝每一处修改</li>
+<li>n: 抑制正常的替换行为,只是报告本次substitute命令匹配的个数</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="install-vim"><a href="#install-vim" class="headerlink" title="install vim"></a>install vim</h1><h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim：</span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:jonathonf/vim</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install vim</span><br><span class="line"> </span><br><span class="line">nvim：</span><br><span class="line"><span class="built_in">sudo</span> apt-add-repository ppa:neovim-ppa/unstable</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install neovim</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="config-nvim"><a href="#config-nvim" class="headerlink" title="config nvim"></a>config nvim</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip(要解压一些包) git neovim</span><br><span class="line"><span class="comment"># 安装pyright需要安装npm以及python3，这里不需要nodejs</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S npm python3</span><br><span class="line"><span class="comment"># copilot需要高版本的nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># telescope </span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:x4121/ripgrep </span><br><span class="line"><span class="built_in">sudo</span> apt-get  update </span><br><span class="line"><span class="built_in">sudo</span> apt install ripgrep </span><br><span class="line">npm install -g fd-find</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除nvim配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf ~/.local/share/nvim ~/.cache/nvim ~/.local/state/nvim</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Yu
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yzhyi.github.io/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="Vim基本操作">http://yzhyi.github.io/2024/11/15/Vim基本操作/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="prev" title="Git基本操作">
+                  <i class="fa fa-angle-left"></i> Git基本操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" rel="next" title="Tmux基本操作">
+                  Tmux基本操作 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2024 – 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Yu, All rights reserved.<br>本站所有原创文章，如进行非商业目的转载，请注明出处。若要进行商业目的转载，必须取得授权。</span>
+  </div>
+  <div class="powered-by">由 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl" data-url="aHR0cHM6Ly90aGVtZS1uZXh0LmpzLm9yZw==">NexT.Gemini</span> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
