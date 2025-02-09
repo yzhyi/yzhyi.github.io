@@ -1,143 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CMU15-445/645学习笔记</title>
-    <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
-<h2 id="src-common"><a href="#src-common" class="headerlink" title="src&#x2F;common."></a>src&#x2F;common.</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
-<li>实际上是一个线程安全队列.</li>
-</ul>
-<h3 id="rid-h"><a href="#rid-h" class="headerlink" title="rid.h"></a>rid.h</h3><ul>
-<li>Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_</li>
-</ul>
-<h3 id="rwlatch-h"><a href="#rwlatch-h" class="headerlink" title="rwlatch.h"></a>rwlatch.h</h3><ul>
-<li>读写锁(std::shared_mutex)</li>
-</ul>
-<hr>
-<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type."></a>src&#x2F;type.</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
-<li>抽象内存池接口</li>
-</ul>
-<h3 id="type-id-h"><a href="#type-id-h" class="headerlink" title="type_id.h"></a>type_id.h</h3><ul>
-<li>type枚举   <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TypeId</span> &#123; INVALID = <span class="number">0</span>, BOOLEAN, TINYINT, SMALLINT, INTEGER, BIGINT, DECIMAL, VARCHAR, TIMESTAMP &#125;;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="type-h"><a href="#type-h" class="headerlink" title="type.h"></a>type.h</h3><ul>
-<li>类型基类.</li>
-<li>定义了类型比较,运算,序列化,转换类型等虚接口.</li>
-</ul>
-<h4 id="boolean-type-h"><a href="#boolean-type-h" class="headerlink" title="boolean_type.h"></a>boolean_type.h</h4><ul>
-<li>实例化boolean类型比较,运算,序列化,转换类型等接口.</li>
-</ul>
-<h4 id="numeraic-type-h"><a href="#numeraic-type-h" class="headerlink" title="numeraic_type.h"></a>numeraic_type.h</h4><ul>
-<li>number value的基类,可以是整数和小数.必须提供运算操作.</li>
-</ul>
-<h4 id="integer-parent-type-h"><a href="#integer-parent-type-h" class="headerlink" title="integer_parent_type.h"></a>integer_parent_type.h</h4><ul>
-<li>为整数提供具有鲁棒性的四则运算.</li>
-</ul>
-<h4 id="tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><a href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h" class="headerlink" title="tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h"></a>tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</h4><ul>
-<li>integer_parent_type的子类,为整数提供了比较,运算,序列化,转换类型等接口.</li>
-</ul>
-<h4 id="timestamp-type-h"><a href="#timestamp-type-h" class="headerlink" title="timestamp_type.h"></a>timestamp_type.h</h4><ul>
-<li>为timestamp类型提供比较等接口.</li>
-</ul>
-<h4 id="decimal-type-h"><a href="#decimal-type-h" class="headerlink" title="decimal_type.h"></a>decimal_type.h</h4><ul>
-<li>为小数提供类型比较,运算,序列化,转换类型等接口.</li>
-</ul>
-<h3 id="value-h"><a href="#value-h" class="headerlink" title="value.h"></a>value.h</h3><ul>
-<li>实际管理数据内容的地方.</li>
-<li>存储着type和数据内容.</li>
-<li>value比较,运算,序列化,转换类型等操作都是调用type提供的虚接口.  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Type::<span class="built_in">GetInstance</span>(type_id_)-&gt;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="value-factory-h"><a href="#value-factory-h" class="headerlink" title="value_factory.h"></a>value_factory.h</h3><ul>
-<li>value工厂类,方便构造value.</li>
-</ul>
-<hr>
-<h2 id="src-catalog"><a href="#src-catalog" class="headerlink" title="src&#x2F;catalog."></a>src&#x2F;catalog.</h2><h3 id="column-h"><a href="#column-h" class="headerlink" title="column.h"></a>column.h</h3><ul>
-<li>记录column的name,type,fixed_length,variable_length,offset.</li>
-</ul>
-<h3 id="schema-h"><a href="#schema-h" class="headerlink" title="schema.h"></a>schema.h</h3><ul>
-<li>存储着std::vector<Column> columns. 记录数据库tuple的元信息.</li>
-</ul>
-<h3 id="catalog-h"><a href="#catalog-h" class="headerlink" title="catalog.h"></a>catalog.h</h3><ul>
-<li>处理表创建、表查找、索引创建和索引查找.</li>
-</ul>
-<hr>
-<h2 id="src-storage"><a href="#src-storage" class="headerlink" title="src&#x2F;storage."></a>src&#x2F;storage.</h2><h3 id="table-tuple-h"><a href="#table-tuple-h" class="headerlink" title="table&#x2F;tuple.h"></a>table&#x2F;tuple.h</h3><ul>
-<li>存储RID rid_{},std::vector<char> data_.</li>
-<li>定义了tuple的存储格式,前面部分存储inline数据,然后存储uninline数据.</li>
-<li>可以通过schema和column_idx得到数据.</li>
-</ul>
-<h3 id="table-table-heap-h"><a href="#table-table-heap-h" class="headerlink" title="table&#x2F;table_heap.h"></a>table&#x2F;table_heap.h</h3><ul>
-<li>BufferPoolManager *bpm_,page_id_t first_page_id_,page_id_t last_page_id_.</li>
-<li>通过BufferPoolManager操作table,提供了一系列操作table中tuple的接口.</li>
-</ul>
-<h3 id="table-table-iterator-h"><a href="#table-table-iterator-h" class="headerlink" title="table&#x2F;table_iterator.h"></a>table&#x2F;table_iterator.h</h3><ul>
-<li>table中page的迭代器.</li>
-</ul>
-<h3 id="disk-disk-manager-h"><a href="#disk-disk-manager-h" class="headerlink" title="disk&#x2F;disk_manager.h"></a>disk&#x2F;disk_manager.h</h3><ul>
-<li>封装了写文件操作.</li>
-<li>file_name_,log_name_.</li>
-<li>通过page_id计算offset,然后往文件读写内容.</li>
-</ul>
-<h3 id="disk-disk-scheduler-h"><a href="#disk-disk-scheduler-h" class="headerlink" title="disk&#x2F;disk_scheduler.h"></a>disk&#x2F;disk_scheduler.h</h3><ul>
-<li>内部保存DiskManager.</li>
-<li>Channel&lt;std::optional<DiskRequest>&gt; request_queue_,使用channel依次处理请求.</li>
-</ul>
-<h3 id="page-page-h"><a href="#page-page-h" class="headerlink" title="page&#x2F;page.h"></a>page&#x2F;page.h</h3><ul>
-<li>数据库存储的基本单元.提供了对真实数据页的一层包装.</li>
-<li>data_,page_id_,pin_count_,is_dirty_,rwlatch_.</li>
-</ul>
-<h3 id="page-page-guard-h"><a href="#page-page-guard-h" class="headerlink" title="page&#x2F;page_guard.h"></a>page&#x2F;page_guard.h</h3><ul>
-<li>为page提供RAII.</li>
-</ul>
-<h3 id="page-table-page-h"><a href="#page-table-page-h" class="headerlink" title="page&#x2F;table_page.h"></a>page&#x2F;table_page.h</h3><ul>
-<li>一个page是怎么存储tuple的.</li>
-</ul>
-<h3 id="page-extendible-htable-header-page-h"><a href="#page-extendible-htable-header-page-h" class="headerlink" title="page&#x2F;extendible_htable_header_page.h"></a>page&#x2F;extendible_htable_header_page.h</h3><ul>
-<li>page_id_t directory_page_ids_[512],uint32_t max_depth_;</li>
-<li>固定大小,可以认为是第一层hash,有一个常量max_depth_.</li>
-</ul>
-<h3 id="page-extendible-htable-directory-page-h"><a href="#page-extendible-htable-directory-page-h" class="headerlink" title="page&#x2F;extendible_htable_directory_page.h"></a>page&#x2F;extendible_htable_directory_page.h</h3><ul>
-<li>uint32_t max_depth_,uint32_t global_depth_,uint8_t local_depths_[512],page_id_t bucket_page_ids_[512];</li>
-<li>不固定大小,可以认为是第二层hash,有一个变量depth.</li>
-</ul>
-<h3 id="page-extendible-htable-bucket-page-h"><a href="#page-extendible-htable-bucket-page-h" class="headerlink" title="page&#x2F;extendible_htable_bucket_page.h"></a>page&#x2F;extendible_htable_bucket_page.h</h3><ul>
-<li>uint32_t size_,uint32_t max_size_,MappingType array_[HTableBucketArraySize(sizeof(MappingType))];</li>
-<li>保存实际value的地方.</li>
-</ul>
-<h3 id="index-index-h"><a href="#index-index-h" class="headerlink" title="index&#x2F;index.h"></a>index&#x2F;index.h</h3><ul>
-<li>std::unique_ptr<IndexMetadata> metadata_;</li>
-<li>IndexMetadata  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** The name of the index */</span></span><br><span class="line">std::string name_;</span><br><span class="line"><span class="comment">/** The name of the table on which the index is created */</span></span><br><span class="line">std::string table_name_;</span><br><span class="line"><span class="comment">/** The mapping relation between key schema and tuple schema */</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;<span class="type">uint32_t</span>&gt; key_attrs_;</span><br><span class="line"><span class="comment">/** The schema of the indexed key */</span></span><br><span class="line">std::shared_ptr&lt;Schema&gt; key_schema_;</span><br><span class="line"><span class="comment">/** Is primary key? */</span></span><br><span class="line"><span class="type">bool</span> is_primary_key_;</span><br></pre></td></tr></table></figure></li>
-<li>索引的抽象基类.</li>
-</ul>
-<h3 id="index-extendible-hash-table-index-h"><a href="#index-extendible-hash-table-index-h" class="headerlink" title="index&#x2F;extendible_hash_table_index.h"></a>index&#x2F;extendible_hash_table_index.h</h3><ul>
-<li>class ExtendibleHashTableIndex : public Index;</li>
-<li>根据extendible_hash_table构建的索引表.</li>
-</ul>
-<hr>
-<h2 id="src-buffer"><a href="#src-buffer" class="headerlink" title="src&#x2F;buffer."></a>src&#x2F;buffer.</h2><h3 id="lru-k-replacer-h"><a href="#lru-k-replacer-h" class="headerlink" title="lru_k_replacer.h"></a>lru_k_replacer.h</h3><ul>
-<li>实现了lru_k替换算法.</li>
-</ul>
-<h3 id="buffer-pool-manager-h"><a href="#buffer-pool-manager-h" class="headerlink" title="buffer_pool_manager.h"></a>buffer_pool_manager.h</h3><ul>
-<li>缓存池.通过pool_size,disk_manager(file_name_),replacer_k初始化.</li>
-</ul>
-<hr>
-<h2 id="src-container"><a href="#src-container" class="headerlink" title="src&#x2F;container."></a>src&#x2F;container.</h2><h3 id="disk-hash-disk-extendible-hash-table-h"><a href="#disk-hash-disk-extendible-hash-table-h" class="headerlink" title="disk&#x2F;hash&#x2F;disk_extendible_hash_table.h"></a>disk&#x2F;hash&#x2F;disk_extendible_hash_table.h</h3><ul>
-<li>std::string index_name_;BufferPoolManager *bpm_;KC cmp_;HashFunction<K> hash_fn_;uint32_t header_max_depth_;uint32_t directory_max_depth_;uint32_t bucket_max_size_;page_id_t header_page_id_;</li>
-<li>结合BufferPoolManager,extendible_htable_header_page,extendible_htable_directory_page,extendible_htable_bucket_page,建立一个可动态扩展&#x2F;收缩的HashTable，对外提供增、删、查的的服务接口.</li>
-</ul>
-<hr>
-<h2 id="execution"><a href="#execution" class="headerlink" title="execution"></a>execution</h2><h3 id="executors-abstract-executor-h"><a href="#executors-abstract-executor-h" class="headerlink" title="executors&#x2F;abstract_executor.h"></a>executors&#x2F;abstract_executor.h</h3><ul>
-<li>执行器的抽象基类.</li>
-</ul>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Git基本操作</title>
     <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Tmux基本操作</title>
+    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>GDB基础操作</title>
+    <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
+<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
+<li>bt: 打印栈回溯</li>
+<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
+<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
+<li>i b: 查看断点(info break); d num: 删除断点</li>
+<li>tb:创建临时断点</li>
+<li>s: 进入函数</li>
+<li>n: 下一步</li>
+<li>si：执行下一条机器指令。</li>
+<li>ni：执行下一条机器指令，但不进入函数内部</li>
+<li>c: 继续运行</li>
+<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
+<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
+<li>awatch (写入和读取都会打断点)</li>
+<li>tui enable&#x2F;layout src</li>
+<li>layout asm&#x2F;src</li>
+<li>r 参数(表示传入main的参数argc, argv)</li>
+<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
+</ul>
+<hr>
+<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
+<li>info threads: 查看线程信息</li>
+<li>t thread_id: 切换线程</li>
+<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
+</ul>
+<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
+<li>理解调度器锁模式<ol>
+<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
+<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
+<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
+</ol>
+</li>
+<li>查看调度器锁模式:show scheduler-locking</li>
+</ul>
+<hr>
+<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
+<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
+</ul>
+<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
+<li>ulimit -a 查看core file size</li>
+</ul>
+<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
+<li>gdb [binfile] [coredump file]<ol>
+<li>查看调用堆栈,寻找崩溃原因.</li>
+<li>根据崩溃点,查找代码,分析原因.</li>
+<li>修复bug.</li>
+</ol>
+</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -316,78 +254,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>GDB基础操作</title>
-    <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
-<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
-<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
-<li>bt: 打印栈回溯</li>
-<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
-<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
-<li>i b: 查看断点(info break); d num: 删除断点</li>
-<li>tb:创建临时断点</li>
-<li>s: 进入函数</li>
-<li>n: 下一步</li>
-<li>si：执行下一条机器指令。</li>
-<li>ni：执行下一条机器指令，但不进入函数内部</li>
-<li>c: 继续运行</li>
-<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
-<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
-<li>awatch (写入和读取都会打断点)</li>
-<li>tui enable&#x2F;layout src</li>
-<li>layout asm&#x2F;src</li>
-<li>r 参数(表示传入main的参数argc, argv)</li>
-<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
-</ul>
-<hr>
-<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
-<li>info threads: 查看线程信息</li>
-<li>t thread_id: 切换线程</li>
-<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
-</ul>
-<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
-<li>理解调度器锁模式<ol>
-<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
-<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
-<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
-</ol>
-</li>
-<li>查看调度器锁模式:show scheduler-locking</li>
-</ul>
-<hr>
-<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
-<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
-</ul>
-<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
-<li>ulimit -a 查看core file size</li>
-</ul>
-<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
-<li>gdb [binfile] [coredump file]<ol>
-<li>查看调用堆栈,寻找崩溃原因.</li>
-<li>根据崩溃点,查找代码,分析原因.</li>
-<li>修复bug.</li>
-</ol>
-</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
-    <title>Tmux基本操作</title>
-    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<ul>
-<li>前缀键: ctrl + b</li>
-<li>tmux ls: 查看所有tmux会话</li>
-<li>新建会话: tmux new -s <session-name></li>
-<li>分离会话: ctrl + b + d</li>
-<li>接入会话: tmux attach -t <session-name></li>
-<li>杀死会话: tmux kill-session -t <session-name></li>
-<li>切换会话: tmux switch -t <session-name></li>
-<li>重命名会话: tmux rename-session -t oldname <new-name></li>
-<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>Vim基本操作</title>
     <url>/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
@@ -534,6 +400,140 @@
 ]]></content>
   </entry>
   <entry>
+    <title>CMU15-445/645学习笔记</title>
+    <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
+<h2 id="src-common"><a href="#src-common" class="headerlink" title="src&#x2F;common."></a>src&#x2F;common.</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
+<li>实际上是一个线程安全队列.</li>
+</ul>
+<h3 id="rid-h"><a href="#rid-h" class="headerlink" title="rid.h"></a>rid.h</h3><ul>
+<li>Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_</li>
+</ul>
+<h3 id="rwlatch-h"><a href="#rwlatch-h" class="headerlink" title="rwlatch.h"></a>rwlatch.h</h3><ul>
+<li>读写锁(std::shared_mutex)</li>
+</ul>
+<hr>
+<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type."></a>src&#x2F;type.</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
+<li>抽象内存池接口</li>
+</ul>
+<h3 id="type-id-h"><a href="#type-id-h" class="headerlink" title="type_id.h"></a>type_id.h</h3><ul>
+<li>type枚举   <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TypeId</span> &#123; INVALID = <span class="number">0</span>, BOOLEAN, TINYINT, SMALLINT, INTEGER, BIGINT, DECIMAL, VARCHAR, TIMESTAMP &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="type-h"><a href="#type-h" class="headerlink" title="type.h"></a>type.h</h3><ul>
+<li>类型基类.</li>
+<li>定义了类型比较,运算,序列化,转换类型等虚接口.</li>
+</ul>
+<h4 id="boolean-type-h"><a href="#boolean-type-h" class="headerlink" title="boolean_type.h"></a>boolean_type.h</h4><ul>
+<li>实例化boolean类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="numeraic-type-h"><a href="#numeraic-type-h" class="headerlink" title="numeraic_type.h"></a>numeraic_type.h</h4><ul>
+<li>number value的基类,可以是整数和小数.必须提供运算操作.</li>
+</ul>
+<h4 id="integer-parent-type-h"><a href="#integer-parent-type-h" class="headerlink" title="integer_parent_type.h"></a>integer_parent_type.h</h4><ul>
+<li>为整数提供具有鲁棒性的四则运算.</li>
+</ul>
+<h4 id="tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><a href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h" class="headerlink" title="tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h"></a>tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</h4><ul>
+<li>integer_parent_type的子类,为整数提供了比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="timestamp-type-h"><a href="#timestamp-type-h" class="headerlink" title="timestamp_type.h"></a>timestamp_type.h</h4><ul>
+<li>为timestamp类型提供比较等接口.</li>
+</ul>
+<h4 id="decimal-type-h"><a href="#decimal-type-h" class="headerlink" title="decimal_type.h"></a>decimal_type.h</h4><ul>
+<li>为小数提供类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h3 id="value-h"><a href="#value-h" class="headerlink" title="value.h"></a>value.h</h3><ul>
+<li>实际管理数据内容的地方.</li>
+<li>存储着type和数据内容.</li>
+<li>value比较,运算,序列化,转换类型等操作都是调用type提供的虚接口.  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Type::<span class="built_in">GetInstance</span>(type_id_)-&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="value-factory-h"><a href="#value-factory-h" class="headerlink" title="value_factory.h"></a>value_factory.h</h3><ul>
+<li>value工厂类,方便构造value.</li>
+</ul>
+<hr>
+<h2 id="src-catalog"><a href="#src-catalog" class="headerlink" title="src&#x2F;catalog."></a>src&#x2F;catalog.</h2><h3 id="column-h"><a href="#column-h" class="headerlink" title="column.h"></a>column.h</h3><ul>
+<li>记录column的name,type,fixed_length,variable_length,offset.</li>
+</ul>
+<h3 id="schema-h"><a href="#schema-h" class="headerlink" title="schema.h"></a>schema.h</h3><ul>
+<li>存储着std::vector<Column> columns. 记录数据库tuple的元信息.</li>
+</ul>
+<h3 id="catalog-h"><a href="#catalog-h" class="headerlink" title="catalog.h"></a>catalog.h</h3><ul>
+<li>处理表创建、表查找、索引创建和索引查找.</li>
+</ul>
+<hr>
+<h2 id="src-storage"><a href="#src-storage" class="headerlink" title="src&#x2F;storage."></a>src&#x2F;storage.</h2><h3 id="table-tuple-h"><a href="#table-tuple-h" class="headerlink" title="table&#x2F;tuple.h"></a>table&#x2F;tuple.h</h3><ul>
+<li>存储RID rid_{},std::vector<char> data_.</li>
+<li>定义了tuple的存储格式,前面部分存储inline数据,然后存储uninline数据.</li>
+<li>可以通过schema和column_idx得到数据.</li>
+</ul>
+<h3 id="table-table-heap-h"><a href="#table-table-heap-h" class="headerlink" title="table&#x2F;table_heap.h"></a>table&#x2F;table_heap.h</h3><ul>
+<li>BufferPoolManager *bpm_,page_id_t first_page_id_,page_id_t last_page_id_.</li>
+<li>通过BufferPoolManager操作table,提供了一系列操作table中tuple的接口.</li>
+</ul>
+<h3 id="table-table-iterator-h"><a href="#table-table-iterator-h" class="headerlink" title="table&#x2F;table_iterator.h"></a>table&#x2F;table_iterator.h</h3><ul>
+<li>table中page的迭代器.</li>
+</ul>
+<h3 id="disk-disk-manager-h"><a href="#disk-disk-manager-h" class="headerlink" title="disk&#x2F;disk_manager.h"></a>disk&#x2F;disk_manager.h</h3><ul>
+<li>封装了写文件操作.</li>
+<li>file_name_,log_name_.</li>
+<li>通过page_id计算offset,然后往文件读写内容.</li>
+</ul>
+<h3 id="disk-disk-scheduler-h"><a href="#disk-disk-scheduler-h" class="headerlink" title="disk&#x2F;disk_scheduler.h"></a>disk&#x2F;disk_scheduler.h</h3><ul>
+<li>内部保存DiskManager.</li>
+<li>Channel&lt;std::optional<DiskRequest>&gt; request_queue_,使用channel依次处理请求.</li>
+</ul>
+<h3 id="page-page-h"><a href="#page-page-h" class="headerlink" title="page&#x2F;page.h"></a>page&#x2F;page.h</h3><ul>
+<li>数据库存储的基本单元.提供了对真实数据页的一层包装.</li>
+<li>data_,page_id_,pin_count_,is_dirty_,rwlatch_.</li>
+</ul>
+<h3 id="page-page-guard-h"><a href="#page-page-guard-h" class="headerlink" title="page&#x2F;page_guard.h"></a>page&#x2F;page_guard.h</h3><ul>
+<li>为page提供RAII.</li>
+</ul>
+<h3 id="page-table-page-h"><a href="#page-table-page-h" class="headerlink" title="page&#x2F;table_page.h"></a>page&#x2F;table_page.h</h3><ul>
+<li>一个page是怎么存储tuple的.</li>
+</ul>
+<h3 id="page-extendible-htable-header-page-h"><a href="#page-extendible-htable-header-page-h" class="headerlink" title="page&#x2F;extendible_htable_header_page.h"></a>page&#x2F;extendible_htable_header_page.h</h3><ul>
+<li>page_id_t directory_page_ids_[512],uint32_t max_depth_;</li>
+<li>固定大小,可以认为是第一层hash,有一个常量max_depth_.</li>
+</ul>
+<h3 id="page-extendible-htable-directory-page-h"><a href="#page-extendible-htable-directory-page-h" class="headerlink" title="page&#x2F;extendible_htable_directory_page.h"></a>page&#x2F;extendible_htable_directory_page.h</h3><ul>
+<li>uint32_t max_depth_,uint32_t global_depth_,uint8_t local_depths_[512],page_id_t bucket_page_ids_[512];</li>
+<li>不固定大小,可以认为是第二层hash,有一个变量depth.</li>
+</ul>
+<h3 id="page-extendible-htable-bucket-page-h"><a href="#page-extendible-htable-bucket-page-h" class="headerlink" title="page&#x2F;extendible_htable_bucket_page.h"></a>page&#x2F;extendible_htable_bucket_page.h</h3><ul>
+<li>uint32_t size_,uint32_t max_size_,MappingType array_[HTableBucketArraySize(sizeof(MappingType))];</li>
+<li>保存实际value的地方.</li>
+</ul>
+<h3 id="index-index-h"><a href="#index-index-h" class="headerlink" title="index&#x2F;index.h"></a>index&#x2F;index.h</h3><ul>
+<li>std::unique_ptr<IndexMetadata> metadata_;</li>
+<li>IndexMetadata  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** The name of the index */</span></span><br><span class="line">std::string name_;</span><br><span class="line"><span class="comment">/** The name of the table on which the index is created */</span></span><br><span class="line">std::string table_name_;</span><br><span class="line"><span class="comment">/** The mapping relation between key schema and tuple schema */</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;<span class="type">uint32_t</span>&gt; key_attrs_;</span><br><span class="line"><span class="comment">/** The schema of the indexed key */</span></span><br><span class="line">std::shared_ptr&lt;Schema&gt; key_schema_;</span><br><span class="line"><span class="comment">/** Is primary key? */</span></span><br><span class="line"><span class="type">bool</span> is_primary_key_;</span><br></pre></td></tr></table></figure></li>
+<li>索引的抽象基类.</li>
+</ul>
+<h3 id="index-extendible-hash-table-index-h"><a href="#index-extendible-hash-table-index-h" class="headerlink" title="index&#x2F;extendible_hash_table_index.h"></a>index&#x2F;extendible_hash_table_index.h</h3><ul>
+<li>class ExtendibleHashTableIndex : public Index;</li>
+<li>根据extendible_hash_table构建的索引表.</li>
+</ul>
+<hr>
+<h2 id="src-buffer"><a href="#src-buffer" class="headerlink" title="src&#x2F;buffer."></a>src&#x2F;buffer.</h2><h3 id="lru-k-replacer-h"><a href="#lru-k-replacer-h" class="headerlink" title="lru_k_replacer.h"></a>lru_k_replacer.h</h3><ul>
+<li>实现了lru_k替换算法.</li>
+</ul>
+<h3 id="buffer-pool-manager-h"><a href="#buffer-pool-manager-h" class="headerlink" title="buffer_pool_manager.h"></a>buffer_pool_manager.h</h3><ul>
+<li>缓存池.通过pool_size,disk_manager(file_name_),replacer_k初始化.</li>
+</ul>
+<hr>
+<h2 id="src-container"><a href="#src-container" class="headerlink" title="src&#x2F;container."></a>src&#x2F;container.</h2><h3 id="disk-hash-disk-extendible-hash-table-h"><a href="#disk-hash-disk-extendible-hash-table-h" class="headerlink" title="disk&#x2F;hash&#x2F;disk_extendible_hash_table.h"></a>disk&#x2F;hash&#x2F;disk_extendible_hash_table.h</h3><ul>
+<li>std::string index_name_;BufferPoolManager *bpm_;KC cmp_;HashFunction<K> hash_fn_;uint32_t header_max_depth_;uint32_t directory_max_depth_;uint32_t bucket_max_size_;page_id_t header_page_id_;</li>
+<li>结合BufferPoolManager,extendible_htable_header_page,extendible_htable_directory_page,extendible_htable_bucket_page,建立一个可动态扩展&#x2F;收缩的HashTable，对外提供增、删、查的的服务接口.</li>
+</ul>
+<hr>
+<h2 id="execution"><a href="#execution" class="headerlink" title="execution"></a>execution</h2><h3 id="executors-abstract-executor-h"><a href="#executors-abstract-executor-h" class="headerlink" title="executors&#x2F;abstract_executor.h"></a>executors&#x2F;abstract_executor.h</h3><ul>
+<li>执行器的抽象基类.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>代理</title>
     <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
@@ -558,6 +558,28 @@
 <hr>
 <h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>部署Hexo博客</title>
+    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br><span class="line">npm install hexo-hide-posts <span class="comment"># 安装隐藏文章的插件</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
+<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br><span class="line">```bash</span><br><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
@@ -634,66 +656,5 @@
 
 <h2 id="software"><a href="#software" class="headerlink" title="software"></a>software</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip git neovim tmux joshuto python xclip</span><br><span class="line">paru iwgtk  <span class="comment"># iwctl的图形界面</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S capnet-assist <span class="comment"># 有些网络需要网页登陆</span></span><br><span class="line">paru google-chrome</span><br><span class="line"><span class="built_in">sudo</span> pacman -S clash-verge-rev</span><br><span class="line"><span class="built_in">sudo</span> pacman -S scrot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S flameshot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S sioyek	<span class="comment"># pdf</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S rofi	<span class="comment"># dmenu </span></span><br><span class="line"><span class="comment"># rofi -dump-config &gt; ~/.config/rofi/config.rasi</span></span><br><span class="line"><span class="comment"># rofi options  -theme ~/.config/rofi/powermenu/style.rasi -show drun</span></span><br></pre></td></tr></table></figure>
 ]]></content>
-  </entry>
-  <entry>
-    <title>部署Hexo博客</title>
-    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line">npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件</span></span><br><span class="line">npm install <span class="comment"># 安装 node modules</span></span><br><span class="line">npm install hexo-hide-posts <span class="comment"># 安装隐藏文章的插件</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
-<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br><span class="line">```bash</span><br><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>2025-2-6</title>
-    <url>/2025/02/06/diary/2025-2-6/</url>
-    <content><![CDATA[<pre><code>昨天从内江坐高铁同妈妈一起来西安了，今天早上吃过早饭便从家出发赶往学校。按照余老师的规矩，我应该昨天直接就去学校报道的，但还是由于自己内心的懒惰，促使我在家歇息了一晚。
-本想着今天早上到了学校便直接去实验室开始我的论文工作，毕竟我的论文还一字未写。但一坐上车，我便没了去实验室的热情，心里想着实验室又没人，宿舍和实验室不是一样的吗？这显然是在自己骗自己了，宿舍和实验室还是有很大的区别的，我只是单纯懒惰不想写论文而寻的借口罢了。到了宿舍之后，那必然是没有写论文啦，干了一些杂七杂八的活，论文是一字未动的。一直以来我都有这个毛病，拖延症，特别是对于我不喜欢干的事情（文字工作），我会想方设法地去拖。这是一个极大的毛病，我心知，但从未改过，一次也没有。此次事关毕业，我一定要克服这个毛病。在此立下誓言：在我完成论文之前，每天至少写一千字。若未完成，则连续三天健身餐。
-下午健完身，陈治宇来学校了，约我一同吃个饭。这次见面，我心中再无小我（他放假也写了论文，但我却不妒忌），这是值得表扬的。但还是没聊多久就无话可说了，我时常遇到这样的境地，不知该如何解决啊？或者就随便聊，没话就不说，不用觉得尴尬？好友之间何须没话找话？
-</code></pre>
-]]></content>
-      <categories>
-        <category>diary</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>2025-2-8</title>
-    <url>/2025/02/09/diary/2025-2-8/</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    今天依然是八点半左右醒的，昨晚十二点半左右睡的，这样看来睡了有八个小时，但醒</span><br><span class="line">的时候依旧赖了一会儿床，直到八点五十才起床洗漱。而后直接去了实验室，开始整毕业论</span><br><span class="line">文，原本打算制作些仿真流量来着，但有点太麻烦了，于是还是用了嘉鹏的trace流量，可能</span><br><span class="line">写法就要换一换了。</span><br><span class="line">    下午两点醒来同姬哥一起去健身，过年两周不练，力气小了些。今年还是要继续增加</span><br><span class="line">力量训练啊，两年了，力量却没怎么增长。锻炼完都四点了，吃了些东西就去实验室继续</span><br><span class="line">写论文了。实验室人很多，都是写论文的，但貌似我的进度是最慢的。经过过年两周的毒</span><br><span class="line">鸡汤之后，这次我并没有因为别人的进度快而感到难受了，一切都是自己的懒惰造成的，</span><br><span class="line">怨不得别人。</span><br><span class="line">    论文写到五点多，有点写不下去了，想着妈妈一个人在家孤孤单单的，要不回去陪她</span><br><span class="line">吃个饭吧。显然这其中有逃避写论文的因素。该死的拖延症啊！不过这两天还算可以吧，</span><br><span class="line">也写了不少了。回到家里，经过一个小时的心理斗争，终于说服自己要写论文了，虽然最后</span><br><span class="line">只写了一个小时，但对我来说，这已经是一个巨大的进步了，毕竟我以前在家是从来不干与</span><br><span class="line">学习相关的事情。同时，回家的途中也没有买零食，今年是打算减一波大肥的！</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>diary</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>2025-2-7</title>
-    <url>/2025/02/07/diary/2025-2-7/</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    昨晚1点多一点睡觉，今天早上快到9点才醒。是应该调整一下作息了，在学校尽量在12点半</span><br><span class="line">左右睡觉吧！不能再熬无意义的夜了，我感觉心脏已经有一些问题了。</span><br><span class="line">    简单洗漱了一下就去实验室了，在路上录制了罗胖60秒，过程中还是有一些放不开，</span><br><span class="line">毕竟以前没有在路上自言自语的经历。录制脱口秀时，由于我后面跟着一个女生就导致我更加</span><br><span class="line">慌乱了，这些问题只能通过不断的锻炼来解决了。要时刻记得生活中没有那么多人在意你！</span><br><span class="line">    晚上华哥来到了西安，实验室同门们约一块吃个饭，当然免不了喝酒了。这次喝酒我</span><br><span class="line">没有那么抗拒，因为已经准备去北京了，是时候多锻炼一下了。酒量还是不太行，大约喝了</span><br><span class="line">一瓶半左右，我的脸就已经开始红得厉害了。不过这个排尿次数挺多，不至于胃特别涨。</span><br><span class="line">有一点没有做好，我在这个过程中并没有说多少话，也没有那么多时间用于分析场上人的行为，</span><br><span class="line">这一点是要改的，要分析场上人说了什么话，用于我以后。有一点好的是，我不再那么自私了，</span><br><span class="line">听到他们说自己的好事时，也没有起什么妒忌的心思。这点还是很棒的。要时刻记着利他就是利己。</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>diary</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>2025-2-9</title>
-    <url>/2025/02/09/diary/2025-2-9/</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    昨晚回家陪妈妈吃了个晚饭，原本打算第二天早上直接就去实验室继续写论文的，</span><br><span class="line">不料一回到家里之后，控制不住自己刷手机，一直刷到了凌晨4点多才睡着。这次回家我还</span><br><span class="line">带了一本课外书，想着回家也继续坚持睡前看书来着，不料自己的懒惰还是更胜一筹啊！</span><br><span class="line">或许也有其他因素吧，比如焦虑第二天要早起，还是去干我最不喜欢的事情--写论文。</span><br><span class="line">以后还是不能再相信自己能够控制得了自己了，回家是根本不要想着能够工作的。以后</span><br><span class="line">回家就只是休息，不要再带着回家还能继续学习的心理来逃避现实了。</span><br><span class="line">    意识到在家不可能写论文之后，吃了午饭立马我就去学校了，到学校姬哥又让锻炼，</span><br><span class="line">直到四点才回到宿舍。又想着去实验室有些麻烦，就没去，以为自己能在宿舍写论文。。。</span><br><span class="line">哈哈哈！我对我自己还真是自信啊！后果就是在宿舍玩到了九点，实在没事干之后才开始写。</span><br><span class="line">我一定要克服这个毛病！</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>diary</category>
-      </categories>
   </entry>
 </search>
