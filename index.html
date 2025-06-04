@@ -742,7 +742,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-12 15:54:32" itemprop="dateModified" datetime="2024-12-12T15:54:32+08:00">2024-12-12</time>
+      <time title="修改时间：2025-06-04 09:45:41" itemprop="dateModified" datetime="2025-06-04T09:45:41+08:00">2025-06-04</time>
     </span>
 
   
@@ -755,16 +755,42 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+          <h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="basic"><a href="#basic" class="headerlink" title="basic"></a>basic</h2><ul>
+<li><p>.命令可以让我们重复上次的修改(理想模式: 用一键移动,另一键执行)</p>
+<ul>
+<li>重复上次修改: 从进入插入模式的那一刻起, 直到返回普通模式时为止</li>
+<li>x, dd, &gt;G 等普通模式中执行的命令</li>
+</ul>
+</li>
+<li><blockquote>
+<p>G: 增加从当前行到文档末尾处的缩进层级</p>
+</blockquote>
+</li>
+<li><p>$: 使光标移动到行尾</p>
+</li>
+<li><p>S: 删除光标下的字符并进入插入模式(我禁用了)</p>
+</li>
+<li><p>A: 使光标移动到行尾并进入插入模式</p>
+</li>
+<li><p>I: 使光标移动到行首并进入插入模式</p>
+</li>
+<li><p>o: 向下换行</p>
+</li>
+<li><p>O: 向上换行</p>
+</li>
 <li><p>f{char}</p>
 <ul>
 <li>使用;键可以跳到下一个  </li>
 <li>使用,键可以跳到上一个</li>
 </ul>
 </li>
-<li><p>%s&#x2F;word1&#x2F;word2&#x2F;g: 全局替换</p>
+<li><p>&#x2F;: 在文档中查找下一处匹配项</p>
 </li>
-<li><p>gv: 重选上一次可视模式</p>
+<li><p>?: 在文档中查找上一处匹配项</p>
+</li>
+<li><p>*: 高亮光标出的词并移动到下一处</p>
+</li>
+<li><p>u: 撤销(从进入插入模式开始, 直到返回普通模式为止, 在此期间输入或删除的任何内容都被当成一次修改; 在插入模式中移动光标会重置修改状态)(此功能可以让你控制撤销粒度)</p>
 </li>
 <li><p><C-v>模式下,r可以修改所有列选中的位置</p>
 </li>
@@ -781,29 +807,19 @@
 </li>
 <li><p>&#96;.: 上次修改的地方</p>
 </li>
+<li><p>gi: 跳转到上次插入的地方</p>
+</li>
 <li><p>^: 移动光标到行首第一个非空字符处</p>
 </li>
 <li><p>$: 移动光标到行末最后一个非空字符处</p>
 </li>
 <li><p>&#x3D;: 自动缩进(格式化)</p>
 </li>
-<li><p>dtn: 删除字符 n 前面的内容</p>
+<li><p>dtn: 删除字符n前面的内容</p>
 </li>
 <li><p>zz: 将光标所在行移动到窗口中央</p>
 </li>
-<li><p>撤销在普通模式下使用 u，反撤销使用 Ctrl+r</p>
-</li>
-<li><p>Ctrl + a 来在数字文本上进行递增操作；递减操作使用 Ctrl x 。（如果光标不在数字所在位置，该命令会在本行往后查找第一个出现数字的地方，并将光标跳转到该处，然后执行加1的操作。）</p>
-</li>
-<li><p>&lt;Ctrl + h&gt;: 删除光标前一个词(与退格键相同)（插入模式下）</p>
-</li>
-<li><p>&lt;Ctrl + w&gt;: 删除光标前一个单词（插入模式下）</p>
-</li>
-<li><p>&lt;Ctrl + u&gt;: 删除至行首（插入模式下）</p>
-</li>
-<li><p>gv: 选中上次选中的区域</p>
-</li>
-<li><p>ctrl+o：回到上一次跳转的地方</p>
+<li><p>撤销在普通模式下使用u，反撤销使用Ctrl+r</p>
 </li>
 <li><p>对比两个文件:</p>
 <ul>
@@ -811,51 +827,208 @@
 <li>在nvim中: :diffsplit 要对比的文件名</li>
 </ul>
 </li>
-<li><p>gi: 跳转到上次插入的地方</p>
-</li>
 <li><p>ctrl+z暂停vim返回shell,shell里做完想做的事,然后fg返回vim</p>
 </li>
+<li><p>%命令允许在一组开、闭括号间跳转，可作用于 ()、{}以及[]</p>
+</li>
+<li><p>daw&#x2F;caw: 会删除当前单词以及前一个空格</p>
+</li>
+<li><p><C-a>&#x2F;<C-x>: 对数字执行加&#x2F;减操作; 10<C-a>: 对最近的数字加10 (有进制的区别: 0xff + 1 &#x3D; 0x100)</p>
+</li>
+<li><p>插入模式下</p>
+<ul>
+<li><C-h>: 删除前一个字符</li>
+<li><C-w>: 删除前一个单词</li>
+<li><C-u>: 删至行首</li>
+<li><Esc>: 切换到普通模式</li>
+<li>&lt;C-[&gt;: 切换到普通模式</li>
+<li><C-o>: 切换到插入-普通模式(可以执行一个普通模式命令, 执行完后, 马上就又返回到插入模式, eg: <C-o>zz 调整屏幕显示位置并继续插入)</li>
+<li><C-r>{register}: 粘贴某个寄存器的内容</li>
+<li><C-r> &#x3D;: 表达式寄存器, 可以做简单的算数表达式</li>
+<li>r: 修改一个字符</li>
+<li>R: 进入修改模式，直到回到普通模式</li>
 </ul>
-<h2 id="命令"><a href="#命令" class="headerlink" title=".命令"></a>.命令</h2><ul>
-<li>.命令会重复上次修改<ul>
-<li>重复normal模式下的修改操作(dd,x,&gt;&gt;)</li>
-<li>从进入insert模式的那一刻时(包括进入的命令),直到返回normal模式时为止</li>
+</li>
+<li><p>普通模式下</p>
+<ul>
+<li>J: 把当前行和下一行连接在一起</li>
+<li>K: 查看处于光标之下的那个单词的手册页</li>
+<li><C-o>: 运行跳转命令时, 会在跳转列表中添加一条记录, 而<C-o>命令会回到跳转列表的上条记录</li>
+</ul>
+</li>
+<li><p>可视模式下</p>
+<ul>
+<li>v: 激活面向字符的可视模式</li>
+<li>V: 激活面向行的可视模式</li>
+<li><C-v>: 激活面向列块的可视模式</li>
+<li>gv: 重选上次的高亮区域</li>
+<li>o: 在可视模式时, o键可以切换光标的端点</li>
+<li>.: .命令可以重复上一条在可视模式执行的命令</li>
+<li>r: 在可视模式中使用r键时, 会修改选中的所有字符</li>
+<li>块选中时,按c删除选中内容并输入新内容, 在返回普通模式时会对所有行都进行修改(即: 快选中时, 对当前行进行修改时, 会对所有行都进行); 按A&#x2F;I可在行末&#x2F;首进行修改</li>
+<li><C-g>: 可以在可视模式及选择模式间切换(选择模式中输入任意可见字符, 此字符会替换所选内容并切换到插入模式. 几乎不用)</li>
+</ul>
+</li>
+<li><p>命令行模式下</p>
+<ul>
+<li>tabnew, tabnext, tabprevious, tabclose: 操作tab</li>
+<li>badd filename, bNext, bdelete: 操作buffer</li>
+<li><C-w>&#x2F;<C-u>: 删除至上个单词的开头及行首</li>
+<li>{start},{end}+action: eg:3,5p (.代表当前行的地址; $代表文件末尾行; %代表当前文件中的所有行)(.,.+3p 会对当前行至下三行进行打印)</li>
+<li>{range}copy{address}: 复制</li>
+<li>{range}copy{address}: 移动</li>
+<li>在高亮时按下:后执行命令时,会对所有行执行该命令</li>
+<li>在行选中模式下,按{:normal 指令}将会对高亮区中的每一行,对其执行普通模式下的指令(实际上就是选中范围{range}再输入normal)</li>
+<li>@: : 重复上次执行的Ex命令; 在运行过一次@:后,后面就可以用@@命令来重复它</li>
+<li>在命令行上也可以用<Tab>键自动补全命令</li>
+<li>vim会记录命令行模式中执行过的命令; 也会为查找命令单独保存一份历史记录(使用上下方向键或者<C-p>&#x2F;<C-n>遍历)</li>
+<li>q: : 可以调出命令行窗口, 此时可以对窗口内的命令进行编辑</li>
+<li>正在命令行构建一条Ex命令,做到一半时,意识到需要更强大的编辑能力,此时可以按<C-f>打开命令行窗口</li>
+<li>在命令行模式中,给命令加一个叹号前缀!,就可以调用外部程序</li>
+<li>read !{cmd} 可以把{cmd}命令的输出读入当前缓冲区中</li>
+<li>write !{cmd} 把缓冲区内容作为指定{cmd}的标准输入</li>
 </ul>
 </li>
 </ul>
+<h2 id="选取范围"><a href="#选取范围" class="headerlink" title="选取范围"></a>选取范围</h2><ul>
+<li>a)或ab一对圆括号(parentheses)</li>
+<li>i)或ib圆括号(parentheses)内部</li>
+<li>a}或aB一对花括号{braces}</li>
+<li>i}或iB花括号{braces}内部</li>
+<li>a] 一对方括号[brackets]</li>
+<li>i] 方括号[brackets]内部</li>
+<li>a&gt; 一对尖括号 <angle brackets></li>
+<li>i&gt; 尖括号 <angle brackets> 内部</li>
+<li>a’ 一对单引号’single quotes’</li>
+<li>i’ 单引号’single quotes’内部</li>
+<li>a” 一对双引号”double quotes”</li>
+<li>i” 双引号”double quotes”内部</li>
+<li>a<code> 一对反引号</code>backticks&#96;</li>
+<li>i<code> 反引号</code>backticks&#96;内部</li>
+<li>at 一对XML标签<xml>tags</xml></li>
+<li>it XML标签内部</li>
+<li>iW 当前字串</li>
+<li>aW 当前字串及一个空格</li>
+<li>is 当前句子</li>
+<li>as 当前句子及一个空格</li>
+<li>ip 当前段落</li>
+<li>ap 当前段落及一个空行</li>
+</ul>
+<h2 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h2><ul>
+<li>m{a-zA-Z}命令会用选定的字母标记当前光标所在位置. 小写位置标记只在每个缓冲区里局部可见, 而大写位置标记则全局可见. &#96;{mark}命令跳到位置标记所在行, 并把光标置于该行第一个非空白字符上</li>
+<li>&#96;&#96; 当前文件中上次跳转动作之前的位置</li>
+<li>&#96;. 上次修改的地方</li>
+<li>&#96;^ 上次插入的地方</li>
+<li>&#96;[ 上次修改或复制的起始位置</li>
+<li>&#96;] 上次修改或复制的结束位置</li>
+<li>&#96;&lt; 上次高亮选区的起始位置</li>
+<li>&#96;&gt; 上次高亮选区的结束位置</li>
+</ul>
+<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><ul>
+<li><p>j: 向下移动一个实际行 gj: 向下移动一个屏幕行</p>
+</li>
+<li><p>k: 向上移动一个实际行 gk: 向上移动一个屏幕行</p>
+</li>
+<li><p>0: 移动到实际行的行首 g0: 移动到屏幕行的行首</p>
+</li>
+<li><p>^: 移动到实际行的第一个非空白字符 g^: 移动到屏幕行的第一个非空白字符 </p>
+</li>
+<li><p>$: 移动到实际行的行尾 g$: 移动到屏幕行的行尾</p>
+</li>
+<li><p>w: 正向移动到下一单词的开头 </p>
+</li>
+<li><p>b: 反向移动到当前单词&#x2F;上一单词的开头 </p>
+</li>
+<li><p>e: 正向移动到当前单词&#x2F;下一单词的结尾 </p>
+</li>
+<li><p>ge: 反向移动到上一单词的结尾</p>
+</li>
+<li><p>W、B、E 和gE面向字串移动</p>
+</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li>f{char}: 正向移动到下一个{char}所在之处 </li>
+<li>F{char}: 反向移动到上一个{char}所在之处 </li>
+<li>t{char}: 正向移动到下一个{char}所在之处的前一个字符上 </li>
+<li>T{char}: 反向移动到上一个{char}所在之处的后一个字符上</li>
+<li>dt{char}: 从当前位置删除到char之前</li>
+<li>可视模式下也可使用&#x2F;进行查找</li>
+</ul>
+<h2 id="在文件间跳转"><a href="#在文件间跳转" class="headerlink" title="在文件间跳转"></a>在文件间跳转</h2><ul>
+<li>用[count]G命令直接跳到指定的行号也会被当成一次跳转, 但每次向上或向下移动一行则不算. 面向句子的动作及面向段落的动作都算跳转, 但面向字符及面向单词的动作则不算. 用一句话来概括, 可以说大范围的动作命令可能会被当成跳转, 但小范围的动作命令则只能算移动.</li>
+<li><C-o>: 后退</li>
+<li><C-i>: 前进</li>
+</ul>
 <h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><ul>
-<li>“{register}指定要用的寄存器</li>
-<li>“+ X11剪切板</li>
-<li>“* X11剪切板</li>
+<li>Vim的删除、复制与粘贴命令都会用到众多寄存器中的某一个. 可以通过给命令加”{register}前缀的方式指定要用的寄存器. 若不指明，Vim将缺省使用无名寄存器</li>
+<li>想把当前单词复制到寄存器a中, 可执行”ayiw, 或者, 可以用”bdd, 把当前整行文本剪切至寄存器b中. 在此之后，既可以输入”ap粘贴来自寄存器a的单词, 也可使用”bp命令粘贴来自寄存器b的一整行文本, 两者互不干扰</li>
+<li>当我们使用y{motion}命令时, 要复制的文本不仅会被拷贝到无名寄存器中, 而且也被拷贝到了复制专用寄存器中, 后者可用数字0加以引用. 复制专用寄存器, 顾名思义, 仅当使用y{motion}命令时才会被赋值. 换句话讲, 使用x、s、c{motion}以及d{motion}命令均不会覆盖该寄存器. 如果复制了一些文本, 可以确信该文本会一直保存于寄存器0中, 直到复制其他文本时才会被覆盖. 复制专用寄存器是稳定的, 而无名寄存器是易变的. 尽管diw 命令仍会覆盖无名寄存器, 但不会波及复制专用寄存器. 可以通过输入”0P, 安全地粘贴来自复制专用寄存器中的内容.</li>
+<li>用小写字母引用有名寄存器, 会覆盖该寄存器的原有内容, 而换用大写字母的话, 则会将新内容添加到该寄存器的原有内容之后</li>
+<li>系统剪贴板(“+)与选择专用寄存器(“*): 如果在外部程序中用剪切或复制命令获取了文本, 就可以通过”+p 命令(或在插入模式下用<C-r>+)将其粘贴到Vim内部. 相反地, 如果在Vim的复制或删除命令之前加入”+, 相应的文本将被捕获至系统剪贴板</li>
+<li>X11视窗系统支持另一种被叫作主剪贴板的剪贴板, 它保存着上次被高亮选中的文本, 可以用鼠标中键(如果有的话)把它们粘贴出来. Vim的星号寄存器对应主剪贴板, 可用*号加以引用</li>
+<li>p命令旨在将寄存器中的文本粘贴到光标之后. 作为补充, Vim也提供了大写的P命令用于将文本插入到光标之前</li>
 </ul>
 <h2 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h2><ul>
-<li>q{register}….q: 录制宏</li>
-<li>@{register}: 回放宏</li>
-<li>当动作命令失败时,宏将终止执行</li>
-<li>q{大写字母}: 追加宏操作</li>
+<li>q{char}{changes}q记录宏</li>
+<li>q键既是“录制”按钮，也是“停止”按钮</li>
+<li>:reg {char}: 查看指定宏内容</li>
+<li>用@{register}命令执行指定寄存器的内容, 也可以用@@来重复最近调用过的宏</li>
+<li>输入qa时, Vim将开始录制接下来的按键操作, 并将它们保存到寄存器a中, 这会覆盖该寄存器原有的内容. 如果输入的是qA的话, Vim也会录制按键操作, 但会把它们附加到寄存器a原有的内容之后</li>
+<li>当动作命令失败时, 宏将中止执行</li>
+</ul>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>通过使用元字符\c与\C，可以覆盖Vim缺省的大小写敏感性设置。小写字母\c 会让查找模式忽略大小写，而大写字母\C则会强制区分大小写。</li>
+<li>正则表达式使用\进行转义</li>
 </ul>
 <h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><ul>
-<li>[range]s[ubstitute]&#x2F;{pattern}&#x2F;{string}&#x2F;[flags]</li>
+<li>[range] [substitute]&#x2F;{pattern}&#x2F;{string}&#x2F;[flags]<ul>
 <li>range:<ul>
-<li>使用可视模式选取范围.</li>
-<li>%: 表示整个文件.</li>
-<li>1,20: 第1行~第20行.</li>
-<li>.,+2 当前行~往后2行.</li>
-<li>.,$ 当前行~文件尾.</li>
+<li>使用可视模式选取范围</li>
+<li>%: 表示整个文件</li>
+<li>1,20: 第1行~第20行</li>
+<li>.,+2 当前行~往后2行</li>
+<li>.,$ 当前行~文件尾</li>
 </ul>
 </li>
 <li>flags:<ul>
 <li>g: 全局范围内执行</li>
 <li>c: 可以确认或拒绝每一处修改</li>
-<li>n: 抑制正常的替换行为,只是报告本次substitute命令匹配的个数</li>
+<li>n: 抑制正常的替换行为, 只是报告本次substitute命令匹配的个数</li>
 </ul>
 </li>
 </ul>
+</li>
+<li>substitute命令要在整个x轴与y轴上执行, 即凭借标志位g处理横轴字符的同时, 使用地址符%处理纵轴的文本行</li>
+<li>替换特殊字符<ul>
+<li>\r 插入一个换行符</li>
+<li>\t 插入一个制表符</li>
+<li>\ 插入一个反斜杠</li>
+<li>~ 使用上一次调用:substitute时的{string}</li>
+</ul>
+</li>
+<li>:substitute命令的查找域留空, Vim将使用上一次的查找模式(:%s&#x2F;&#x2F;{new_word}&#x2F;g)</li>
+<li>通过输入<C-r>{register}, 可以将寄存器的内容插入到命令行</li>
+</ul>
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><ul>
+<li>通过<C-p>与<C-n>这两个组合键, 不仅可以在插入模式下触发Vim的自动补全, 而且还可以用它们在补全列表中反向或正向选择</li>
+<li>通过<C-e>来终止这次自动补全, 其效果是下拉菜单将被清除, 并恢复光标前的文本, 即调用自动补全前所输入的内容</li>
+<li><C-x><C-f> 文件名补全</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
+<li>:ls 列表的开头有一个数字, 它是在缓冲区创建时由Vim自动分配的编号. 可以用:buffer N 命令直接凭编号跳转到一个缓冲区, 或是用更直观的:buffer {bufname}格式实现同样的功能. {bufname} 只需包含文件路径中足以唯一标识此缓冲区的字符即可</li>
+<li>:bufdo 命令允许我们在:ls列出的所有缓冲区上执行Ex命令. 不过在实际应用中, 发现:argdo更加实用</li>
+<li>:wa! 把所有改变的缓冲区写入磁盘</li>
+<li>:qa! 关闭所有窗口, 摒弃修改无需警告</li>
+<li>Explore缩写E :edit 只需输入:e</li>
+<li>Vexplore&#x2F;Sexplore: 水平或竖直打开目录树</li>
+<li>:write !{cmd} 命令会把缓冲区的内容作为标准输入 传给指定的{cmd}，{cmd} 可以是任何外部程序</li>
+<li>:w !sudo tee % &gt; &#x2F;dev&#x2F;null  普通用户保存root权限文件</li>
+</ul>
 <hr>
-<h1 id="install-vim"><a href="#install-vim" class="headerlink" title="install vim"></a>install vim</h1><h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim：</span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:jonathonf/vim</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install vim</span><br><span class="line"> </span><br><span class="line">nvim：</span><br><span class="line"><span class="built_in">sudo</span> apt-add-repository ppa:neovim-ppa/unstable</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install neovim</span><br></pre></td></tr></table></figure>
+<h1 id="install-vim"><a href="#install-vim" class="headerlink" title="install vim"></a>install vim</h1><h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim：</span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:jonathonf/vim</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install vim</span><br><span class="line"> </span><br><span class="line">nvim：</span><br><span class="line"><span class="built_in">sudo</span> apt-add-repository ppa:neovim-ppa/unstable</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install neovim</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h1 id="config-nvim"><a href="#config-nvim" class="headerlink" title="config nvim"></a>config nvim</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip(要解压一些包) git neovim</span><br><span class="line"><span class="comment"># 安装pyright需要安装npm以及python3，这里不需要nodejs</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S npm python3</span><br><span class="line"><span class="comment"># copilot需要高版本的nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># telescope </span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:x4121/ripgrep </span><br><span class="line"><span class="built_in">sudo</span> apt-get  update </span><br><span class="line"><span class="built_in">sudo</span> apt install ripgrep </span><br><span class="line">npm install -g fd-find</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除nvim配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf ~/.local/share/nvim ~/.cache/nvim ~/.local/state/nvim</span><br></pre></td></tr></table></figure>
+<h1 id="config-nvim"><a href="#config-nvim" class="headerlink" title="config nvim"></a>config nvim</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip(要解压一些包) git neovim</span><br><span class="line"><span class="comment"># 安装pyright需要安装npm以及python3，这里不需要nodejs</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S npm python3</span><br><span class="line"><span class="comment"># copilot需要高版本的nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># telescope </span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:x4121/ripgrep </span><br><span class="line"><span class="built_in">sudo</span> apt update </span><br><span class="line"><span class="built_in">sudo</span> apt install ripgrep </span><br><span class="line">npm install -g fd-find</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除nvim配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf ~/.local/share/nvim ~/.cache/nvim ~/.local/state/nvim</span><br></pre></td></tr></table></figure>
 
       
     </div>
