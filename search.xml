@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CMU15-445/645学习笔记</title>
+    <url>/2024/11/14/CMU15-445-645%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="CMU15-445-645"><a href="#CMU15-445-645" class="headerlink" title="CMU15-445&#x2F;645"></a>CMU15-445&#x2F;645</h1><hr>
+<h2 id="src-common"><a href="#src-common" class="headerlink" title="src&#x2F;common."></a>src&#x2F;common.</h2><h3 id="channel-h"><a href="#channel-h" class="headerlink" title="channel.h"></a>channel.h</h3><ul>
+<li>实际上是一个线程安全队列.</li>
+</ul>
+<h3 id="rid-h"><a href="#rid-h" class="headerlink" title="rid.h"></a>rid.h</h3><ul>
+<li>Record Identifier &#x3D; page_id_ &lt;&lt; 32 | slot_num_</li>
+</ul>
+<h3 id="rwlatch-h"><a href="#rwlatch-h" class="headerlink" title="rwlatch.h"></a>rwlatch.h</h3><ul>
+<li>读写锁(std::shared_mutex)</li>
+</ul>
+<hr>
+<h2 id="src-type"><a href="#src-type" class="headerlink" title="src&#x2F;type."></a>src&#x2F;type.</h2><h3 id="abstract-pool-h"><a href="#abstract-pool-h" class="headerlink" title="abstract_pool.h"></a>abstract_pool.h</h3><ul>
+<li>抽象内存池接口</li>
+</ul>
+<h3 id="type-id-h"><a href="#type-id-h" class="headerlink" title="type_id.h"></a>type_id.h</h3><ul>
+<li>type枚举   <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TypeId</span> &#123; INVALID = <span class="number">0</span>, BOOLEAN, TINYINT, SMALLINT, INTEGER, BIGINT, DECIMAL, VARCHAR, TIMESTAMP &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="type-h"><a href="#type-h" class="headerlink" title="type.h"></a>type.h</h3><ul>
+<li>类型基类.</li>
+<li>定义了类型比较,运算,序列化,转换类型等虚接口.</li>
+</ul>
+<h4 id="boolean-type-h"><a href="#boolean-type-h" class="headerlink" title="boolean_type.h"></a>boolean_type.h</h4><ul>
+<li>实例化boolean类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="numeraic-type-h"><a href="#numeraic-type-h" class="headerlink" title="numeraic_type.h"></a>numeraic_type.h</h4><ul>
+<li>number value的基类,可以是整数和小数.必须提供运算操作.</li>
+</ul>
+<h4 id="integer-parent-type-h"><a href="#integer-parent-type-h" class="headerlink" title="integer_parent_type.h"></a>integer_parent_type.h</h4><ul>
+<li>为整数提供具有鲁棒性的四则运算.</li>
+</ul>
+<h4 id="tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h"><a href="#tinyint-type-h-smallint-type-h-bigint-type-hinteger-type-h" class="headerlink" title="tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h"></a>tinyint_type.h,smallint_type.h,bigint_type.hinteger_type.h</h4><ul>
+<li>integer_parent_type的子类,为整数提供了比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h4 id="timestamp-type-h"><a href="#timestamp-type-h" class="headerlink" title="timestamp_type.h"></a>timestamp_type.h</h4><ul>
+<li>为timestamp类型提供比较等接口.</li>
+</ul>
+<h4 id="decimal-type-h"><a href="#decimal-type-h" class="headerlink" title="decimal_type.h"></a>decimal_type.h</h4><ul>
+<li>为小数提供类型比较,运算,序列化,转换类型等接口.</li>
+</ul>
+<h3 id="value-h"><a href="#value-h" class="headerlink" title="value.h"></a>value.h</h3><ul>
+<li>实际管理数据内容的地方.</li>
+<li>存储着type和数据内容.</li>
+<li>value比较,运算,序列化,转换类型等操作都是调用type提供的虚接口.  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Type::<span class="built_in">GetInstance</span>(type_id_)-&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="value-factory-h"><a href="#value-factory-h" class="headerlink" title="value_factory.h"></a>value_factory.h</h3><ul>
+<li>value工厂类,方便构造value.</li>
+</ul>
+<hr>
+<h2 id="src-catalog"><a href="#src-catalog" class="headerlink" title="src&#x2F;catalog."></a>src&#x2F;catalog.</h2><h3 id="column-h"><a href="#column-h" class="headerlink" title="column.h"></a>column.h</h3><ul>
+<li>记录column的name,type,fixed_length,variable_length,offset.</li>
+</ul>
+<h3 id="schema-h"><a href="#schema-h" class="headerlink" title="schema.h"></a>schema.h</h3><ul>
+<li>存储着std::vector<Column> columns. 记录数据库tuple的元信息.</li>
+</ul>
+<h3 id="catalog-h"><a href="#catalog-h" class="headerlink" title="catalog.h"></a>catalog.h</h3><ul>
+<li>处理表创建、表查找、索引创建和索引查找.</li>
+</ul>
+<hr>
+<h2 id="src-storage"><a href="#src-storage" class="headerlink" title="src&#x2F;storage."></a>src&#x2F;storage.</h2><h3 id="table-tuple-h"><a href="#table-tuple-h" class="headerlink" title="table&#x2F;tuple.h"></a>table&#x2F;tuple.h</h3><ul>
+<li>存储RID rid_{},std::vector<char> data_.</li>
+<li>定义了tuple的存储格式,前面部分存储inline数据,然后存储uninline数据.</li>
+<li>可以通过schema和column_idx得到数据.</li>
+</ul>
+<h3 id="table-table-heap-h"><a href="#table-table-heap-h" class="headerlink" title="table&#x2F;table_heap.h"></a>table&#x2F;table_heap.h</h3><ul>
+<li>BufferPoolManager *bpm_,page_id_t first_page_id_,page_id_t last_page_id_.</li>
+<li>通过BufferPoolManager操作table,提供了一系列操作table中tuple的接口.</li>
+</ul>
+<h3 id="table-table-iterator-h"><a href="#table-table-iterator-h" class="headerlink" title="table&#x2F;table_iterator.h"></a>table&#x2F;table_iterator.h</h3><ul>
+<li>table中page的迭代器.</li>
+</ul>
+<h3 id="disk-disk-manager-h"><a href="#disk-disk-manager-h" class="headerlink" title="disk&#x2F;disk_manager.h"></a>disk&#x2F;disk_manager.h</h3><ul>
+<li>封装了写文件操作.</li>
+<li>file_name_,log_name_.</li>
+<li>通过page_id计算offset,然后往文件读写内容.</li>
+</ul>
+<h3 id="disk-disk-scheduler-h"><a href="#disk-disk-scheduler-h" class="headerlink" title="disk&#x2F;disk_scheduler.h"></a>disk&#x2F;disk_scheduler.h</h3><ul>
+<li>内部保存DiskManager.</li>
+<li>Channel&lt;std::optional<DiskRequest>&gt; request_queue_,使用channel依次处理请求.</li>
+</ul>
+<h3 id="page-page-h"><a href="#page-page-h" class="headerlink" title="page&#x2F;page.h"></a>page&#x2F;page.h</h3><ul>
+<li>数据库存储的基本单元.提供了对真实数据页的一层包装.</li>
+<li>data_,page_id_,pin_count_,is_dirty_,rwlatch_.</li>
+</ul>
+<h3 id="page-page-guard-h"><a href="#page-page-guard-h" class="headerlink" title="page&#x2F;page_guard.h"></a>page&#x2F;page_guard.h</h3><ul>
+<li>为page提供RAII.</li>
+</ul>
+<h3 id="page-table-page-h"><a href="#page-table-page-h" class="headerlink" title="page&#x2F;table_page.h"></a>page&#x2F;table_page.h</h3><ul>
+<li>一个page是怎么存储tuple的.</li>
+</ul>
+<h3 id="page-extendible-htable-header-page-h"><a href="#page-extendible-htable-header-page-h" class="headerlink" title="page&#x2F;extendible_htable_header_page.h"></a>page&#x2F;extendible_htable_header_page.h</h3><ul>
+<li>page_id_t directory_page_ids_[512],uint32_t max_depth_;</li>
+<li>固定大小,可以认为是第一层hash,有一个常量max_depth_.</li>
+</ul>
+<h3 id="page-extendible-htable-directory-page-h"><a href="#page-extendible-htable-directory-page-h" class="headerlink" title="page&#x2F;extendible_htable_directory_page.h"></a>page&#x2F;extendible_htable_directory_page.h</h3><ul>
+<li>uint32_t max_depth_,uint32_t global_depth_,uint8_t local_depths_[512],page_id_t bucket_page_ids_[512];</li>
+<li>不固定大小,可以认为是第二层hash,有一个变量depth.</li>
+</ul>
+<h3 id="page-extendible-htable-bucket-page-h"><a href="#page-extendible-htable-bucket-page-h" class="headerlink" title="page&#x2F;extendible_htable_bucket_page.h"></a>page&#x2F;extendible_htable_bucket_page.h</h3><ul>
+<li>uint32_t size_,uint32_t max_size_,MappingType array_[HTableBucketArraySize(sizeof(MappingType))];</li>
+<li>保存实际value的地方.</li>
+</ul>
+<h3 id="index-index-h"><a href="#index-index-h" class="headerlink" title="index&#x2F;index.h"></a>index&#x2F;index.h</h3><ul>
+<li>std::unique_ptr<IndexMetadata> metadata_;</li>
+<li>IndexMetadata  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** The name of the index */</span></span><br><span class="line">std::string name_;</span><br><span class="line"><span class="comment">/** The name of the table on which the index is created */</span></span><br><span class="line">std::string table_name_;</span><br><span class="line"><span class="comment">/** The mapping relation between key schema and tuple schema */</span></span><br><span class="line"><span class="type">const</span> std::vector&lt;<span class="type">uint32_t</span>&gt; key_attrs_;</span><br><span class="line"><span class="comment">/** The schema of the indexed key */</span></span><br><span class="line">std::shared_ptr&lt;Schema&gt; key_schema_;</span><br><span class="line"><span class="comment">/** Is primary key? */</span></span><br><span class="line"><span class="type">bool</span> is_primary_key_;</span><br></pre></td></tr></table></figure></li>
+<li>索引的抽象基类.</li>
+</ul>
+<h3 id="index-extendible-hash-table-index-h"><a href="#index-extendible-hash-table-index-h" class="headerlink" title="index&#x2F;extendible_hash_table_index.h"></a>index&#x2F;extendible_hash_table_index.h</h3><ul>
+<li>class ExtendibleHashTableIndex : public Index;</li>
+<li>根据extendible_hash_table构建的索引表.</li>
+</ul>
+<hr>
+<h2 id="src-buffer"><a href="#src-buffer" class="headerlink" title="src&#x2F;buffer."></a>src&#x2F;buffer.</h2><h3 id="lru-k-replacer-h"><a href="#lru-k-replacer-h" class="headerlink" title="lru_k_replacer.h"></a>lru_k_replacer.h</h3><ul>
+<li>实现了lru_k替换算法.</li>
+</ul>
+<h3 id="buffer-pool-manager-h"><a href="#buffer-pool-manager-h" class="headerlink" title="buffer_pool_manager.h"></a>buffer_pool_manager.h</h3><ul>
+<li>缓存池.通过pool_size,disk_manager(file_name_),replacer_k初始化.</li>
+</ul>
+<hr>
+<h2 id="src-container"><a href="#src-container" class="headerlink" title="src&#x2F;container."></a>src&#x2F;container.</h2><h3 id="disk-hash-disk-extendible-hash-table-h"><a href="#disk-hash-disk-extendible-hash-table-h" class="headerlink" title="disk&#x2F;hash&#x2F;disk_extendible_hash_table.h"></a>disk&#x2F;hash&#x2F;disk_extendible_hash_table.h</h3><ul>
+<li>std::string index_name_;BufferPoolManager *bpm_;KC cmp_;HashFunction<K> hash_fn_;uint32_t header_max_depth_;uint32_t directory_max_depth_;uint32_t bucket_max_size_;page_id_t header_page_id_;</li>
+<li>结合BufferPoolManager,extendible_htable_header_page,extendible_htable_directory_page,extendible_htable_bucket_page,建立一个可动态扩展&#x2F;收缩的HashTable，对外提供增、删、查的的服务接口.</li>
+</ul>
+<hr>
+<h2 id="execution"><a href="#execution" class="headerlink" title="execution"></a>execution</h2><h3 id="executors-abstract-executor-h"><a href="#executors-abstract-executor-h" class="headerlink" title="executors&#x2F;abstract_executor.h"></a>executors&#x2F;abstract_executor.h</h3><ul>
+<li>执行器的抽象基类.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>GDB基础操作</title>
+    <url>/2024/11/22/GDB%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h1><h2 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h2><ul>
+<li>l: 看当前行上下文&#x2F; l func 看func上下文</li>
+<li>p: 打印变量&#x2F;调用函数. p $寄存器名</li>
+<li>bt: 打印栈回溯</li>
+<li>f stack_id: 切换栈(只是能打印该栈的信息,并不会重新执行指令)</li>
+<li>b: 打断点(b main.cc:5)&#x2F;(b func有函数重载时会给多个函数下断点, b func(int)只会在这个函数打断点)&#x2F;(b func if 表达式)</li>
+<li>i b: 查看断点(info break); d num: 删除断点</li>
+<li>tb:创建临时断点</li>
+<li>s: 进入函数</li>
+<li>n: 下一步</li>
+<li>si：执行下一条机器指令。</li>
+<li>ni：执行下一条机器指令，但不进入函数内部</li>
+<li>c: 继续运行</li>
+<li>watch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(写入时打断)</li>
+<li>rwatch 变量名&#x2F;if 变量名 &#x3D;&#x3D; ？(读取时打断)</li>
+<li>awatch (写入和读取都会打断点)</li>
+<li>tui enable&#x2F;layout src</li>
+<li>layout asm&#x2F;src</li>
+<li>r 参数(表示传入main的参数argc, argv)</li>
+<li>finish: 继续执行程序，直到当前函数完成并返回到它的调用者</li>
+</ul>
+<hr>
+<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><ul>
+<li>info threads: 查看线程信息</li>
+<li>t thread_id: 切换线程</li>
+<li>正常情况下多个线程会一起执行,不会因为在一个线程打了断点,另一个线程就不执行了</li>
+</ul>
+<h3 id="调度器锁模式"><a href="#调度器锁模式" class="headerlink" title="调度器锁模式"></a>调度器锁模式</h3><ul>
+<li>理解调度器锁模式<ol>
+<li>set scheduler-locking off: 不锁定任何线程,所有线程可以继续执行.</li>
+<li>set scheduler-locking on: 只有当前线程可以执行,其他线程暂停运行.</li>
+<li>set scheduler-locking step: 当单步执行某一线程时,保证在调试过程中当前线程不会发生改变.其他线程也会随着被调试线程的单步执行而执行;但如果该模式下执行continue,until,finish命令,则其他线程也会执行,并且如果某一线程执行过程中遇到断点,则GDB会将该线程作为当前线程.(只有线程创建后这个命令的暂停效果才有效)</li>
+</ol>
+</li>
+<li>查看调度器锁模式:show scheduler-locking</li>
+</ul>
+<hr>
+<h2 id="调试coredump文件"><a href="#调试coredump文件" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h2><h3 id="什么是coredump文件"><a href="#什么是coredump文件" class="headerlink" title="什么是coredump文件?"></a>什么是coredump文件?</h3><ul>
+<li>coredump文件又称之为核型转储文件.进程运行时,突然崩溃时的那一瞬间的进程内存快照,会把进程此刻内存,寄存器状态,运行堆栈等信息转储保存在一个文件</li>
+</ul>
+<h3 id="怎么产生"><a href="#怎么产生" class="headerlink" title="怎么产生?"></a>怎么产生?</h3><ul>
+<li>ulimit -a 查看core file size</li>
+</ul>
+<h3 id="调试coredump文件-1"><a href="#调试coredump文件-1" class="headerlink" title="调试coredump文件"></a>调试coredump文件</h3><ul>
+<li>gdb [binfile] [coredump file]<ol>
+<li>查看调用堆栈,寻找崩溃原因.</li>
+<li>根据崩溃点,查找代码,分析原因.</li>
+<li>修复bug.</li>
+</ol>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Git基本操作</title>
+    <url>/2024/11/15/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># no .a files </span></span><br><span class="line">*.a </span><br><span class="line"><span class="comment"># but do track lib.a, even though you&#x27;re ignoring .a files above </span></span><br><span class="line">!lib.a </span><br><span class="line"><span class="comment"># only ignore the TODO file in the current directory, not subdir/TODO </span></span><br><span class="line">/TODO </span><br><span class="line"><span class="comment"># ignore all files in the build/ directory </span></span><br><span class="line">build/ </span><br><span class="line"><span class="comment"># ignore doc/notes.txt, but not doc/server/arch.txt </span></span><br><span class="line">doc/*.txt </span><br><span class="line"><span class="comment"># ignore all .pdf files in the doc/ directory </span></span><br><span class="line">doc/**/*.pdf</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Markdown基本语法</title>
+    <url>/2024/11/15/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="一、标题"><a href="#一、标题" class="headerlink" title="一、标题"></a>一、标题</h1><p>在想要设置为标题的文字前面加#来表示<br> 一个#是一级标题，二个#是二级标题，以此类推。支持六级标题。</p>
+<p>注：标准语法一般在#后跟个空格再写文字，貌似简书不加空格也行。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这是一级标题</span></span><br><span class="line"><span class="comment">## 这是二级标题</span></span><br><span class="line"><span class="comment">### 这是三级标题</span></span><br><span class="line"><span class="comment">#### 这是四级标题</span></span><br><span class="line"><span class="comment">##### 这是五级标题</span></span><br><span class="line"><span class="comment">###### 这是六级标题</span></span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<h1 id="这是一级标题"><a href="#这是一级标题" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题"><a href="#这是二级标题" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><h3 id="这是三级标题"><a href="#这是三级标题" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><h4 id="这是四级标题"><a href="#这是四级标题" class="headerlink" title="这是四级标题"></a>这是四级标题</h4><h5 id="这是五级标题"><a href="#这是五级标题" class="headerlink" title="这是五级标题"></a>这是五级标题</h5><h6 id="这是六级标题"><a href="#这是六级标题" class="headerlink" title="这是六级标题"></a>这是六级标题</h6><hr>
+<h1 id="二、字体"><a href="#二、字体" class="headerlink" title="二、字体"></a>二、字体</h1><ul>
+<li><h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2></li>
+</ul>
+<p>要加粗的文字左右分别用两个*号包起来</p>
+<ul>
+<li><h2 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h2></li>
+</ul>
+<p>要倾斜的文字左右分别用一个*号包起来</p>
+<ul>
+<li><h2 id="斜体加粗"><a href="#斜体加粗" class="headerlink" title="斜体加粗"></a>斜体加粗</h2></li>
+</ul>
+<p>要倾斜和加粗的文字左右分别用三个*号包起来</p>
+<ul>
+<li><h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2></li>
+</ul>
+<p>要加删除线的文字左右分别用两个~~号包起来</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">**这是加粗的文字**</span><br><span class="line">*这是倾斜的文字*`</span><br><span class="line">***这是斜体加粗的文字***</span><br><span class="line">~~这是加删除线的文字~~</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><strong>这是加粗的文字</strong><br> <em>这是倾斜的文字</em><br> *<strong>这是斜体加粗的文字*</strong><br> <del>这是加删除线的文字</del></p>
+<hr>
+<h1 id="三、引用"><a href="#三、引用" class="headerlink" title="三、引用"></a>三、引用</h1><p>在引用的文字前加&gt;即可。引用也可以嵌套，如加两个&gt;&gt;三个&gt;&gt;&gt;n个…<br>貌似可以一直加下去，但没神马卵用</p>
+<p>示例：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">&gt;这是引用的内容</span><br><span class="line">&gt;&gt;这是引用的内容</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;这是引用的内容</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>这是引用的内容</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="四、分割线"><a href="#四、分割线" class="headerlink" title="四、分割线"></a>四、分割线</h1><p>三个或者三个以上的 - 或者 * 都可以。</p>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">----</span><br><span class="line">***</span><br><span class="line">*****</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br> 可以看到，显示效果是一样的。</p>
+<hr>
+<hr>
+<h1 id="五、图片"><a href="#五、图片" class="headerlink" title="五、图片"></a>五、图片</h1><p>语法：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">![图片alt](图片地址 <span class="string">&#x27;&#x27;</span>图片title<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">图片alt就是显示在图片下面的文字，相当于对图片内容的解释。</span><br><span class="line">图片title是图片的标题，当鼠标移到图片上时显示的内容。title可加可不加</span><br></pre></td></tr></table></figure>
+
+<h1 id="六、超链接"><a href="#六、超链接" class="headerlink" title="六、超链接"></a>六、超链接</h1><p>语法：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[超链接名](超链接地址 <span class="string">&quot;超链接title&quot;</span>)</span><br><span class="line">title可加可不加</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[简书](http:<span class="comment">//jianshu.com)</span></span><br><span class="line">[百度](http:<span class="comment">//baidu.com)</span></span><br></pre></td></tr></table></figure>
+
+<p>效果如下：<br><a href="https://www.jianshu.com/u/1f5ac0cf6a8b">简书</a><br><a href="https://links.jianshu.com/go?to=http://baidu.com">百度</a></p>
+<hr>
+<h1 id="七、列表"><a href="#七、列表" class="headerlink" title="七、列表"></a>七、列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p>语法：<br> 无序列表用 - + * 任何一种都可以</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- 列表内容</span><br><span class="line">+ 列表内容</span><br><span class="line">* 列表内容</span><br><span class="line"></span><br><span class="line">注意：- + * 跟内容之间都要有一个空格</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<ul>
+<li>列表内容</li>
+<li>列表内容</li>
+<li>列表内容</li>
+</ul>
+<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><p>语法：<br> 数字加点</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 列表内容</span><br><span class="line">2. 列表内容</span><br><span class="line">3. 列表内容</span><br><span class="line"></span><br><span class="line">注意：序号跟内容之间要有空格</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<ol>
+<li>列表内容</li>
+<li>列表内容</li>
+<li>列表内容</li>
+</ol>
+<h2 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h2><p><strong>上一级和下一级之间敲三个空格即可</strong></p>
+<ul>
+<li>一级无序列表内容<ul>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+</ul>
+</li>
+<li>一级无序列表内容<ol>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+</ol>
+</li>
+</ul>
+<ol>
+<li>一级有序列表内容<ul>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+<li>二级无序列表内容</li>
+</ul>
+</li>
+<li>一级有序列表内容<ol>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+<li>二级有序列表内容</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="八、表格"><a href="#八、表格" class="headerlink" title="八、表格"></a>八、表格</h1><p>语法：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">表头|<span class="params">表头</span>|表头</span><br><span class="line">---|<span class="params">:--:</span>|---:</span><br><span class="line">内容|<span class="params">内容</span>|内容</span><br><span class="line">内容|<span class="params">内容</span>|内容</span><br><span class="line"></span><br><span class="line">第二行分割表头和内容。</span><br><span class="line">- 有一个就行，为了对齐，多加了几个</span><br><span class="line">文字默认居左</span><br><span class="line">-两边加：表示文字居中</span><br><span class="line">-右边加：表示文字居右</span><br><span class="line">注：原生的语法两边都要用 |<span class="params"> 包起来。此处省略</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">姓名|<span class="params">技能</span>|排行</span><br><span class="line">--|<span class="params">:--:</span>|--:</span><br><span class="line">刘备|<span class="params">哭</span>|大哥</span><br><span class="line">关羽|<span class="params">打</span>|二哥</span><br><span class="line">张飞|<span class="params">骂</span>|三弟</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th align="center">技能</th>
+<th align="right">排行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>刘备</td>
+<td align="center">哭</td>
+<td align="right">大哥</td>
+</tr>
+<tr>
+<td>关羽</td>
+<td align="center">打</td>
+<td align="right">二哥</td>
+</tr>
+<tr>
+<td>张飞</td>
+<td align="center">骂</td>
+<td align="right">三弟</td>
+</tr>
+</tbody></table>
+<h1 id="九、代码"><a href="#九、代码" class="headerlink" title="九、代码"></a>九、代码</h1><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">esc键下三个点就行</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>单行代码</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="string">`create database hero;`</span></span><br></pre></td></tr></table></figure>
+
+<p>代码块</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">(```)</span><br><span class="line">    function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">         echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br><span class="line">(```)</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p>单行代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create database hero;</span><br></pre></td></tr></table></figure>
+
+<p>代码块</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">function <span class="function"><span class="title">fun</span><span class="params">()</span></span>&#123;</span><br><span class="line">  echo <span class="string">&quot;这是一句非常牛逼的代码&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">fun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Tmux基本操作</title>
+    <url>/2024/11/15/Tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<ul>
+<li>前缀键: ctrl + b</li>
+<li>tmux ls: 查看所有tmux会话</li>
+<li>新建会话: tmux new -s <session-name></li>
+<li>分离会话: ctrl + b + d</li>
+<li>接入会话: tmux attach -t <session-name></li>
+<li>杀死会话: tmux kill-session -t <session-name></li>
+<li>切换会话: tmux switch -t <session-name></li>
+<li>重命名会话: tmux rename-session -t oldname <new-name></li>
+<li>窗格操作:  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Ctrl+b %：划分左右两个窗格。</span><br><span class="line">Ctrl+b <span class="string">&quot;：划分上下两个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &lt;arrow key&gt;：光标切换到其他窗格。&lt;arrow key&gt;是指向要切换到的窗格的方向键，比如切换到下方窗格，就按方向键↓。</span></span><br><span class="line"><span class="string">Ctrl+b ;：光标切换到上一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b o：光标切换到下一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b &#123;：当前窗格与上一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b &#125;：当前窗格与下一个窗格交换位置。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+o：所有窗格向前移动一个位置，第一个窗格变成最后一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b Alt+o：所有窗格向后移动一个位置，最后一个窗格变成第一个窗格。</span></span><br><span class="line"><span class="string">Ctrl+b x：关闭当前窗格。</span></span><br><span class="line"><span class="string">Ctrl+b !：将当前窗格拆分为一个独立窗口。</span></span><br><span class="line"><span class="string">Ctrl+b z：当前窗格全屏显示，再使用一次会变回原来大小。</span></span><br><span class="line"><span class="string">Ctrl+b Ctrl+&lt;arrow key&gt;：按箭头方向调整窗格大小。</span></span><br><span class="line"><span class="string">Ctrl+b q：显示窗格编号。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Ubuntu配置</title>
+    <url>/2025/07/06/Ubuntu%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h1><hr>
+<h2 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h2><ul>
+<li>apt-fast 多线程下载<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:apt-fast/stable</span><br><span class="line"><span class="built_in">sudo</span> apt install apt-fast</span><br><span class="line"><span class="built_in">sudo</span> apt-fast update</span><br></pre></td></tr></table></figure></li>
+<li>ssh</li>
+<li>net-tools</li>
+<li>tmux</li>
+<li>git</li>
+<li>vim</li>
+<li>htop</li>
+<li>gcc</li>
+<li>make</li>
+<li>neofetch</li>
+<li>zsh<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chsh -s $(<span class="built_in">which</span> zsh)</span><br></pre></td></tr></table></figure></li>
+<li>clash-verge-rev<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.3.1/Clash.Verge_2.3.1_amd64.deb</span><br><span class="line"><span class="built_in">sudo</span> apt install ./Clash.Verge_2.3.1_amd64.deb</span><br></pre></td></tr></table></figure></li>
+<li>lazygit<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ubuntu25</span></span><br><span class="line"><span class="built_in">sudo</span> apt install lazygit</span><br><span class="line"><span class="comment"># ubuntu24及以下版本</span></span><br><span class="line">LAZYGIT_VERSION=$(curl -s <span class="string">&quot;https://api.github.com/repos/jesseduffield/lazygit/releases/latest&quot;</span> | \grep -Po <span class="string">&#x27;&quot;tag_name&quot;: *&quot;v\K[^&quot;]*&#x27;</span>)</span><br><span class="line">curl -Lo lazygit.tar.gz <span class="string">&quot;https://github.com/jesseduffield/lazygit/releases/download/v<span class="variable">$&#123;LAZYGIT_VERSION&#125;</span>/lazygit_<span class="variable">$&#123;LAZYGIT_VERSION&#125;</span>_Linux_x86_64.tar.gz&quot;</span></span><br><span class="line">tar xf lazygit.tar.gz lazygit</span><br><span class="line"><span class="built_in">sudo</span> install lazygit -D -t /usr/local/bin/</span><br></pre></td></tr></table></figure></li>
+<li>yazi<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt install ffmpeg 7zip jq poppler-utils fd-find ripgrep fzf zoxide imagemagick</span><br><span class="line">wget https://github.com/sxyazi/yazi/releases/download/nightly/yazi-x86_64-unknown-linux-gnu.deb</span><br><span class="line"><span class="built_in">sudo</span> apt install ./yazi-x86_64-unknown-linux-gnu.deb</span><br></pre></td></tr></table></figure></li>
+<li>nvim<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-add-repository ppa:neovim-ppa/unstable</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install neovim</span><br><span class="line"><span class="built_in">sudo</span> apt install nodejs npm</span><br><span class="line">build avante.nvim</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="卸载软件"><a href="#卸载软件" class="headerlink" title="卸载软件"></a>卸载软件</h2><ul>
+<li>卸载单个包<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt remove example-package</span><br></pre></td></tr></table></figure></li>
+<li>卸载包及其配置文件<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt purge example-package</span><br></pre></td></tr></table></figure></li>
+<li>卸载并自动处理依赖<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt autoremove</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="dwm"><a href="#dwm" class="headerlink" title="dwm"></a>dwm</h2><h3 id="必备软件"><a href="#必备软件" class="headerlink" title="必备软件"></a>必备软件</h3><ul>
+<li>feh</li>
+<li>compton (或者xcompmgr)</li>
+<li>xorg-dev (可能需要 suckless-tools libx11-dev libxft-dev libxinerama-dev)</li>
+<li>ubuntu-restricted-extras (基本包含所有基本的媒体编码器)</li>
+<li>tlp tlp-rdw (电池管理工具)</li>
+<li>acpi acpitool (电源监控工具)</li>
+<li>timeshift (系统备份工具)</li>
+<li>light (背光灯调整工具)<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 为背光灯调整工具设置sudo免密码</span></span><br><span class="line"><span class="built_in">sudo</span> visudo</span><br><span class="line"><span class="comment"># 在文本最后加入如下代码</span></span><br><span class="line">&#123;登录系统的用户名&#125; ALL=NOPASSWD:/usr/bin/light</span><br></pre></td></tr></table></figure></li>
+<li>preload (默认记录使用率最高的软件，添加如内存，打开该应用会提速)</li>
+<li>vim-gtk (将vim中的文本内容复制到系统剪切板,~&#x2F;.vimrc set clipboard&#x3D;unnamedplus)</li>
+<li>flameshot (截屏软件)</li>
+<li>fcitx5</li>
+<li>vmware-tools<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open-vm-tools open-vm-desktop</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash | <span class="built_in">sudo</span> apt install fcitx5 fcitx5-*</span><br></pre></td></tr></table></figure></li>
+<li>更改登陆界面<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/thiggy01/change-gdm-background</span><br><span class="line"><span class="comment">##修改登陆界面颜色</span></span><br><span class="line"><span class="built_in">sudo</span> ./change-gdm-background \#130c0e</span><br><span class="line"><span class="built_in">sudo</span> ./change-dgm-background ~/xx/xx.jpg</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="DWM启动方式"><a href="#DWM启动方式" class="headerlink" title="DWM启动方式"></a>DWM启动方式</h3><ul>
+<li>用gdm3做为display manager<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置完成之后可以在登录界面选择dwm作为桌面启动</span></span><br><span class="line"><span class="built_in">cd</span> /usr/share/xsessions/</span><br><span class="line"><span class="built_in">touch</span> dwm.desktop</span><br><span class="line"><span class="comment"># 添加以下内容</span></span><br><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Name=Dwm</span><br><span class="line">Comment=Dynamic window manager</span><br><span class="line">Exec=dwm</span><br><span class="line">Icon=dwm</span><br><span class="line">Type=XSession</span><br></pre></td></tr></table></figure></li>
+<li>使用startx命令从文字界面启动(推荐)<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改grub配置,打开文件/etc/default/grub,将GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;的改为GRUB_CMDLINE_LINUX_DEFAULT=&quot;text&quot;然后执行命令</span></span><br><span class="line"><span class="built_in">sudo</span> update-grub</span><br><span class="line"><span class="comment"># 将启动等级改为多用户等级，执行如下命令：</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl set-default multi-user.target </span><br><span class="line"><span class="comment"># 如果想改回启动图形界面执行下面</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl set-default graphical.target</span><br><span class="line"><span class="comment"># 最后修改~/.xsession文件（如果没有就新建），在最后一行加入</span></span><br><span class="line"><span class="built_in">exec</span> dwm</span><br><span class="line"><span class="comment"># 重启电脑，执行startx命令，直接进入dwm，同时也可以执行sudo systemctl start gdm.service命令，打开gdm3的用户登录界面</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="dwm配置"><a href="#dwm配置" class="headerlink" title="dwm配置"></a>dwm配置</h3><ul>
+<li>安装字体<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 当前用户安装</span></span><br><span class="line"><span class="built_in">cp</span> *.ttf ~/.local/share/fonts/</span><br><span class="line"><span class="comment"># 系统范围安装</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /path/to/fonts/font.ttf /usr/share/fonts</span><br><span class="line"><span class="built_in">sudo</span> fc-cache -f -v</span><br><span class="line">fc-list</span><br></pre></td></tr></table></figure></li>
+<li>为软件指定打开标签<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xprop | grep WM_CLASS</span><br><span class="line"><span class="comment"># 鼠标会变为十字架,用十字架点击想要被指定的软件的打开窗口, terminal 就会显示该软件的 instance 和 class</span></span><br><span class="line"><span class="comment"># 将信息填入 config.h 的rule中</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Vim基本操作</title>
+    <url>/2024/11/15/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><h2 id="basic"><a href="#basic" class="headerlink" title="basic"></a>basic</h2><ul>
+<li><p>.命令可以让我们重复上次的修改(理想模式: 用一键移动,另一键执行)</p>
+<ul>
+<li>重复上次修改: 从进入插入模式的那一刻起, 直到返回普通模式时为止</li>
+<li>x, dd, &gt;G 等普通模式中执行的命令</li>
+</ul>
+</li>
+<li><blockquote>
+<p>G: 增加从当前行到文档末尾处的缩进层级</p>
+</blockquote>
+</li>
+<li><p>$: 使光标移动到行尾</p>
+</li>
+<li><p>S: 删除光标下的字符并进入插入模式(我禁用了)</p>
+</li>
+<li><p>A: 使光标移动到行尾并进入插入模式</p>
+</li>
+<li><p>I: 使光标移动到行首并进入插入模式</p>
+</li>
+<li><p>o: 向下换行</p>
+</li>
+<li><p>O: 向上换行</p>
+</li>
+<li><p>f{char}</p>
+<ul>
+<li>使用;键可以跳到下一个  </li>
+<li>使用,键可以跳到上一个</li>
+</ul>
+</li>
+<li><p>&#x2F;: 在文档中查找下一处匹配项</p>
+</li>
+<li><p>?: 在文档中查找上一处匹配项</p>
+</li>
+<li><p>*: 高亮光标出的词并移动到下一处</p>
+</li>
+<li><p>u: 撤销(从进入插入模式开始, 直到返回普通模式为止, 在此期间输入或删除的任何内容都被当成一次修改; 在插入模式中移动光标会重置修改状态)(此功能可以让你控制撤销粒度)</p>
+</li>
+<li><p><C-v>模式下,r可以修改所有列选中的位置</p>
+</li>
+<li><p>!{cmd}: 运行shell命令</p>
+</li>
+<li><p>ea: 在当前单词结尾后添加</p>
+</li>
+<li><p>m{a-zA-Z} &#96;{mark}: 添加标签,回到标签(大写字母是全局标记)</p>
+</li>
+<li><p>&#96;&#96;: 当前文件中上次跳转动作之前的位置</p>
+<ul>
+<li>%r]&#96;&#96;r[: 修改包围的符号,change surround</li>
+</ul>
+</li>
+<li><p>&#96;.: 上次修改的地方</p>
+</li>
+<li><p>gi: 跳转到上次插入的地方</p>
+</li>
+<li><p>^: 移动光标到行首第一个非空字符处</p>
+</li>
+<li><p>$: 移动光标到行末最后一个非空字符处</p>
+</li>
+<li><p>&#x3D;: 自动缩进(格式化)</p>
+</li>
+<li><p>dtn: 删除字符n前面的内容</p>
+</li>
+<li><p>zz: 将光标所在行移动到窗口中央</p>
+</li>
+<li><p>撤销在普通模式下使用u，反撤销使用Ctrl+r</p>
+</li>
+<li><p>对比两个文件:</p>
+<ul>
+<li>在终端下: nvim -d 文件名1 文件名2</li>
+<li>在nvim中: :diffsplit 要对比的文件名</li>
+</ul>
+</li>
+<li><p>ctrl+z暂停vim返回shell,shell里做完想做的事,然后fg返回vim</p>
+</li>
+<li><p>%命令允许在一组开、闭括号间跳转，可作用于 ()、{}以及[]</p>
+</li>
+<li><p>daw&#x2F;caw: 会删除当前单词以及前一个空格</p>
+</li>
+<li><p><C-a>&#x2F;<C-x>: 对数字执行加&#x2F;减操作; 10<C-a>: 对最近的数字加10 (有进制的区别: 0xff + 1 &#x3D; 0x100)</p>
+</li>
+<li><p>插入模式下</p>
+<ul>
+<li><C-h>: 删除前一个字符</li>
+<li><C-w>: 删除前一个单词</li>
+<li><C-u>: 删至行首</li>
+<li><Esc>: 切换到普通模式</li>
+<li>&lt;C-[&gt;: 切换到普通模式</li>
+<li><C-o>: 切换到插入-普通模式(可以执行一个普通模式命令, 执行完后, 马上就又返回到插入模式, eg: <C-o>zz 调整屏幕显示位置并继续插入)</li>
+<li><C-r>{register}: 粘贴某个寄存器的内容</li>
+<li><C-r> &#x3D;: 表达式寄存器, 可以做简单的算数表达式</li>
+<li>r: 修改一个字符</li>
+<li>R: 进入修改模式，直到回到普通模式</li>
+</ul>
+</li>
+<li><p>普通模式下</p>
+<ul>
+<li>J: 把当前行和下一行连接在一起</li>
+<li>K: 查看处于光标之下的那个单词的手册页</li>
+<li><C-o>: 运行跳转命令时, 会在跳转列表中添加一条记录, 而<C-o>命令会回到跳转列表的上条记录</li>
+</ul>
+</li>
+<li><p>可视模式下</p>
+<ul>
+<li>v: 激活面向字符的可视模式</li>
+<li>V: 激活面向行的可视模式</li>
+<li><C-v>: 激活面向列块的可视模式</li>
+<li>gv: 重选上次的高亮区域</li>
+<li>o: 在可视模式时, o键可以切换光标的端点</li>
+<li>.: .命令可以重复上一条在可视模式执行的命令</li>
+<li>r: 在可视模式中使用r键时, 会修改选中的所有字符</li>
+<li>块选中时,按c删除选中内容并输入新内容, 在返回普通模式时会对所有行都进行修改(即: 快选中时, 对当前行进行修改时, 会对所有行都进行); 按A&#x2F;I可在行末&#x2F;首进行修改</li>
+<li><C-g>: 可以在可视模式及选择模式间切换(选择模式中输入任意可见字符, 此字符会替换所选内容并切换到插入模式. 几乎不用)</li>
+</ul>
+</li>
+<li><p>命令行模式下</p>
+<ul>
+<li>tabnew, tabnext, tabprevious, tabclose: 操作tab</li>
+<li>badd filename, bNext, bdelete: 操作buffer</li>
+<li><C-w>&#x2F;<C-u>: 删除至上个单词的开头及行首</li>
+<li>{start},{end}+action: eg:3,5p (.代表当前行的地址; $代表文件末尾行; %代表当前文件中的所有行)(.,.+3p 会对当前行至下三行进行打印)</li>
+<li>{range}copy{address}: 复制</li>
+<li>{range}copy{address}: 移动</li>
+<li>在高亮时按下:后执行命令时,会对所有行执行该命令</li>
+<li>在行选中模式下,按{:normal 指令}将会对高亮区中的每一行,对其执行普通模式下的指令(实际上就是选中范围{range}再输入normal)</li>
+<li>@: : 重复上次执行的Ex命令; 在运行过一次@:后,后面就可以用@@命令来重复它</li>
+<li>在命令行上也可以用<Tab>键自动补全命令</li>
+<li>vim会记录命令行模式中执行过的命令; 也会为查找命令单独保存一份历史记录(使用上下方向键或者<C-p>&#x2F;<C-n>遍历)</li>
+<li>q: : 可以调出命令行窗口, 此时可以对窗口内的命令进行编辑</li>
+<li>正在命令行构建一条Ex命令,做到一半时,意识到需要更强大的编辑能力,此时可以按<C-f>打开命令行窗口</li>
+<li>在命令行模式中,给命令加一个叹号前缀!,就可以调用外部程序</li>
+<li>read !{cmd} 可以把{cmd}命令的输出读入当前缓冲区中</li>
+<li>write !{cmd} 把缓冲区内容作为指定{cmd}的标准输入</li>
+</ul>
+</li>
+</ul>
+<h2 id="选取范围"><a href="#选取范围" class="headerlink" title="选取范围"></a>选取范围</h2><ul>
+<li>a)或ab一对圆括号(parentheses)</li>
+<li>i)或ib圆括号(parentheses)内部</li>
+<li>a}或aB一对花括号{braces}</li>
+<li>i}或iB花括号{braces}内部</li>
+<li>a] 一对方括号[brackets]</li>
+<li>i] 方括号[brackets]内部</li>
+<li>a&gt; 一对尖括号 <angle brackets></li>
+<li>i&gt; 尖括号 <angle brackets> 内部</li>
+<li>a’ 一对单引号’single quotes’</li>
+<li>i’ 单引号’single quotes’内部</li>
+<li>a” 一对双引号”double quotes”</li>
+<li>i” 双引号”double quotes”内部</li>
+<li>a<code> 一对反引号</code>backticks&#96;</li>
+<li>i<code> 反引号</code>backticks&#96;内部</li>
+<li>at 一对XML标签<xml>tags</xml></li>
+<li>it XML标签内部</li>
+<li>iW 当前字串</li>
+<li>aW 当前字串及一个空格</li>
+<li>is 当前句子</li>
+<li>as 当前句子及一个空格</li>
+<li>ip 当前段落</li>
+<li>ap 当前段落及一个空行</li>
+</ul>
+<h2 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h2><ul>
+<li>m{a-zA-Z}命令会用选定的字母标记当前光标所在位置. 小写位置标记只在每个缓冲区里局部可见, 而大写位置标记则全局可见. &#96;{mark}命令跳到位置标记所在行, 并把光标置于该行第一个非空白字符上</li>
+<li>&#96;&#96; 当前文件中上次跳转动作之前的位置</li>
+<li>&#96;. 上次修改的地方</li>
+<li>&#96;^ 上次插入的地方</li>
+<li>&#96;[ 上次修改或复制的起始位置</li>
+<li>&#96;] 上次修改或复制的结束位置</li>
+<li>&#96;&lt; 上次高亮选区的起始位置</li>
+<li>&#96;&gt; 上次高亮选区的结束位置</li>
+</ul>
+<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><ul>
+<li><p>j: 向下移动一个实际行 gj: 向下移动一个屏幕行</p>
+</li>
+<li><p>k: 向上移动一个实际行 gk: 向上移动一个屏幕行</p>
+</li>
+<li><p>0: 移动到实际行的行首 g0: 移动到屏幕行的行首</p>
+</li>
+<li><p>^: 移动到实际行的第一个非空白字符 g^: 移动到屏幕行的第一个非空白字符 </p>
+</li>
+<li><p>$: 移动到实际行的行尾 g$: 移动到屏幕行的行尾</p>
+</li>
+<li><p>w: 正向移动到下一单词的开头 </p>
+</li>
+<li><p>b: 反向移动到当前单词&#x2F;上一单词的开头 </p>
+</li>
+<li><p>e: 正向移动到当前单词&#x2F;下一单词的结尾 </p>
+</li>
+<li><p>ge: 反向移动到上一单词的结尾</p>
+</li>
+<li><p>W、B、E 和gE面向字串移动</p>
+</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li>f{char}: 正向移动到下一个{char}所在之处 </li>
+<li>F{char}: 反向移动到上一个{char}所在之处 </li>
+<li>t{char}: 正向移动到下一个{char}所在之处的前一个字符上 </li>
+<li>T{char}: 反向移动到上一个{char}所在之处的后一个字符上</li>
+<li>dt{char}: 从当前位置删除到char之前</li>
+<li>可视模式下也可使用&#x2F;进行查找</li>
+</ul>
+<h2 id="在文件间跳转"><a href="#在文件间跳转" class="headerlink" title="在文件间跳转"></a>在文件间跳转</h2><ul>
+<li>用[count]G命令直接跳到指定的行号也会被当成一次跳转, 但每次向上或向下移动一行则不算. 面向句子的动作及面向段落的动作都算跳转, 但面向字符及面向单词的动作则不算. 用一句话来概括, 可以说大范围的动作命令可能会被当成跳转, 但小范围的动作命令则只能算移动.</li>
+<li><C-o>: 后退</li>
+<li><C-i>: 前进</li>
+</ul>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><ul>
+<li>Vim的删除、复制与粘贴命令都会用到众多寄存器中的某一个. 可以通过给命令加”{register}前缀的方式指定要用的寄存器. 若不指明，Vim将缺省使用无名寄存器</li>
+<li>想把当前单词复制到寄存器a中, 可执行”ayiw, 或者, 可以用”bdd, 把当前整行文本剪切至寄存器b中. 在此之后，既可以输入”ap粘贴来自寄存器a的单词, 也可使用”bp命令粘贴来自寄存器b的一整行文本, 两者互不干扰</li>
+<li>当我们使用y{motion}命令时, 要复制的文本不仅会被拷贝到无名寄存器中, 而且也被拷贝到了复制专用寄存器中, 后者可用数字0加以引用. 复制专用寄存器, 顾名思义, 仅当使用y{motion}命令时才会被赋值. 换句话讲, 使用x、s、c{motion}以及d{motion}命令均不会覆盖该寄存器. 如果复制了一些文本, 可以确信该文本会一直保存于寄存器0中, 直到复制其他文本时才会被覆盖. 复制专用寄存器是稳定的, 而无名寄存器是易变的. 尽管diw 命令仍会覆盖无名寄存器, 但不会波及复制专用寄存器. 可以通过输入”0P, 安全地粘贴来自复制专用寄存器中的内容.</li>
+<li>用小写字母引用有名寄存器, 会覆盖该寄存器的原有内容, 而换用大写字母的话, 则会将新内容添加到该寄存器的原有内容之后</li>
+<li>系统剪贴板(“+)与选择专用寄存器(“*): 如果在外部程序中用剪切或复制命令获取了文本, 就可以通过”+p 命令(或在插入模式下用<C-r>+)将其粘贴到Vim内部. 相反地, 如果在Vim的复制或删除命令之前加入”+, 相应的文本将被捕获至系统剪贴板</li>
+<li>X11视窗系统支持另一种被叫作主剪贴板的剪贴板, 它保存着上次被高亮选中的文本, 可以用鼠标中键(如果有的话)把它们粘贴出来. Vim的星号寄存器对应主剪贴板, 可用*号加以引用</li>
+<li>p命令旨在将寄存器中的文本粘贴到光标之后. 作为补充, Vim也提供了大写的P命令用于将文本插入到光标之前</li>
+</ul>
+<h2 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h2><ul>
+<li>q{char}{changes}q记录宏</li>
+<li>q键既是“录制”按钮，也是“停止”按钮</li>
+<li>:reg {char}: 查看指定宏内容</li>
+<li>用@{register}命令执行指定寄存器的内容, 也可以用@@来重复最近调用过的宏</li>
+<li>输入qa时, Vim将开始录制接下来的按键操作, 并将它们保存到寄存器a中, 这会覆盖该寄存器原有的内容. 如果输入的是qA的话, Vim也会录制按键操作, 但会把它们附加到寄存器a原有的内容之后</li>
+<li>当动作命令失败时, 宏将中止执行</li>
+</ul>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>通过使用元字符\c与\C，可以覆盖Vim缺省的大小写敏感性设置。小写字母\c 会让查找模式忽略大小写，而大写字母\C则会强制区分大小写。</li>
+<li>正则表达式使用\进行转义</li>
+</ul>
+<h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><ul>
+<li>[range] [substitute]&#x2F;{pattern}&#x2F;{string}&#x2F;[flags]<ul>
+<li>range:<ul>
+<li>使用可视模式选取范围</li>
+<li>%: 表示整个文件</li>
+<li>1,20: 第1行~第20行</li>
+<li>.,+2 当前行~往后2行</li>
+<li>.,$ 当前行~文件尾</li>
+</ul>
+</li>
+<li>flags:<ul>
+<li>g: 全局范围内执行</li>
+<li>c: 可以确认或拒绝每一处修改</li>
+<li>n: 抑制正常的替换行为, 只是报告本次substitute命令匹配的个数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>substitute命令要在整个x轴与y轴上执行, 即凭借标志位g处理横轴字符的同时, 使用地址符%处理纵轴的文本行</li>
+<li>替换特殊字符<ul>
+<li>\r 插入一个换行符</li>
+<li>\t 插入一个制表符</li>
+<li>\ 插入一个反斜杠</li>
+<li>~ 使用上一次调用:substitute时的{string}</li>
+</ul>
+</li>
+<li>:substitute命令的查找域留空, Vim将使用上一次的查找模式(:%s&#x2F;&#x2F;{new_word}&#x2F;g)</li>
+<li>通过输入<C-r>{register}, 可以将寄存器的内容插入到命令行</li>
+</ul>
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><ul>
+<li>通过<C-p>与<C-n>这两个组合键, 不仅可以在插入模式下触发Vim的自动补全, 而且还可以用它们在补全列表中反向或正向选择</li>
+<li>通过<C-e>来终止这次自动补全, 其效果是下拉菜单将被清除, 并恢复光标前的文本, 即调用自动补全前所输入的内容</li>
+<li><C-x><C-f> 文件名补全</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ul>
+<li>:ls 列表的开头有一个数字, 它是在缓冲区创建时由Vim自动分配的编号. 可以用:buffer N 命令直接凭编号跳转到一个缓冲区, 或是用更直观的:buffer {bufname}格式实现同样的功能. {bufname} 只需包含文件路径中足以唯一标识此缓冲区的字符即可</li>
+<li>:bufdo 命令允许我们在:ls列出的所有缓冲区上执行Ex命令. 不过在实际应用中, 发现:argdo更加实用</li>
+<li>:wa! 把所有改变的缓冲区写入磁盘</li>
+<li>:qa! 关闭所有窗口, 摒弃修改无需警告</li>
+<li>Explore缩写E :edit 只需输入:e</li>
+<li>Vexplore&#x2F;Sexplore: 水平或竖直打开目录树</li>
+<li>:write !{cmd} 命令会把缓冲区的内容作为标准输入 传给指定的{cmd}，{cmd} 可以是任何外部程序</li>
+<li>:w !sudo tee % &gt; &#x2F;dev&#x2F;null  普通用户保存root权限文件</li>
+</ul>
+<hr>
+<h1 id="install-vim"><a href="#install-vim" class="headerlink" title="install vim"></a>install vim</h1><h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim：</span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:jonathonf/vim</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install vim</span><br><span class="line"> </span><br><span class="line">nvim：</span><br><span class="line"><span class="built_in">sudo</span> apt-add-repository ppa:neovim-ppa/unstable</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install neovim</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="config-nvim"><a href="#config-nvim" class="headerlink" title="config nvim"></a>config nvim</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip(要解压一些包) git neovim</span><br><span class="line"><span class="comment"># 安装pyright需要安装npm以及python3，这里不需要nodejs</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S npm python3</span><br><span class="line"><span class="comment"># copilot需要高版本的nodejs</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># telescope </span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:x4121/ripgrep </span><br><span class="line"><span class="built_in">sudo</span> apt update </span><br><span class="line"><span class="built_in">sudo</span> apt install ripgrep </span><br><span class="line">npm install -g fd-find</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除nvim配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf ~/.local/share/nvim ~/.cache/nvim ~/.local/state/nvim</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>pacman用法</title>
+    <url>/2024/11/22/pacman%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<ul>
+<li>-S：synchronize 同步</li>
+<li>-R：remove 删除</li>
+<li>-Q：query 查询本地</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S 包名 <span class="comment"># 安装软件包的同时会安装该包需要的依赖</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Sy <span class="comment"># 更新软件源，如果前一段时间已更新过，则pacman不会再去查找更新</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy <span class="comment"># 强行更新软件源</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Su <span class="comment"># 更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syu <span class="comment"># 更新软件源并更新软件包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syyu <span class="comment"># 强行更新软件源并更新软件包</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Ss 包名 <span class="comment"># 搜索支持正则表达式</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R 包名</span><br><span class="line"><span class="built_in">sudo</span> pacman -Rs 包名 <span class="comment"># 删除该软件与该软件的依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Rnsc 包名 <span class="comment"># 删除该软件与该软件的依赖包并删除全局配置文件，个人配置文件不会删除 (推荐使用这种方法!)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Sc <span class="comment"># 删除缓存(-R删除包之后不会清除文件，只是放到了/var/*目录下)</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="查询本地软件包"><a href="#查询本地软件包" class="headerlink" title="查询本地软件包"></a>查询本地软件包</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -Q <span class="comment"># 本地所有软件包：系统自带和用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qe <span class="comment"># 本地所有软件包：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qeq <span class="comment"># 本地所有软件包(不显示版本号)：用户下载的</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qs 包名 <span class="comment"># 查询本地所有软件中有哪些带有该包名称</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Q | <span class="built_in">wc</span> -l <span class="comment"># 查看一共有多少软件</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -Qdt <span class="comment"># 查询不再被依赖的软件包(孤包)</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -R $(pacman -Qdtq) <span class="comment"># 删除不再被依赖的软件包</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>xv6-riscv学习笔记</title>
+    <url>/2024/11/26/xv6-riscv%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="加载系统"><a href="#加载系统" class="headerlink" title="加载系统"></a>加载系统</h1><ul>
+<li>kernel.ld 描述可执行程序或库在目标内存中的布局方式。它定义了不同的程序段（如代码段、只读数据段、可读写数据段、未初始化数据段等）应该如何在内存中排列，以及指定了一些特殊符号的值，这些符号可以在程序的其他部分被引用，以了解内存布局的相关信息。</li>
+<li>内核text段加载到物理内存0x80000000处;随后是trampoline.S(用户和内核的跳转代码).这两段都是按页对齐的;随后是rodata,data,bss段.</li>
+<li>entry.S 为每个核心配置内核栈,然后跳到start处.</li>
+<li>start.c 执行一些只允许在机器模式下进行的配置，然后切换到主管模式。</li>
+<li>main.c 初始化几个设备和子系统之后，它通过调用userinit 创建第一个进程(initcode)。</li>
+</ul>
+<h2 id="main-c"><a href="#main-c" class="headerlink" title="main.c"></a>main.c</h2><ul>
+<li>kinit(): 将所有空闲内存添加到freelist.</li>
+<li>kvminit(): 设置内核空间pagetable.(除了trampoline 和 kernal stacks外,其他内存是直接映射)</li>
+<li>kvminithart(): 内核页表指针存到satp中,开启页表.</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>代理</title>
+    <url>/2024/11/10/%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<h2 id="终端使用代理"><a href="#终端使用代理" class="headerlink" title="终端使用代理"></a>终端使用代理</h2><ul>
+<li>使用clash等搭建代理后，终端不经设置并不会通过代理，而无论是Windows还是Linux，方法都是加入http_proxy,https_proxy或all_proxy环境变量。</li>
+</ul>
+<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><h4 id="临时设置"><a href="#临时设置" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">set</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">set</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="永久设置"><a href="#永久设置" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
+<li>终端启用代理的方法是那三个环境变量，因此永久设置就是手动去设置添加环境变量。</li>
+</ul>
+<h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><h4 id="临时设置-1"><a href="#临时设置-1" class="headerlink" title="临时设置"></a>临时设置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://127.0.0.1:7890  <span class="comment"># =后的值可以加双引号，也可以不加</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=http://127.0.0.1:7890 <span class="comment"># 注意这里是设置https的代理，但是我们的代理还是http</span></span><br><span class="line"><span class="built_in">export</span> all_proxy=http://127.0.0.1:7890   <span class="comment"># 这是一次性设置两个，可以不设置这个</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="永久设置-1"><a href="#永久设置-1" class="headerlink" title="永久设置"></a>永久设置</h4><ul>
+<li>同样的，永久设置也是是将其写入环境变量，在Linux中是将上述内容添加到<del>&#x2F;.bashrc或</del>&#x2F;.profile的末尾。</li>
+</ul>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><ul>
+<li>如果只是git需要使用代理，可以在git设置代理，原理相同:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config --global https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>如果不想git全局使用代理，那只需要在需要代理的仓库输入去掉–global的命令即可:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config http.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span> </span><br><span class="line">git config https.proxy <span class="string">&#x27;socks5://127.0.0.1:1080&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>若要取消git的代理设置:<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+或<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="wsl使用windows代理"><a href="#wsl使用windows代理" class="headerlink" title="wsl使用windows代理"></a>wsl使用windows代理</h2><p>首先，允许局域网连接代理。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">host_ip=$(ip route | awk <span class="string">&#x27;/default/ &#123;print $3&#125;&#x27;</span>)</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">&quot;http://<span class="variable">$host_ip</span>:7890&quot;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>安装Archlinux</title>
+    <url>/2024/11/22/%E5%AE%89%E8%A3%85archlinux/</url>
+    <content><![CDATA[<h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><h2 id="确定启动模式-UEFI-BIOS"><a href="#确定启动模式-UEFI-BIOS" class="headerlink" title="确定启动模式(UEFI&#x2F;BIOS)"></a>确定启动模式(UEFI&#x2F;BIOS)</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置终端字号</span></span><br><span class="line">setfont /usr/share/kbd/consolefonts/LatGrkCyr-12x22.psfu.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果提示目录不存在，就是bios，否则是uefi</span></span><br><span class="line"><span class="built_in">ls</span> /sys/firmware/efi/efivars</span><br></pre></td></tr></table></figure>
+
+<h2 id="联网-有线网不需要进行这步"><a href="#联网-有线网不需要进行这步" class="headerlink" title="联网(有线网不需要进行这步)"></a>联网(有线网不需要进行这步)</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ iwctl   //会进入联网模式</span><br><span class="line">[iwd]# <span class="built_in">help</span>    //可以查看帮助</span><br><span class="line">[iwd]# device list    //列出你的无线设备名称，一般以wlan0命名</span><br><span class="line">[iwd]# station &lt;device&gt; scan    //扫描当前环境下的网络</span><br><span class="line">[iwd]# station &lt;device&gt; get-networks    //会显示你扫描到的所有网络</span><br><span class="line">[iwd]# station &lt;device&gt; connect &lt;network name&gt;</span><br><span class="line">password:输入密码</span><br><span class="line">[iwd]# <span class="built_in">exit</span>    //退出当前模式，回到安装模式</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新系统时间"><a href="#更新系统时间" class="headerlink" title="更新系统时间"></a>更新系统时间</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新系统时间是有必要的，因为下载软件时，服务器会验证系统时间，</span></span><br><span class="line"><span class="comment"># 如果时间不正确，可能出现下载失败的情况。</span></span><br><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br><span class="line">timedatectl status			<span class="comment"># 查看一下系统时钟状态</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><h3 id="查看系统磁盘"><a href="#查看系统磁盘" class="headerlink" title="查看系统磁盘"></a>查看系统磁盘</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入图形化分区工具进行分区"><a href="#进入图形化分区工具进行分区" class="headerlink" title="进入图形化分区工具进行分区"></a>进入图形化分区工具进行分区</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cfdisk /dev/&lt;硬盘名称&gt;</span><br><span class="line"><span class="comment"># 如果提示你要选MBR还是GPT: UEFI启动选择gpt，BIOS启动选择dos，选中后回车。</span></span><br><span class="line"><span class="comment"># 1. BIOS启动只需要俩个分区,根分区和swap分区</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. UEFI启动需要分三个区:</span></span><br><span class="line"><span class="comment">#   1. boot分区，用于存储启动信息，类型为efi system</span></span><br><span class="line"><span class="comment">#   2. swap分区，也就是交换分区，类型为linux swap</span></span><br><span class="line"><span class="comment">#   3. 系统分区，用于安装系统和软件的分区，类型为linux</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分区操作:</span></span><br><span class="line"><span class="comment"># 1.选中new</span></span><br><span class="line"><span class="comment"># 2.输入分区大小后选中primary回车</span></span><br><span class="line"><span class="comment"># 3.选中type,修改分区类型(根分区是Linux类型，swap分区是Linux swap/Solars类型)</span></span><br><span class="line"><span class="comment"># 4.确认分区无误后选择write 回车，输入yes，选择quit退出图形化分区界面</span></span><br><span class="line"><span class="comment"># 5.命令行输入lsblk，查看分区的初始状态</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="格式化分区"><a href="#格式化分区" class="headerlink" title="格式化分区"></a>格式化分区</h3><h4 id="BIOS格式化"><a href="#BIOS格式化" class="headerlink" title="BIOS格式化"></a>BIOS格式化</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkfs.ext4 /dev/&lt;硬盘名称&gt;   <span class="comment"># eg:mkfs.ext4 /dev/sda2 格式化系统分区</span></span><br><span class="line">mkswap /dev/&lt;硬盘名称&gt;		<span class="comment"># 格式化swap分区</span></span><br><span class="line">swapon /dev/&lt;硬盘名称&gt;		<span class="comment"># 激活swap分区</span></span><br></pre></td></tr></table></figure>
+<h4 id="UEFI格式化"><a href="#UEFI格式化" class="headerlink" title="UEFI格式化"></a>UEFI格式化</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkfs.fat -F32 /dev/sda1		<span class="comment"># 格式化boot分区</span></span><br><span class="line">mkswap /dev/sda2			<span class="comment"># 格式化swap分区</span></span><br><span class="line">swapon /dev/sda2			<span class="comment"># 激活swap分区</span></span><br><span class="line">mkfs.ext4 /dev/sda3			<span class="comment"># 格式化系统分区</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h3><h4 id="BIOS挂载"><a href="#BIOS挂载" class="headerlink" title="BIOS挂载"></a>BIOS挂载</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mount /dev/sda2 /mnt		<span class="comment"># 将系统分区/dev/sda2挂载到/mnt目录</span></span><br></pre></td></tr></table></figure>
+<h4 id="UEFI挂载"><a href="#UEFI挂载" class="headerlink" title="UEFI挂载"></a>UEFI挂载</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mount /dev/sda3 /mnt		<span class="comment"># 将系统分区/dev/sda3挂载到/mnt目录。</span></span><br><span class="line"><span class="built_in">mkdir</span> /mnt/boot				<span class="comment"># 创建boot分区的挂载点。</span></span><br><span class="line">mount /dev/sda1 /mnt/boot	<span class="comment"># 将boot分区/dev/sda1挂载到/mnt/boot目录（需要在/mnt下新建一个boot文件夹）。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改镜像源"><a href="#修改镜像源" class="headerlink" title="修改镜像源"></a>修改镜像源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 很重要，不然等到天荒地老</span></span><br><span class="line">vim /etc/pacman.d/mirrorlist			<span class="comment"># 加上一个国内源</span></span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/<span class="variable">$repo</span>/os/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line">pacman -Syy		<span class="comment"># 更新一下</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="安装linux"><a href="#安装linux" class="headerlink" title="安装linux"></a>安装linux</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacstrap /mnt base base-devel linux linux-firmware linux-headers</span><br><span class="line">pacstrap /mnt vim bash-completion iwd dhcpcd net-tools openssh man</span><br><span class="line"><span class="comment"># vim 命令行编辑工具</span></span><br><span class="line"><span class="comment"># bash-completion 命令行补全工具</span></span><br><span class="line"><span class="comment"># iwd 无线管理工具</span></span><br><span class="line"><span class="comment"># dhcpcd 有线管理工具</span></span><br><span class="line"><span class="comment"># net-tools 网络工具</span></span><br><span class="line"><span class="comment"># openssh ssh服务</span></span><br><span class="line"><span class="comment"># man 使用手册</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="写入分区表"><a href="#写入分区表" class="headerlink" title="写入分区表"></a>写入分区表</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br><span class="line"><span class="built_in">cat</span> /mnt/etc/fstab			<span class="comment"># 检查fstab文件是否正确</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="进入系统进行相关配置"><a href="#进入系统进行相关配置" class="headerlink" title="进入系统进行相关配置"></a>进入系统进行相关配置</h2><h3 id="进入系统"><a href="#进入系统" class="headerlink" title="进入系统"></a>进入系统</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">arch-chroot /mnt</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<h3 id="同步硬件时钟"><a href="#同步硬件时钟" class="headerlink" title="同步硬件时钟"></a>同步硬件时钟</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地化设置"><a href="#本地化设置" class="headerlink" title="本地化设置"></a>本地化设置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/locale.gen</span><br><span class="line"><span class="comment"># 找到下面两项，取消注释</span></span><br><span class="line">en_US.UTF-8 UTF-8  	<span class="comment"># 英</span></span><br><span class="line">zh_CN.UTF-8 UTF-8	<span class="comment"># 中</span></span><br><span class="line"></span><br><span class="line">locale-gen		<span class="comment"># 生成locale信息</span></span><br><span class="line">locale -a		<span class="comment"># 列出所有启用的locale</span></span><br><span class="line"><span class="built_in">echo</span> LANG=en_US.UTF-8 &gt; /etc/locale.conf  		<span class="comment"># 设置系统语言</span></span><br><span class="line">locale			<span class="comment"># 查看一下</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/hostname		<span class="comment"># 编辑hostname文件，输入主机名（可以自己命名）</span></span><br><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line">127.0.0.1   localhost</span><br><span class="line">::1         localhost</span><br><span class="line">127.0.1.1   主机名.localdomain 主机名</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装grub引导"><a href="#安装grub引导" class="headerlink" title="安装grub引导"></a>安装grub引导</h2><h3 id="BIOS-安装-grub-引导程序"><a href="#BIOS-安装-grub-引导程序" class="headerlink" title="BIOS 安装 grub 引导程序"></a>BIOS 安装 grub 引导程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S grub</span><br><span class="line">grub-install /dev/sda		<span class="comment"># 安装grub。</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg	<span class="comment"># 生成grub的配置文件。</span></span><br><span class="line"></span><br><span class="line">若报错则执行下面</span><br><span class="line">vim /etc/default/grub</span><br><span class="line">GRUB_DISABLE_OS_PROBER=<span class="literal">false</span>	<span class="comment"># 取消GRUB_DISABLE_OS_PROBER=false注释(让grub识别别的系统)</span></span><br><span class="line"><span class="comment"># 建议修改GRUB_TIMEOUT，加快启动时间</span></span><br><span class="line"></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg	<span class="comment"># 再执行一次</span></span><br></pre></td></tr></table></figure>
+<h3 id="UEFI-安装-grub-引导程序"><a href="#UEFI-安装-grub-引导程序" class="headerlink" title="UEFI 安装 grub 引导程序"></a>UEFI 安装 grub 引导程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载grub和efibootmgr软件包</span></span><br><span class="line">pacman -S grub efibootmgr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装grub</span></span><br><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch --recheck</span><br><span class="line"><span class="comment"># --bootloader-id=name  其中 name 可以更改为自己想要的名称，建议简短明确</span></span><br><span class="line"></span><br><span class="line">vim /etc/default/grub</span><br><span class="line">GRUB_DISABLE_OS_PROBER=<span class="literal">false</span>	<span class="comment"># 取消GRUB_DISABLE_OS_PROBER=false注释(让grub识别别的系统)</span></span><br><span class="line"><span class="comment"># 建议修改GRUB_TIMEOUT，加快启动时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成grub的配置文件。</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果出现错误，请回头检查命令是否输入错误或者配置是否出错，安装时的一点错误都可能成为你无法开机的原因或者以后使用时的bug.</li>
+</ul>
+<h2 id="设置root密码，新建用户"><a href="#设置root密码，新建用户" class="headerlink" title="设置root密码，新建用户"></a>设置root密码，新建用户</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd</span><br><span class="line">useradd -m -G wheel &lt;用户名&gt;</span><br><span class="line">passwd &lt;用户名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加入sudo，打开 /etc/sudoers</span></span><br><span class="line">如果EDITOR=vim </span><br><span class="line">执行visudo</span><br><span class="line">找到%wheel ALL=(ALL) ALL 把前面的注释去掉</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置启动项"><a href="#配置启动项" class="headerlink" title="配置启动项"></a>配置启动项</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> dhcpcd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> sshd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> iwd</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装一些硬件设备"><a href="#安装一些硬件设备" class="headerlink" title="安装一些硬件设备"></a>安装一些硬件设备</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># CPU编码</span></span><br><span class="line">pacman -S intel-ucode    (intel的cpu装这个)</span><br><span class="line">pacman -S amd-ucode    (amd的cpu装这个)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显卡驱动</span></span><br><span class="line">pacman -S xf86-video-intel（Intel核心显卡驱动，用Intel核显就装，否则不用装）</span><br><span class="line">pacman -S mesa nvidia(-lts) nvidia-settings nvidia-dkms nvidia-utils nvidia-prime（nvidia显卡驱动，用nvidia显卡就装，否则不用装）</span><br><span class="line">pacman -S xf86-video-amdgpu (AMD显卡驱动，用amd显卡的就装)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里举两个例子，我的笔记本，i7-11代，搭配intel核显以及3050显卡，所以安装前两个。我的台式机，e3-1230垃圾CPU，搭配HD6950显卡，所以装第三个。nvidia-dkms 与 nvidia-lts 不兼容，如果装lts驱动的话无需安装dkms 。注意：nvidia驱动的安装与前面选择的内核有关，如果你安装的是linux-lts内核，那么需要将nvidia更换为nvidia-lts，linux-zen不支持nvidia显卡（务必对号入座），如果你选择安装新内核，则需要修改一下ibt=off ，否则无法进入系统</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  声卡驱动</span></span><br><span class="line">pacman -S pipewire (alsa-utils) pipewire-pulse pipewire-jack pipewire-alsa</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用cn源"><a href="#使用cn源" class="headerlink" title="使用cn源"></a>使用cn源</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pacman.conf		# 删除Color前的#号</span><br><span class="line"></span><br><span class="line"># 在/etc/pacman.conf最后添加</span><br><span class="line">[archlinuxcn]</span><br><span class="line">SigLevel = Optional TrustedOnly</span><br><span class="line">Include = /etc/pacman.d/archlinuxcn</span><br><span class="line"></span><br><span class="line">vim /etc/pacman.d/archlinuxcn		# 写入以下源</span><br><span class="line">## OpenTUNA (China CDN) (ipv4, https)</span><br><span class="line">Server = https://opentuna.cn/archlinuxcn/$arch</span><br><span class="line">## 北京外国语大学 (北京) (ipv4, ipv6, http, https)</span><br><span class="line">## Added: 2020-05-18</span><br><span class="line">Server = https://mirrors.bfsu.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 腾讯云 (Global CDN) (ipv4, http, https)</span><br><span class="line">## Added: 2018-11-23</span><br><span class="line">Server = https://mirrors.cloud.tencent.com/archlinuxcn/$arch</span><br><span class="line">## 网易 (China CDN) (ipv4, http, https)</span><br><span class="line">Server = https://mirrors.163.com/archlinux-cn/$arch</span><br><span class="line">## 阿里云 (Global CDN) (ipv4, ipv6, http, https)</span><br><span class="line">## Added: 2020-07-03</span><br><span class="line">Server = https://mirrors.aliyun.com/archlinuxcn/$arch</span><br><span class="line">## 华为云 (Global CDN) (ipv4, http, https)</span><br><span class="line">## Added: 2020-10-31</span><br><span class="line">Server = https://repo.huaweicloud.com/archlinuxcn/$arch</span><br><span class="line">## 清华大学 (北京) (ipv4, ipv6, http, https)</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 中国科学技术大学 (安徽合肥) (ipv4, ipv6, http, https)</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 哈尔滨工业大学 (黑龙江哈尔滨) (ipv4, ipv6, http, https)</span><br><span class="line">## Added: 2021-01-09</span><br><span class="line">Server = https://mirrors.hit.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 浙江大学 (浙江杭州) (ipv4, http, https)</span><br><span class="line">## Added: 2017-06-05</span><br><span class="line">Server = https://mirrors.zju.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 重庆大学 (重庆) (ipv4, ipv6, https)</span><br><span class="line">Server = https://mirrors.cqu.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 重庆邮电大学 (重庆) (ipv4, http, https)</span><br><span class="line">Server = https://mirrors.cqupt.edu.cn/archlinuxcn/$arch</span><br><span class="line">## SJTUG 软件源镜像服务 (上海) (ipv4, ipv6, https)</span><br><span class="line">## Added: 2018-05-21</span><br><span class="line">Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux-cn/$arch</span><br><span class="line">## 南京大学 (江苏南京) (ipv4, ipv6, http, https)</span><br><span class="line">Server = https://mirrors.nju.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 莞工 GNU/Linux 协会 开源软件镜像站 (广东东莞) (ipv4, https)</span><br><span class="line">## Added: 2018-11-03</span><br><span class="line">Server = https://mirrors.dgut.edu.cn/archlinuxcn/$arch</span><br><span class="line">## 南方科技大学 (广东深圳) (ipv4, ipv6, http, https)</span><br><span class="line">## Added: 2021-08-17</span><br><span class="line">Server = https://mirrors.sustech.edu.cn/archlinuxcn/$arch</span><br><span class="line"></span><br><span class="line">sudo pacman -Syy</span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 想简单点就直接在/etc/pacman.conf最后添加</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -Syy</span><br><span class="line"><span class="built_in">sudo</span> pacman -S archlinuxcn-keyring</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用aur"><a href="#使用aur" class="headerlink" title="使用aur"></a>使用aur</h2><h3 id="paru"><a href="#paru" class="headerlink" title="paru"></a>paru</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://aur.archlinux.org/paru.git</span><br><span class="line">$ <span class="built_in">cd</span> paru</span><br><span class="line">$ makepkg -si</span><br><span class="line"></span><br><span class="line">注：archlinuxcn源中有paru，直接<span class="built_in">sudo</span> pacman -S paru</span><br><span class="line"></span><br><span class="line">$ paru  <span class="comment"># 约等于 sudo pacman -S Syyu 对软件进行更新并升级</span></span><br><span class="line">$ paru  包名</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> vim /etc/paru.conf</span><br><span class="line">取消BottomUp的注释  <span class="comment"># 使最常用的软件显示在下方</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="退出系统重启"><a href="#退出系统重启" class="headerlink" title="退出系统重启"></a>退出系统重启</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br><span class="line">umount -R /mnt</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="系统软件"><a href="#系统软件" class="headerlink" title="系统软件"></a>系统软件</h1><h2 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S xorg xorg-server xorg-xinit xorg-xrandr</span><br><span class="line"><span class="built_in">sudo</span> pacman -S feh 	<span class="comment"># 壁纸</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S udisks2 udiskie 			<span class="comment"># U盘</span></span><br><span class="line">xrandr  <span class="comment"># 查看有哪些显示器</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> /etc/X11/xinit/xinitrc ~/.xinitrcS</span><br><span class="line">vim ~/.xinitrc	<span class="comment"># 删除最后几行没用的，添加以下几行</span></span><br><span class="line">fcitx5 &amp; 		<span class="comment"># 开启中文输入法且后台运行</span></span><br><span class="line">xrandr --output Virtual-1(显示器名称) --mode 1920x1080 --rate 60.00(显示器配置)	</span><br><span class="line">feh --bg-fill --randomize /usr/share/backgrouds/archlinux/*		<span class="comment"># 先设置分辨率再设置壁纸</span></span><br><span class="line">picom -b &amp;</span><br><span class="line"><span class="built_in">exec</span> slstatus &amp;</span><br><span class="line">末行添加 <span class="built_in">exec</span> dwm</span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> udisk2		<span class="comment"># 识别U盘</span></span><br><span class="line">startx 			<span class="comment"># 进入dwm</span></span><br><span class="line"></span><br><span class="line">ctrl+<span class="built_in">shift</span>+pageup		<span class="comment"># 放大字体</span></span><br><span class="line">xrandr -q				<span class="comment"># 查看显示器设置</span></span><br><span class="line">xrandr --output Virtual-1(显示器名称) --mode 1920x1080 --rate 60.00(显示器配置)</span><br></pre></td></tr></table></figure>
+
+<h2 id="电池优化"><a href="#电池优化" class="headerlink" title="电池优化"></a>电池优化</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay -S tlp tlp-rdw tlpui                                       <span class="comment">## 安装电源管理及图形界面</span></span><br><span class="line"><span class="built_in">sudo</span> vim /etc/tlp.conf                                         <span class="comment">## 编辑配置文件，防止Btrfs文件系统损坏</span></span><br><span class="line">SATA_LINKPWR_ON_BAT=max_performance                            <span class="comment">## 更改内容为</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> tlp.service                               <span class="comment">## 设置tlp服务开机自启动</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> NetworkManager-dispatcher.service        <span class="comment">## 设置开机自启动</span></span><br><span class="line"><span class="built_in">sudo</span> syatemctl mask systemd-rfkill.service                     <span class="comment">## 屏蔽服务，防止冲突</span></span><br><span class="line"><span class="built_in">sudo</span> syatemctl mask systemd-rfkill.socket                      <span class="comment">## 屏蔽,防止冲突</span></span><br><span class="line"><span class="built_in">sudo</span> tlp start                                                 <span class="comment">## 启动服务</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用TLP显示系统信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -b                                               <span class="comment">## 显示电池信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -d                                               <span class="comment">## 显示磁盘信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -e                                               <span class="comment">## 显示 PCI 设备信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -g                                               <span class="comment">## 显示 GPU 信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -p                                               <span class="comment">## 显示 CPU 信息</span></span><br><span class="line"><span class="built_in">sudo</span> tlp-stat -s                                               <span class="comment">## 显示系统数据信息</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S alsa-utils</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有几个声卡设备</span></span><br><span class="line"><span class="built_in">cat</span> /proc/asound/cards</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看声卡的card number和device number</span></span><br><span class="line">aplay -h      <span class="comment"># 查看帮助</span></span><br><span class="line">aplay -l      <span class="comment"># 列出所有的声卡和数字音频设备</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置默认声卡</span></span><br><span class="line"><span class="comment"># nvim /etc/asound.conf</span></span><br><span class="line">defaults.pcm.card 1</span><br><span class="line">defaults.pcm.device 0</span><br><span class="line">defaults.ctl.card 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启声音</span></span><br><span class="line">amixer sset Master toggle	<span class="comment"># 交换开启状态</span></span><br><span class="line">amixer sset Master Capture	<span class="comment"># 交换开启状态</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭自动静音</span></span><br><span class="line"><span class="comment"># 方法一</span></span><br><span class="line">amixer -h       <span class="comment"># 查看帮助</span></span><br><span class="line">amixer sset Master unmute</span><br><span class="line">amixer sset Speaker unmute</span><br><span class="line">amixer sset Headphone unmute</span><br><span class="line">amixer <span class="built_in">set</span> Master 10%+    <span class="comment"># Master增加10%的音量</span></span><br><span class="line">amixer <span class="built_in">set</span> Master 10%-    <span class="comment"># Master减少10%的音量</span></span><br><span class="line">amixer <span class="built_in">set</span> Master 70%     <span class="comment"># Master音量设定为70%</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 播放音频</span></span><br><span class="line">aplay -D hw:1,0 /usr/share/sounds/test.wav        <span class="comment"># hw后的的数字分别代表卡号和设备号</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在终端中输入alsamixer打开设置</span></span><br><span class="line">在 alsamixer 中，下方标有 MM 的声道是静音的，而标有 00 的通道已经启用。  </span><br><span class="line">使用 ← 和 → 方向键，选中 Master 和 PCM 声道。按下 m 键解除静音。使用 ↑ 方向键增加音量，直到增益值为0。该值显示在左上方 Item: 字段后。过高的增益值会导致声音失真。</span><br></pre></td></tr></table></figure>
+
+<h2 id="背光"><a href="#背光" class="headerlink" title="背光"></a>背光</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S light</span><br><span class="line"><span class="built_in">sudo</span> usermod -aG video &lt;user&gt;</span><br><span class="line">light -U 10	<span class="comment"># 屏幕亮度降低10%</span></span><br><span class="line">light -A 10	<span class="comment"># 屏幕亮度升高10%</span></span><br><span class="line">light -G    <span class="comment"># 得到当前亮度</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="蓝牙"><a href="#蓝牙" class="headerlink" title="蓝牙"></a>蓝牙</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// blueman更方便</span><br><span class="line"><span class="built_in">sudo</span> bluetooth on		<span class="comment"># 手动启动蓝牙</span></span><br><span class="line"><span class="built_in">sudo</span> bluetooth off		<span class="comment"># 手动关闭蓝牙</span></span><br><span class="line"><span class="built_in">sudo</span> bluetooth toggle	<span class="comment"># 手动切换蓝牙状态</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> pacman -S pulseaudio-bluetooth	pavucontrol <span class="comment"># 安装蓝牙音频</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S bluez bluez-utils</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> bluetooth.service</span><br><span class="line"><span class="built_in">sudo</span> systemctl start bluetooth.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用Bluetoothctl进入蓝牙控制台</span></span><br><span class="line">$ bluetoothctl --<span class="built_in">help</span>          查看帮助命令</span><br><span class="line">$ bluetoothctl -v              查看蓝牙版本</span><br><span class="line">$ bluetoothctl            进入蓝牙管理工具环境</span><br><span class="line">[bluetooth]# power on                打开蓝牙</span><br><span class="line">[bluetooth]# agent on                开启代理</span><br><span class="line">[bluetooth]# scan on                 扫描蓝牙设备</span><br><span class="line">[bluetooth]# pair xx:xx:xx:...       配对该设备</span><br><span class="line">[bluetooth]# trust xx:xx:xx:...      信任该设备</span><br><span class="line">[bluetooth]# connect xx:xx:...       连接该设备</span><br><span class="line">[bluetooth]# disconnect xx:xx:...    断开蓝牙</span><br><span class="line">[bluetooth]# <span class="built_in">help</span>                   查看帮助信息</span><br><span class="line">[bluetooth]# show                   查看本机蓝牙信息</span><br><span class="line">[bluetooth]# discoverable <span class="built_in">yes</span>       设置蓝牙可被发现</span><br><span class="line">[bluetooth]# info xx:xx:xx:...      查看该蓝牙设备的信息</span><br><span class="line"></span><br><span class="line">pulseaudio -k  或者 <span class="built_in">sudo</span>  killall pulseaudio                 <span class="comment"># 确保没有pulseaudio启动</span></span><br><span class="line">pulseaudio --start              <span class="comment"># 启动pulseaudio服务</span></span><br><span class="line">pavucontrol		<span class="comment"># 管理声音输出</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="触控板"><a href="#触控板" class="headerlink" title="触控板"></a>触控板</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S libinput xf86-input-libinput</span><br><span class="line"></span><br><span class="line">libinput配置文件位置</span><br><span class="line">1.libinput默认的配置文件在/usr/share/X11/xorg.conf.d/40-libinput.conf，可以设置鼠标加速、额外的鼠标按键、触控板、触控屏等。</span><br><span class="line">2.由于同一个设备的不同驱动程序可以共存，如果你打算为一个设备使用 libinput 驱动，请确保它在其他驱动中 /etc/X11/xorg.conf.d/ 拥有优先级。</span><br><span class="line">举个栗子：</span><br><span class="line">如果你同时安装了 libinput 和 synaptics 并使用其默认配置（即 /etc/X11/xorg.conf.d/ 中没有属于两者中任一的文件），synaptics 将因其在默认安装目录中拥有更高的数字顺序 70- 而获得优先级。为了避免这种情况，您可以将默认的 libinput 配置文件（40-libinput.conf）软链接到目录搜索顺序优先于 70-synaptics.conf 的 /etc/X11/xorg.conf.d/ 中去取代它。</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改libinput配置</span></span><br><span class="line"><span class="comment"># vim /etc/X11/xorg.conf.d/40-libinput.conf</span></span><br><span class="line">MatchIsPointer “on” <span class="comment"># 小红点</span></span><br><span class="line">MatchIsKeyboard “on” <span class="comment"># 软键盘</span></span><br><span class="line">MatchIsTouchpad “on” <span class="comment"># 触控板</span></span><br><span class="line">MatchIsTouchscreen “on” <span class="comment"># 触控屏</span></span><br><span class="line"></span><br><span class="line">常用选项</span><br><span class="line">1.当检测到 USB 鼠标时，它将禁用触摸板。</span><br><span class="line">Option <span class="string">&quot;SendEventsMode&quot;</span> <span class="string">&quot;disabled-on-external-mouse&quot;</span></span><br><span class="line">2.允许单指和双指触击分别调用鼠标左右键，而不用按触控板的物理按键</span><br><span class="line">Option <span class="string">&quot;Tapping&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">3.防止打字时误触触控板</span><br><span class="line">Option <span class="string">&quot;DisableWhileTyping&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">4.触摸板不再拥有区域的区分，与之代替的是双指代表右键，三指代表中键。</span><br><span class="line">Option <span class="string">&quot;ClickMethod&quot;</span> <span class="string">&quot;clickfinger&quot;</span></span><br><span class="line">5.轻击后手指按住会使单个按钮关闭，此手指的所有动作都将转换为拖动动作。</span><br><span class="line">Option <span class="string">&quot;TappingDrag&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">6.自然滚动（反方向滚动）</span><br><span class="line">Option <span class="string">&quot;NaturalScrolling&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">7.启用鼠标加速配置文件。这有助于使鼠标手指的速度更自然一些，迟钝感更小。建议使用 Adaptive，因为其会根据您的输入更改。您也可以尝试“flat”选项。</span><br><span class="line">Option <span class="string">&quot;AccelProfile&quot;</span> <span class="string">&quot;adaptive&quot;</span></span><br><span class="line">8.更改鼠标指针的加速速度。使用 -1 到 1 之间的值。数值越大，指针移动的速度越高。大多数人倾向于使用 0.2 以获得较慢的响应速度，使用 0.5 获得较快的响应速度。</span><br><span class="line">Option <span class="string">&quot;AccelSpeed&quot;</span> <span class="string">&quot;0.3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># https://wiki.archlinuxcn.org/wiki/Touchpad_Synaptics?rdfrom=https%3A%2F%2Fwiki.archlinux.org%2Findex.php%3Ftitle%3DTouchpad_Synaptics_%28%25E7%25AE%2580%25E4%25BD%2593%25E4%25B8%25AD%25E6%2596%2587%29%26redirect%3Dno</span></span><br><span class="line">9.在synaptics上启用自然滚动(触摸屏那种滚动).只要将VertScrollDelta和HorizScrollDelta的值设定为负就行(翻转滚动方向):</span><br><span class="line">Option      <span class="string">&quot;VertScrollDelta&quot;</span>          <span class="string">&quot;-111&quot;</span></span><br><span class="line">Option      <span class="string">&quot;HorizScrollDelta&quot;</span>         <span class="string">&quot;-111&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 举例：</span></span><br><span class="line">Section <span class="string">&quot;InputClass&quot;</span></span><br><span class="line">        Identifier <span class="string">&quot;touchpad&quot;</span></span><br><span class="line">        MatchIsTouchpad <span class="string">&quot;on&quot;</span></span><br><span class="line">        MatchDevicePath <span class="string">&quot;/dev/input/event*&quot;</span></span><br><span class="line">        Driver <span class="string">&quot;libinput&quot;</span></span><br><span class="line">        Option <span class="string">&quot;Tapping&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">        Option <span class="string">&quot;TappingButtonMap&quot;</span> <span class="string">&quot;lrm&quot;</span></span><br><span class="line">        Option <span class="string">&quot;DisableWhileTyping&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">        Option <span class="string">&quot;TappingDrag&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">        Option <span class="string">&quot;NaturalScrolling&quot;</span> <span class="string">&quot;True&quot;</span></span><br><span class="line">        Option <span class="string">&quot;SendEventsMode&quot;</span> <span class="string">&quot;disabled-on-external-mouse&quot;</span></span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
+
+<h1 id="通用软件"><a href="#通用软件" class="headerlink" title="通用软件"></a>通用软件</h1><h2 id="输入法"><a href="#输入法" class="headerlink" title="输入法"></a>输入法</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装fcitx5</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-material-color</span><br><span class="line"><span class="comment"># 有些应用仍然不能使用中文，去archwiki搜fcitx5查看解决方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nerd fond</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S ttf-jetbrains-mono-nerd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 英文</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S ttf-dehavu ttf-droid ttf-font-awesome otf-font-awesome ttf-liberation ttf-linux-libertine ttf-opensans ttf-roboto ttf-ubuntu-font-family</span><br><span class="line"></span><br><span class="line"><span class="comment"># 中文</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S ttf-hannom noto-fonts noto-fonts-extra noto-fonts-emoji noto-fonts-cjk adobe-source-code-pro-fonts adobe-source-sans-fonts adobe-source-serif-fonts adobe-source-han-sans-cn-fonts adobe-source-han-sans-hk-fonts adobe-source-han-sans-tw-fonts adobe-source-han-serif-cn-fonts wqy-cn-fonts wqy-microhei</span><br></pre></td></tr></table></figure>
+
+<h2 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/shells  <span class="comment"># 查看zsh的具体地址</span></span><br><span class="line">chsh -s path     <span class="comment"># zsh的详细路径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="wps"><a href="#wps" class="headerlink" title="wps"></a>wps</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">paru wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts</span><br><span class="line">$ 解决粗体黑块</span><br><span class="line">paru freetype2-wps</span><br></pre></td></tr></table></figure>
+
+<h2 id="software"><a href="#software" class="headerlink" title="software"></a>software</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S unzip git neovim tmux joshuto python xclip</span><br><span class="line">paru iwgtk  <span class="comment"># iwctl的图形界面</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S capnet-assist <span class="comment"># 有些网络需要网页登陆</span></span><br><span class="line">paru google-chrome</span><br><span class="line"><span class="built_in">sudo</span> pacman -S clash-verge-rev</span><br><span class="line"><span class="built_in">sudo</span> pacman -S scrot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S flameshot	<span class="comment"># 截图</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S sioyek	<span class="comment"># pdf</span></span><br><span class="line"><span class="built_in">sudo</span> pacman -S rofi	<span class="comment"># dmenu </span></span><br><span class="line"><span class="comment"># rofi -dump-config &gt; ~/.config/rofi/config.rasi</span></span><br><span class="line"><span class="comment"># rofi options  -theme ~/.config/rofi/powermenu/style.rasi -show drun</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>部署Hexo博客</title>
+    <url>/2024/11/10/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><h2 id="install-nodejs"><a href="#install-nodejs" class="headerlink" title="install nodejs"></a>install nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install nodejs npm</span><br><span class="line">node -v <span class="comment">#查看node版本</span></span><br><span class="line">npm -v <span class="comment">#查看npm版本</span></span><br><span class="line"><span class="built_in">sudo</span> npm install -g cnpm --registry=http://registry.npm.taobao.org <span class="comment">#安装淘宝的cnpm 管理器</span></span><br><span class="line">cnpm -v <span class="comment">#查看cnpm版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="install-hexo"><a href="#install-hexo" class="headerlink" title="install hexo"></a>install hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> cnpm install -g hexo-cli <span class="comment">#安装hexo框架</span></span><br><span class="line">hexo -v <span class="comment">#查看hexo版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="create-blog"><a href="#create-blog" class="headerlink" title="create blog"></a>create blog</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recurse-submodules https://gitee.com/name/blog <span class="comment"># 下载blog文件 (直接从自己仓库拉)</span></span><br><span class="line">cnpm install <span class="comment"># 安装 node modules</span></span><br><span class="line">cnpm install hexo-hide-posts <span class="comment"># 安装隐藏文章的插件</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><h2 id="new-file"><a href="#new-file" class="headerlink" title="new file"></a>new file</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;file name&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Hexo提供了三种默认布局：post（文章）、draft（草稿）、page（页面）</span></span><br><span class="line">hexo new [layout] &lt;title&gt;</span><br><span class="line"><span class="comment"># 指定布局类型为page</span></span><br><span class="line">hexo new page <span class="string">&quot;我的页面&quot;</span></span><br><span class="line"><span class="comment"># 不指定布局类型</span></span><br><span class="line">hexo new <span class="string">&quot;我的文章&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="front-matter"><a href="#front-matter" class="headerlink" title="front-matter"></a>front-matter</h2><ul>
+<li>用—包围起来并置于文件头部的内容称为Front-matter，用于指定MD文件的变量</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- 个人博客</span><br><span class="line">- Hexo博客</span><br><span class="line">tags:</span><br><span class="line">- Hexo</span><br><span class="line">- 博客</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它的标签就是：Hexo、博客</span></span><br><span class="line"><span class="comment"># 它的分类就是：个人博客 &gt; Hexo博客（”Hexo博客“是“个人博客”的子分类）</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line">- [日常, 生活]</span><br><span class="line">- [日常, 随想]</span><br><span class="line">- [日记]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 它属于三个分类：日常 &gt; 生活，日常 &gt; 随想，日记</span></span><br><span class="line"><span class="comment"># 其中生活、随想为日常的子分类，日常和日记为同级分类</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清除缓存文件db.json和已生成的静态文件public</span></span><br><span class="line">hexo generate/hexo g <span class="comment"># Hexo会解析Markdown以及相关文件来生成网页</span></span><br><span class="line">hexo server/hexo s <span class="comment"># 启动服务器</span></span><br><span class="line">hexo deploy/hexo d <span class="comment"># 用于将网站更新到服务器上,需要将博客托管到服务器才能用此命令</span></span><br><span class="line"></span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s <span class="comment"># 网站更新到服务器：清除缓存&gt;生成静态文件&gt;启动服务，测试没问题后再执行部署命令</span></span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+</search>
